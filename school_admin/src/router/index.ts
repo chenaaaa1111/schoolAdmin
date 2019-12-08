@@ -8,7 +8,33 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        // 首页空间管理，我也不知道他们有啥区别
+        path: '/home/spaces',
+        name: 'spaces',
+        component: () => import('../views/index/Spaces.vue'),
+      },
+      {
+        // 查看详情
+        path: '/home/items',
+        name: 'spaces',
+        component: () => import('../views/index/articleItems.vue'),
+      },
+      {
+        // 首页
+        path: '/home/index',
+        name: 'spaces',
+        component: () => import('../views/index/Index.vue'),
+      },
+      {
+        // 空间管理
+        path: '/home/spacemanage',     
+        name: 'spacemanage',
+        component: () => import('../views/spaceManager/index.vue'),
+      },
+    ]
   },
   {
     path: '/about',
