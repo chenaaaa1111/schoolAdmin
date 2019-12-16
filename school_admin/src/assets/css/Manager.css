@@ -1,0 +1,16 @@
+.managerManager .header{
+    padding: 0px 30px 16px 30px;
+    background: #fff;
+    margin-bottom: 10px;
+}
+body{
+    background:rgba(241,241,241,1);
+}
+.addButton {
+    margin-top: 16px;
+    background: #034692FF;
+    color: #fff;
+}
+.el-main{
+    padding-bottom: 40px;
+}

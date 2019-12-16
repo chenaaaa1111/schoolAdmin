@@ -9,6 +9,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
+    redirect:"/home/index",
     children: [
       {
         // 首页空间管理，我也不知道他们有啥区别
@@ -25,7 +26,7 @@ const routes = [
       {
         // 首页
         path: '/home/index',
-        name: 'spaces',
+        name: 'index',
         component: () => import('../views/index/Index.vue'),
       },
       {
@@ -34,15 +35,32 @@ const routes = [
         name: 'spacemanage',
         component: () => import('../views/spaceManager/index.vue'),
       },
+      {
+        // 用户管理
+        path: '/home/usersManager',     
+        name: 'usersManager',
+        component: () => import('../views/usersManager/index.vue'),
+      },
+      {
+        // 用户管理
+        path: '/home/managers',     
+        name: 'managers',
+        component: () => import('../views/managersManager/index.vue'),
+      },
+      {
+        path:"/space/item",
+        name:'spaceItem',
+        component:()=>import('../views/spaceManager/item.vue')
+      }
     ]
   },
   {
-    path: '/about',
-    name: 'about',
+    path: '/login',
+    name: 'login',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/login/index.vue')
   }
 ]
 

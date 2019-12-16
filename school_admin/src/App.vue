@@ -9,8 +9,12 @@
 </template>
 
 <style lang="scss">
+  body,html{
+    margin: 0;
+    padding: 0;
+  }
   body{
-    min-width: 1200px;
+    min-width: 1393px;
   }
   ul,li{
     list-style: none;

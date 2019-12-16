@@ -1,0 +1,79 @@
+<!-- 編輯審核中還沒做 -->
+<!-- 空間管理那裡好好問問 -->
+<template>
+    <div>
+        <el-header>
+            <el-breadcrumb separator="/" class="elbreadCrumb">
+                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item>查看全部</el-breadcrumb-item>
+
+            </el-breadcrumb>
+        </el-header>
+
+        <el-button>编辑申核</el-button>
+
+        <h3>{{info.title}}</h3>
+        <div class="message">发布于 ：{{info.create_time}}<span></span></div>
+        <div >
+            <div  class="imgDiv"> </div><span style="vertical-align: middle;">{{info.name}}</span>
+        </div>
+
+        <div v-html="info.content" style="margin-top: 10px;">
+
+        </div>
+    </div>
+
+
+</template>
+<script>
+    import request from '@/api/request.js'
+    export default {
+        data() {
+            return {
+                info:{}
+            }
+        },
+        components: {
+
+        },
+        mounted(){
+            console.log(this.$router);
+            var query=this.$router.query?this.$router.query:this.$router.currentRoute.query;
+            var url='';
+            var data={id:query.id};
+            switch(query.type){
+                case '1':
+                 url="/backapi/Statistical/detailsClass";   
+                break;
+                case '2':
+                url="/backapi/Statistical/detailsCommunity";//社團       
+                break;
+                case '3':
+                url="/backapi/Statistical/detailsProject";   //專題
+                    break;
+                case '4':
+                url="/backapi/Statistical/detailsTeaching";     //教研  
+                break;
+            
+            }
+            request.post(url,data,(res)=>{
+                this.info=res.data;
+            })
+            console.log(this.$router.query?this.$router.query.id:this.$router.currentRoute.query.id);
+        }
+    }
+</script>
+<style scoped>
+    .imgDiv{
+        width: 40px;height: 40px;border-radius: 50%;overflow: hidden;
+        background: url('~@/assets/images/special.png') no-repeat center center;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 20px;
+    }
+    .message{
+        font-size: 14px;
+        color: #999;
+        margin-bottom: 10px;
+    }
+</style>

@@ -12,35 +12,58 @@
       </el-header>
     </el-container>
     <el-container>
-      <el-aside class="leftBar" width="90px">
-        <ul>
+      <el-aside class="leftBar" width="125px">
+        <!-- <ul>
           <li class="icons">
+            <router-link to="/home/index">
               <i class="el-icon-s-home"></i>
               <p>查询与统计</p>
-          </li>
-          <li class="icons">
-              <i class="el-icon-setting"></i>
-              <p>管理员管理</p>
+            </router-link>
 
           </li>
           <li class="icons">
-              <i class="el-icon-s-custom"></i>
-              <p>管理员管理</p>
+            <i class="el-icon-setting"></i>
+            <p>管理员管理</p>
 
           </li>
           <li class="icons">
-              <i class="el-icon-suitcase"></i>
-              <p>空间管理</p>
+            <i class="el-icon-s-custom"></i>
+            <p>管理员管理</p>
+
           </li>
-        </ul>
+          <li class="icons">
+            <i class="el-icon-suitcase"></i>
+            <p>空间管理</p>
+          </li>
+        </ul> -->
+        <el-menu default-active="index" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+        @select="selectMenu"
+          background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff" :collapse="isCollapse">
+          <el-menu-item index="index">
+            <i class="el-icon-s-home"></i>
+            <span slot="title">首页</span>
+          </el-menu-item>
+          <el-menu-item index="managers">
+            <i class="el-icon-setting"></i>
+            <span slot="title">管理员</span>
+          </el-menu-item>
+          <el-menu-item index="usersManager">
+            <i class="el-icon-s-custom"></i>
+            <span slot="title">用户管理</span>
+          </el-menu-item>
+          <el-menu-item index="spacemanage">
+            <i class="el-icon-suitcase"></i>
+            <span slot="title">空间管理</span>
+          </el-menu-item>
+        </el-menu>
       </el-aside>
       <el-container>
-          <el-main>
-              <router-view/>
-            </el-main>
-          
+        <el-main>
+          <router-view />
+        </el-main>
+
       </el-container>
-      
+
     </el-container>
 
 
@@ -54,32 +77,73 @@
     name: 'home',
     components: {
       // HelloWorld
+    },
+    data() {
+      return {
+        isCollapse: false
+      }
+    },
+    methods: {
+      selectMenu(key,value){
+        console.log(key,value)
+        this.$router.push({name:key})
+      },
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      }
+    },
+    mounted() {
+
     }
   }
 </script>
 <style>
-  .icons{
+  /* .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+  } */
+</style>
+<style scoped>
+  .menuTitle {
+    /* display: block;
+    text-align: center; */
+  }
+
+  .el-menu {
+    background: #034692FF;
+  }
+
+  .icons {
     text-align: center;
     font-size: 30px;
   }
-  .icons p{
+
+  .icons p {
     text-align: center;
     font-size: 10px;
     margin-top: 0;
   }
-  .el-aside.leftBar{
+
+  .el-aside.leftBar {
     background: #034692FF;
     padding-top: 30px;
   }
-  body{
-    background:rgba(246,246,246,1);
-      }
-      .el-aside{
-        padding: 0;
-      }
-      #app .el-header{
-        padding: 0 0;
-      }
+
+  body {
+    background: rgba(246, 246, 246, 1);
+  }
+
+  .el-aside {
+    padding: 0;
+  }
+
+  #app .el-header {
+    padding: 0 0;
+  }
+
   .homehead {
     background: #fff;
     line-height: 60px;

@@ -4,9 +4,8 @@
             <el-header>
                 <el-breadcrumb separator="/" class="elbreadCrumb">
                     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-                    <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-                    <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+                    <el-breadcrumb-item>查看全部</el-breadcrumb-item>
+                  
                 </el-breadcrumb>
             </el-header>
             <el-container class="mainContainer">
@@ -96,13 +95,14 @@
     </div>
 </template>
 <script>
+    // import MainTabContent from "./components/MainContent.vue"
     import MainTabContent from "@/components/MainTabContent.vue"
     export default {
         data() {
             return {
                 school: '',//学校名称
                 grade: '',//年级名称
-                className: '',//班级名称
+                className: 'class',//班级名称
                 activeName: 'second',
                 schoolOptions: [],
                 gradeOptions: [],
@@ -140,7 +140,7 @@
             }
         },
         components:{
-            MainTabContent
+             MainTabContent
         }
     }
 </script>
