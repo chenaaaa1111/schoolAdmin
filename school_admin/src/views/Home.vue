@@ -13,32 +13,10 @@
     </el-container>
     <el-container>
       <el-aside class="leftBar" width="125px">
-        <!-- <ul>
-          <li class="icons">
-            <router-link to="/home/index">
-              <i class="el-icon-s-home"></i>
-              <p>查询与统计</p>
-            </router-link>
 
-          </li>
-          <li class="icons">
-            <i class="el-icon-setting"></i>
-            <p>管理员管理</p>
-
-          </li>
-          <li class="icons">
-            <i class="el-icon-s-custom"></i>
-            <p>管理员管理</p>
-
-          </li>
-          <li class="icons">
-            <i class="el-icon-suitcase"></i>
-            <p>空间管理</p>
-          </li>
-        </ul> -->
-        <el-menu default-active="index" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-        @select="selectMenu"
-          background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff" :collapse="isCollapse">
+        <el-menu :default-active="active" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+          @select="selectMenu" background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff"
+          :collapse="isCollapse">
           <el-menu-item index="index">
             <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
@@ -80,13 +58,16 @@
     },
     data() {
       return {
-        isCollapse: false
+        isCollapse: false,
+        active: 'index'
       }
     },
     methods: {
-      selectMenu(key,value){
-        console.log(key,value)
-        this.$router.push({name:key})
+      selectMenu(key, value) {
+        console.log(key, value)
+        if (this.active != key) {
+          this.$router.push({ name: key })
+        }
       },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
@@ -96,6 +77,8 @@
       }
     },
     mounted() {
+      console.log(location.hash.split('/')[2], 'hash');
+      this.active = location.hash.split('/')[2];
 
     }
   }

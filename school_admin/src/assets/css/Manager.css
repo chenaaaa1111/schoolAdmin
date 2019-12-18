@@ -14,3 +14,14 @@ body{
 .el-main{
     padding-bottom: 40px;
 }
+.el-image{
+    vertical-align: middle;
+}
+.quanxianList li{
+    margin-bottom: 10px;
+}
+.permissTitle,.pemissItem{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #E8E8E8;
+}

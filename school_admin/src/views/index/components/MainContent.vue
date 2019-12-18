@@ -22,20 +22,20 @@
                         </div>
                         <template>
                             <div class="rightSlects">
-                                <el-select v-model="school" class="elInput" multiple
+                                <el-select v-model="school" class="elInput" 
                                     placeholder="请选择">
                                     <el-option v-for="item in schoolOptions" :key="item.value"
                                         :label="item.label" :value="item.value">
                                     </el-option>
                                 </el-select>
 
-                                <el-select v-model="grade" multiple collapse-tags class="elInput"
+                                <el-select v-model="grade"   class="elInput"
                                     style="margin-left: 20px;" placeholder="请选择">
                                     <el-option v-for="item in gradeOptions" :key="item.value"
                                         :label="item.label" :value="item.value">
                                     </el-option>
                                 </el-select>
-                                <el-select v-model="className" multiple collapse-tags
+                                <el-select v-model="className"  
                                     class="elInput" style="margin-left: 20px;" placeholder="请选择">
                                     <el-option v-for="item in classOptions" :key="item.value"
                                         :label="item.label" :value="item.value">
@@ -387,6 +387,7 @@
             </template></el-tab-pane>
     </el-tabs>
 </template>
+
 <script>
         export default {
             data() {

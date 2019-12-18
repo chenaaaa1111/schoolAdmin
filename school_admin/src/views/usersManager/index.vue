@@ -6,27 +6,28 @@
                     <el-col :span="6">
                         <div style="margin-top: 15px;">
                             <el-input placeholder="请输入账号/名称" v-model="keyword" class="input">
-                                <el-button id="seachIcon" slot="append" ref="seachButton" @click.native="seach"  icon="el-icon-search"></el-button>
+                                <el-button id="seachIcon" slot="append" ref="seachButton" @click.native="seach"
+                                    icon="el-icon-search"></el-button>
                             </el-input>
                         </div>
                     </el-col>
                     <el-col :span="18">
                         <template>
                             <div class="rightSlects">
-                                <el-select v-model="schoolName"  class="elInput"  @change="getGrade"  placeholder="请选择">
+                                <el-select v-model="schoolName" class="elInput" @change="getGrade" placeholder="请选择">
                                     <el-option v-for="item in schoolOptions" :key="item.id" :label="item.title"
                                         :value="item.id">
                                     </el-option>
                                 </el-select>
 
-                                <el-select v-model="gradeName" @change="getClass"   class="elInput"
+                                <el-select v-model="gradeName" @change="getClass" class="elInput"
                                     style="margin-left: 10px;" placeholder="请选择">
                                     <el-option v-for="item in gradeOptions" :key="item.id" :label="item.title"
                                         :value="item.id">
                                     </el-option>
                                 </el-select>
-                                <el-select v-model="className"   class="elInput"
-                                    style="margin-left: 10px;" placeholder="请选择">
+                                <el-select v-model="className" class="elInput" style="margin-left: 10px;"
+                                    placeholder="请选择">
                                     <el-option v-for="item in classOptions" :key="item.id" :label="item.title"
                                         :value="item.id">
                                     </el-option>
@@ -60,7 +61,7 @@
                     </template>
                 </el-tab-pane>
                 <el-tab-pane label="教师账号管理" name="teacher">
-                   
+
                     <template>
                         <el-table :data="teacherTableData" style="width: 100%">
                             <el-table-column prop="name" label="名称">
@@ -93,6 +94,7 @@
                     <el-button type="primary" @click="freeze">确 定</el-button>
                 </div>
             </el-dialog>
+           
         </template>
     </div>
 </template>
@@ -102,6 +104,8 @@
     export default {
         data() {
             return {
+                viewPemissDialog:false,
+                permissionClass:'',
                 viewDialog: false,
                 userStatus: 0,
                 activeName: 'student',
@@ -112,8 +116,8 @@
                 schoolOptions: [],
                 gradeOptions: [],
                 classOptions: [],
-                psize:1,
-                psize:20,
+                page: 1,
+                psize: 20,
                 studentTableData: [{
                     date: '2016-05-02',
                     name: '王小虎',
@@ -160,7 +164,7 @@
             getClass(tab) {
                 console.log(tab);
                 if (tab == 'all' || '') {
-
+                    this.tab = 'all';
                 } else {
                     this.gradeOptions.forEach(element => {
                         if (element.id == tab) {
@@ -186,9 +190,10 @@
                         break;
                 }
             },
-            seach(){
-                
-                var data = { keyword: this.keyword,
+            seach() {
+
+                var data = {
+                    keyword: this.keyword,
                     // s_id:this.s_id,
                     // grade_id:this.grade_id,
                     // class_id:this.class_id
@@ -207,11 +212,12 @@
                         break;
                 }
             },
-            seachButton(){
-                var data = { keyword: this.keyword,
-                    s_id:this.schoolName,
-                    grade_id:this.gradeName,
-                    class_id:this.className
+            seachButton() {
+                var data = {
+                    keyword: this.keyword,
+                    s_id: this.schoolName,
+                    grade_id: this.gradeName,
+                    class_id: this.className
 
                 }
                 switch (this.activeName) {
@@ -227,8 +233,8 @@
                         break;
                 }
             },
-            getlist(){
-                var data = { keyword: this.keyword,page:this.page,psize:this.psize }
+            getlist() {
+                var data = { keyword: this.keyword, page: this.page, psize: this.psize }
                 switch (this.activeName) {
                     case 'student':
                         request.post('/backapi/Users/lists', data, (res) => {
@@ -260,7 +266,7 @@
                 this.chooseUserId = tab.id;
 
             },
-        
+
         },
         mounted() {
             this.handleClick(1);

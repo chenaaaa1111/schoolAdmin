@@ -1,0 +1,87 @@
+.radios {
+    margin-top: 30px;
+}
+
+.checklist {
+    margin-bottom: 30px;
+}
+
+/* .mainContainer {
+    background: #fff;
+} */
+.el-container{
+    
+}
+.el-pagination {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.rightSlects {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+
+}
+
+.elInput {
+    width: 106px;
+}
+
+.tableTh {
+    padding-top: 30px;
+}
+
+.tableTh th {
+    background: rgba(241, 241, 241, 1);
+}
+
+.demonstration {
+    margin-right: 10px;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner.elDate {
+    width: 120px;
+}
+
+.seachdate {
+    background: #0A4B95FF;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.elbreadCrumb {
+    height: 50px;
+    line-height: 50px;
+    background: #fff;
+    padding-left: 30px;
+}
+.home .el-container{
+    background:rgba(246,246,246,1);
+}
+.el-tabs__header{
+    background: #fff;
+    padding-left: 30px;
+}
+.topList{
+    background: #fff;
+}
+.topseach{
+    background: #fff;
+    padding:1px 20px 20px 20px; ;
+   
+}
+.el-tabs__content{
+    /* padding: 30px 20px 20px 20px; */
+}
+.bottomnewList{
+    margin-top: 10px;
+    background: #fff;
+    padding-bottom: 20px;
+}
+.permissTitle{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #ccc;
+}

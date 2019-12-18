@@ -79,20 +79,48 @@
                 </div>
             </el-dialog>
             <!-- 查看 -->
-            <el-dialog title="编辑管理员" :visible.sync="viewDialog">
+            <el-dialog title="查看管理员" :visible.sync="viewDialog">
                 <div>管理名称 : <span>{{form.title}}</span></div>
                 <div>
                     管理账号 : <span>{{form.mobile}}</span>
                 </div>
-                <div>
+                <!-- <div>
                     登录密码 : <span></span>
-                </div>
-                <div>
+                </div> -->
+                <!-- <div>
                     登录权限 : <span></span>
-                </div>
+                </div> -->
 
                 <div slot="footer" class="dialog-footer">
                     <el-button type="primary" @click="viewDialog=false">确 定</el-button>
+                </div>
+            </el-dialog>
+            <!-- 權限管理彈窗 -->
+            <el-dialog title="权限设置" :visible.sync="viewPemissDialog">
+                <ul class="quanxianList">
+                    <li v-for="(item,index) in pemissInfo" :key="index">
+                        <div class="permissTitle">
+                            <el-checkbox v-model="pemissInfo[index].isSelect" @change="selectPermiss(item,index)">
+                                <!-- <el-image v-if="item.id==1" style="width: 20px; height: 20px" :src="imgurl0"></el-image>
+                                <el-image v-if="item.id==2" style="width: 20px; height: 20px" :src="imgurl1"></el-image>
+                                <el-image v-if="item.id==4" style="width: 20px; height: 20px" :src="imgurl2"></el-image>
+                                <el-image v-if="item.id==7" style="width: 20px; height: 20px" :src="imgurl3"></el-image> -->
+
+                                <span>{{item.title}}</span>
+                            </el-checkbox>
+                        </div>
+
+                        <div class="pemissItem" v-if="item.note.length>0">
+                            <el-checkbox v-model="pemissInfo[index].note[ind].isSelect" v-for="(ie,ind) in item.note"
+                                @change="selectPermiss(item,ind,index,2)">
+                                <span style="color:rgba(102,102,102,1);">{{ie.title}}</span>
+                            </el-checkbox>
+                        </div>
+                    </li>
+                </ul>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="viewPemissDialog=false">取 消</el-button>
+                    <el-button type="primary" @click="editPemiss">确 定</el-button>
                 </div>
             </el-dialog>
         </template>
@@ -103,6 +131,15 @@
     export default {
         data() {
             return {
+                // imgurl0:require('@/assets/images/class_2x.png'),
+                // imgurl1:require('@/assets/images/grade_2x.png'),
+                // imgurl2:require('@/assets/images/special_2x.png'),
+                // imgurl3:require('@/assets/images/class_2x.png'),
+                selectId: '',
+                pemissInfo: [],//權限列表
+                pemissSelect: [],
+                permissionClass: false,
+                viewPemissDialog: false,//權限管理彈窗
                 editDialog: false,
                 viewDialog: false,
                 chooseId: '',
@@ -126,6 +163,45 @@
             };
         },
         methods: {
+            selectPermiss(e, index, pindex, level) {
+                // console.log(e);
+                // if (pindex||pindex==0) {
+                //     if(this.pemissInfo[pindex].note[index].isSelect = true){
+                        
+                //         this.pemissInfo[pindex].isSelect = true;
+                //          this.pemissInfo = [...this.pemissInfo]
+                //     }else{
+
+                //     }
+                   
+                // } else {
+
+                //     if (!level) {//level 不傳表示一級
+                //         if (!this.pemissInfo[index].isSelect) {
+                //             this.pemissInfo[index].note.forEach(item => {
+                //                 item.isSelect = false;
+                //             })
+                //         }
+                //          this.pemissInfo = [...this.pemissInfo]
+                //     }
+                // }
+
+            },
+            editPemiss() {
+
+                var select = [];
+                this.pemissInfo.forEach((item) => {
+                    item.note.forEach((it) => {
+                        if (it.isSelect) {
+                            select.push(it.id);
+                        }
+                    })
+                })
+                var data = { content: select, id: this.selectId };
+                request.post('/backapi/Admin/editNode', data, (res) => {
+
+                })
+            },
             delete(id) {
 
                 this.$confirm('删除此管理员？', '删除', {
@@ -184,6 +260,7 @@
             },
             handleClick(tab, data) {
                 console.log(tab, data);
+                this.selectId = data.id;
                 switch (tab) {
                     case '1':
                         this.editDialog = true;
@@ -191,7 +268,14 @@
                         break;
                     case '2':
                         this.viewDialog = true;
-                        this.form=data;
+                        this.form = data;
+                        break;
+                    case '3':
+                        this.viewPemissDialog = true;
+                        request.post('/backapi/Admin/authList', {}, (res) => {
+                            this.pemissInfo = res.data;
+                        })
+                        this.form = data;
                         break;
                     case '4':
                         this.chooseId = data.id;

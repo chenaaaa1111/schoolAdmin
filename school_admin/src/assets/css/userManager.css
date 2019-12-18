@@ -22,3 +22,13 @@
 .seachdate{
     margin-left: 10px;
 }
+.el-tabs__content{
+    background: #fff;
+}
+.tabsTop{
+    padding-left: 30px;
+    /* margin-bottom: 20px; */
+}
+.el-container{
+    background:rgba(246,246,246,1);
+}
