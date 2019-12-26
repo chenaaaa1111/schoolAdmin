@@ -112,7 +112,7 @@
 
                         <div class="pemissItem" v-if="item.note.length>0">
                             <el-checkbox v-model="pemissInfo[index].note[ind].isSelect" v-for="(ie,ind) in item.note"
-                                @change="selectPermiss(item,ind,index,2)">
+                               :key="ind" @change="selectPermiss(item,ind,index,2)">
                                 <span style="color:rgba(102,102,102,1);">{{ie.title}}</span>
                             </el-checkbox>
                         </div>
