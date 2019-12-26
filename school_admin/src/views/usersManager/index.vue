@@ -104,7 +104,7 @@
     export default {
         data() {
             return {
-                viewPemissDialog:false,
+               
                 permissionClass:'',
                 viewDialog: false,
                 userStatus: 0,
