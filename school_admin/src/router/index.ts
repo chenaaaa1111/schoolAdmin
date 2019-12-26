@@ -47,10 +47,25 @@ const routes = [
         name: 'managers',
         component: () => import('../views/managersManager/index.vue'),
       },
-      {
+      {//空间管理
         path:"/space/item",
         name:'spaceItem',
         component:()=>import('../views/spaceManager/item.vue')
+      },
+      {
+        path:"/home/articleManager",
+        name:"articleManager",
+        component:()=>import('../views/articleManager/index.vue')
+      },
+      {
+        path:"/home/revieweManager",
+        name:"revieweManager",
+        component:()=>import('../views/revieweManager/index.vue')
+      },
+      {
+        path:"home/classifyManager",
+        name:"classifyManager",
+        component:()=>import('../views/classifyManager/index.vue')
       }
     ]
   },

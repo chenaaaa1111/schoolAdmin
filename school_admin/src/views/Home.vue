@@ -12,26 +12,31 @@
       </el-header>
     </el-container>
     <el-container>
-      <el-aside class="leftBar" width="125px">
+      <el-aside class="leftBar" width="140px">
 
         <el-menu :default-active="active" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
           @select="selectMenu" background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff"
           :collapse="isCollapse">
           <el-menu-item index="index">
             <i class="el-icon-s-home"></i>
-            <span slot="title">首页</span>
-          </el-menu-item>
-          <el-menu-item index="managers">
-            <i class="el-icon-setting"></i>
-            <span slot="title">管理员</span>
+            <span slot="title">查询与统计</span>
           </el-menu-item>
           <el-menu-item index="usersManager">
             <i class="el-icon-s-custom"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
-          <el-menu-item index="spacemanage">
+          <el-menu-item index="articleManager">
+            <i class="el-icon-setting"></i>
+            <span slot="title">文章管理</span>
+          </el-menu-item>
+         
+          <el-menu-item index="revieweManager">
             <i class="el-icon-suitcase"></i>
-            <span slot="title">空间管理</span>
+            <span slot="title">文章审核</span>
+          </el-menu-item>
+          <el-menu-item index="classifyManager">
+            <i class="el-icon-suitcase"></i>
+            <span slot="title">分类管理</span>
           </el-menu-item>
         </el-menu>
       </el-aside>

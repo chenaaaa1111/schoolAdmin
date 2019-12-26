@@ -1,0 +1,77 @@
+.tabCard {}
+
+.columnFlex {
+    width: 10px;
+}
+
+.flexhalf {
+    display: flex;
+
+}
+
+.halfItem {
+    flex: 1;
+    padding: 10px;
+}
+
+.itemInline {
+    display: inline-block;
+    width: 140px;
+    height: 60px;
+    line-height: 60px;
+}
+
+.smallInline {
+    display: inline-block;
+    width: 70px;
+    height: 60px;
+    font-size: 12px;
+    color: #034692FF;
+    line-height: 60px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.gradeContainer {
+    padding-left: 15px;
+    margin-top: 10px;
+}
+
+.tabTitle {
+    height: 60px;
+    line-height: 60px;
+    padding-left: 10px;
+}
+
+.halfBg {
+    padding: 10px;
+}
+
+.halfClassItem {
+    background: #fff;
+}
+
+.bgcolumn {
+    padding: 15px;
+}
+
+.bgcchildren {
+    background: #DFE7EEFF;
+    padding: 12px;
+
+}
+
+.bgculumns {
+    background: #fff;
+    padding: 10px;
+}
+
+.columnButton {
+    display: inline-block;
+    width: 154px;
+    height: 48px;
+    background: rgba(241, 241, 241, 1);
+    border-radius: 5px;
+    text-align: center;
+    line-height:48px ;
+}
