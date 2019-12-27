@@ -681,7 +681,6 @@
         mounted() {
             this.getGradeClassData();
             // this.getGradeClassData(this.activeSchool);
-            console.log('mounted')
         }
     }
 </script>
