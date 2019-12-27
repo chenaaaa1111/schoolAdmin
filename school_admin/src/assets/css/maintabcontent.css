@@ -80,3 +80,6 @@
     background: #fff;
     padding-bottom: 20px;
 }
+.cell span{
+    cursor: pointer;
+}

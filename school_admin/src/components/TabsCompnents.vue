@@ -1,7 +1,7 @@
 <template>
     <div class="mianTabContent" id="mianTabContent">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-            <div class="topseach" v-show="showView">
+            <div class="topseach" v-if="showView">
                 <div class="checklist">
                     <h3>审核列表</h3>
                     <div class="radios">
@@ -62,9 +62,8 @@
                     </el-row>
                 </div>
             </div>
-            <el-tab-pane label="班级空间" name="classSpace">
-                <div class="topList" v-show="showView">
-
+            <el-tab-pane label="班级空间" name="classSpace" :class="showView">
+                <div class="topList" v-if="showView">
                     <template>
                         <el-table :data="classData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
@@ -91,7 +90,7 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
                                             查看
                                         </router-link>
                                     </span>
@@ -108,7 +107,7 @@
                         </el-pagination>
                     </div>
                 </div>
-                <div class="bottomnewList" v-show="showArticle">
+                <div class="bottomnewList" v-if="showArticle">
                     <template>
                         <div>
                             <div class="topseach">
@@ -166,7 +165,7 @@
                                 </div>
                             </div>
                         </div>
-                        <el-table :data="classList" style="width: 100%" class="tableTh">
+                        <el-table :data="classData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
@@ -187,12 +186,12 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span>修改</span>
-                                    <span @click="deleteArt(scope.id)">删除</span>
+
+                                    <span @click="deleteArt(scope.row.id)">删除</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -205,8 +204,8 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="年级级空间" name="gradeSpace" v-show="showArticle">
-                <div class="topList" v-show="showView">
+            <el-tab-pane label="年级级空间" name="gradeSpace" v-if="showArticle">
+                <div class="topList" v-if="showView">
 
                     <template>
                         <el-table :data="classData" style="width: 100%" class="tableTh">
@@ -234,7 +233,7 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
                                             查看
                                         </router-link>
                                     </span>
@@ -251,7 +250,7 @@
                         </el-pagination>
                     </div>
                 </div>
-                <div class="bottomnewList" v-show="showArticle">
+                <div class="bottomnewList" v-if="showArticle">
                     <template>
                         <div>
                             <div class="topseach">
@@ -309,7 +308,7 @@
                                 </div>
                             </div>
                         </div>
-                        <el-table :data="classList" style="width: 100%" class="tableTh">
+                        <el-table :data="classData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
@@ -330,12 +329,12 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span>修改</span>
-                                    <span @click="deleteArt(scope.id)">删除</span>
+
+                                    <span @click="deleteArt(scope.row.id)">删除</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -348,11 +347,11 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="社团空间" name="gradeSpace">
-                <div class="topList" v-show="showView">
+            <el-tab-pane label="社团空间" name="teamSpace">
+                <div class="topList" v-if="showView">
 
                     <template>
-                        <el-table :data="gradeData" style="width: 100%" class="tableTh">
+                        <el-table :data="teamData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
@@ -373,7 +372,7 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'1',showCheck:scope.row.type=='1',url:'/backapi/Management/auditClass'}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'1',showCheck:scope.row.type=='1',url:'/backapi/Management/auditClass'}}">
                                             查看
                                         </router-link>
                                     </span>
@@ -390,7 +389,7 @@
                         </el-pagination>
                     </div>
                 </div>
-                <div class="bottomnewList" v-show="showArticle">
+                <div class="bottomnewList" v-if="showArticle">
                     <template>
                         <div>
                             <div class="topseach">
@@ -448,7 +447,7 @@
                                 </div>
                             </div>
                         </div>
-                        <el-table :data="gradeList" style="width: 100%" class="tableTh">
+                        <el-table :data="teamData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
@@ -469,12 +468,12 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span>修改</span>
-                                    <span @click="deleteArt(scope.id)">删除</span>
+
+                                    <span @click="deleteArt(scope.row.id)">删除</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -488,7 +487,7 @@
                 </div>
             </el-tab-pane>
             <el-tab-pane label="专题空间" name="specialSpace">
-                <div class="topList" v-show="showView ">
+                <div class="topList" v-if="showView ">
 
                     <template>
                         <el-table :data="spicialData" style="width: 100%" class="tableTh">
@@ -512,11 +511,11 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'3',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'3',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span v-show="scope.row.type==1" @click="showChek(scope.row.id)"
+                                    <span v-if="scope.row.type==1" @click="showChek(scope.row.id)"
                                         style="color:  rgb(0, 0, 238);">审核</span>
                                 </template>
                             </el-table-column>
@@ -529,7 +528,7 @@
                         </el-pagination>
                     </div>
                 </div>
-                <div class="bottomnewList" v-show="showArticle">
+                <div class="bottomnewList" v-if="showArticle">
                     <template>
                         <div>
                             <div class="topseach">
@@ -587,7 +586,7 @@
                                 </div>
                             </div>
                         </div>
-                        <el-table :data="specialList" style="width: 100%" class="tableTh">
+                        <el-table :data="spicialData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
@@ -608,12 +607,12 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'3',showCheck:scope.row.type==1}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'3',showCheck:scope.row.type==1}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span>修改</span>
-                                    <span @click="deleteArt(scope.id)">删除</span>
+
+                                    <span @click="deleteArt(scope.row.id)">删除</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -626,8 +625,8 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="课题空间" name="topicSpace" v-show="showView" >
-                <div class="topList" v-show="showView">
+            <el-tab-pane label="课题空间" name="topicSpace" v-if="showView">
+                <div class="topList" v-if="showView">
 
                     <template>
                         <el-table :data="spicialData" style="width: 100%" class="tableTh">
@@ -651,11 +650,11 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'3',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'3',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span v-show="scope.row.type==1" @click="showChek(scope.row.id)"
+                                    <span v-if="scope.row.type==1" @click="showChek(scope.row.id)"
                                         style="color:  rgb(0, 0, 238);">审核</span>
                                 </template>
                             </el-table-column>
@@ -668,7 +667,7 @@
                         </el-pagination>
                     </div>
                 </div>
-                <div class="bottomnewList" v-show="showArticle">
+                <div class="bottomnewList" v-if="showArticle">
                     <template>
                         <div>
                             <div class="topseach">
@@ -726,7 +725,7 @@
                                 </div>
                             </div>
                         </div>
-                        <el-table :data="specialList" style="width: 100%" class="tableTh">
+                        <el-table :data="spicialData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
@@ -747,12 +746,12 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'3',showCheck:scope.row.type==1}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'3',showCheck:scope.row.type==1}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span>修改</span>
-                                    <span @click="deleteArt(scope.id)">删除</span>
+
+                                    <span @click="deleteArt(scope.row.id)">删除</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -765,11 +764,10 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="教研空间" name="teachingSpace" >
-                <div class="topList" v-show="showView">
-
+            <el-tab-pane label="教研空间" name="teachingSpace">
+                <div class="topList" v-if="showView">
                     <template>
-                        <el-table :data="classData" style="width: 100%" class="tableTh">
+                        <el-table :data="teachingData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
@@ -794,11 +792,11 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1,url:'/backapi/Management/auditClass'}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span v-show="scope.row.type==1" @click="showChek(scope.row.id)"
+                                    <span v-if="scope.row.type==1" @click="showChek(scope.row.id)"
                                         style="color:  rgb(0, 0, 238);">审核</span>
                                 </template>
                             </el-table-column>
@@ -811,7 +809,7 @@
                         </el-pagination>
                     </div>
                 </div>
-                <div class="bottomnewList" v-show="showArticle">
+                <div class="bottomnewList" v-if="showArticle">
                     <template>
                         <div>
                             <div class="topseach">
@@ -869,7 +867,7 @@
                                 </div>
                             </div>
                         </div>
-                        <el-table :data="classList" style="width: 100%" class="tableTh">
+                        <el-table :data="teachingData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
@@ -890,12 +888,11 @@
                                 <template slot-scope="scope">
                                     <span>
                                         <router-link
-                                            :to="{path :'/space/item',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1}}">
+                                            :to="{path :'/home/spaceItem',query:{id:scope.row.id,type:'1',showCheck:scope.row.type==1}}">
                                             查看
                                         </router-link>
                                     </span>
-                                    <span>修改</span>
-                                    <span @click="deleteArt(scope.id)">删除</span>
+                                    <span @click="deleteArt(scope.row.id)">删除</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -917,8 +914,6 @@
             </span>
         </el-dialog>
     </div>
-
-
 </template>
 <style scoped>
     @import './../assets/css/maintabcontent.css';
@@ -980,8 +975,10 @@
         },
         mounted() {
             var url = "/backapi/Management/newClass";
+            var checkingUrl = "/backapi/Management/auditClass";
             this.getArticles(url, 'classData');
-            this.getSchools();
+            // this.getChecking();
+            this.getSchools(checkingUrl, 'classData');
         },
         methods: {
             seachTime() { //根据开始和结束时间查询
@@ -1143,7 +1140,23 @@
                 })
             },
             deleteArt(res) {
+                console.log('delete', res);
+                this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
 
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
             handleSizeChange(size) {
 
@@ -1178,17 +1191,52 @@
                 debugger
                 var tab = this.activeName;
                 switch (tab) {
-                    case 'classSpace':
-                        url = "/backapi/Management/newClass";
+                    case 'classSpace'://班级
+                        if (this.showArticle) {
+                            url = "/backapi/Management/newClass";
+                        } else {
+                            url = "/backapi/Management/auditClass";
+                        }
+
                         break;
                     case 'gradeSpace':
-                        url = "/backapi/Management/newClass";
+                        if (this.showArticle) {//年纪
+                            url = "/backapi/Management/newClass";
+                        } else {
+                            url = "/backapi/Management/auditClass";
+                        }
+
                         break;
-                    case 'specialSpace':
-                        url = "/backapi/Management/newProject";
+                    case 'specialSpace':   //专题空间
+                        if (this.showArticle) {
+                            url = "/backapi/Management/newProject";
+                        } else {
+                            url = "/backapi/Management/auditProject";
+                        }
+
+                        break;
+                    case 'teamSpace':   //社团空间
+                        if (this.showArticle) {
+                            url = "/backapi/Management/newCommunity";
+                        } else {
+                            url = "/backapi/Management/auditCommunity";
+                        }
+
+                        break;
+                    case 'teachingSpace':   //教研空间
+                        if (this.showArticle) {
+                            url = "/backapi/Management/newTeaching";
+                        } else {
+                            url = "/backapi/Management/auditTeaching";
+                        }
                         break;
                     default://默认班级
-                        url = '/backapi/Management/newClass';
+                        if (this.showArticle) {
+                            url = '/backapi/Management/newClass';
+                        } else {
+                            url = "/backapi/Management/auditClass";
+                        }
+
                 }
                 let data = {
                     type: this.type,
@@ -1210,7 +1258,14 @@
                             case 'specialSpace':
                                 this.spicialData = res.data.model;
                                 this.total = res.data.total;
-
+                                break;
+                            case 'teamSpace':
+                                this.teamData = res.data.model;
+                                this.total = res.data.total;
+                                break;
+                            case 'teachingSpace':
+                                this.teachingData = res.data.model;
+                                this.total = res.data.total;
                                 break;
                             default://默认班级
                                 this.classData = res.data.model;

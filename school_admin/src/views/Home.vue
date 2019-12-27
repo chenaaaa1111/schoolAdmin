@@ -14,8 +14,8 @@
     <el-container>
       <el-aside class="leftBar" width="140px">
 
-        <el-menu :default-active="active" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-          @select="selectMenu" background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff"
+        <el-menu :default-active="active" router class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+          background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff"
           :collapse="isCollapse">
           <el-menu-item index="index">
             <i class="el-icon-s-home"></i>

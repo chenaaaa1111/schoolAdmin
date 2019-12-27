@@ -48,12 +48,12 @@ const routes = [
         component: () => import('../views/managersManager/index.vue'),
       },
       {//空间管理
-        path:"/space/item",
+        path:"/home/spaceItem",
         name:'spaceItem',
         component:()=>import('../views/spaceManager/item.vue')
       },
       {
-        path:"/home/articleManager",
+        path:"/home/articleManager",//文章管理
         name:"articleManager",
         component:()=>import('../views/articleManager/index.vue')
       },

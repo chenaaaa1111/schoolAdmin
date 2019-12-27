@@ -9,21 +9,28 @@
                                 <div class="tabCard bg_white">小学</div>
                                 <div class="halfBg">
                                     <div class="tabTitle bg_white">
-                                        <el-button type="primary" class="smallBt" @click="primaryGradeExpandAll">{{primaryGradeClassIsOpen?'折叠全部':'展开全部'}}</el-button>
-                                        <el-button type="success" class="smallBt" @click="primaryAddGradeClass">新增年级</el-button>
+                                        <el-button type="primary" class="smallBt" @click="primaryGradeExpandAll">
+                                            {{primaryGradeClassIsOpen?'折叠全部':'展开全部'}}</el-button>
+                                        <el-button type="success" class="smallBt" @click="primaryAddGradeClass">新增年级
+                                        </el-button>
                                     </div>
 
-                                    <div class="halfClassItem" v-for="(item,index) in primaryGradeClassData" :key="index">
+                                    <div class="halfClassItem" v-for="(item,index) in primaryGradeClassData"
+                                        :key="index">
                                         <div>
                                             <template>
                                                 <div class="gradeContainer">
                                                     <el-row>
                                                         <el-col :span="12">
-                                                            <span class="itemInline" @click="primaryExpandItem(item,index)">
-                                                                <i v-show="item.isOpen" class="el-icon-caret-bottom"></i>
-                                                                <i v-show="!item.isOpen" class="el-icon-caret-right"></i>
-                                                            {{item.title}}</span>
-                                                            <span v-if="item.name" class="itemInline">审核人：{{item.name}}</span>
+                                                            <span class="itemInline"
+                                                                @click="primaryExpandItem(item,index)">
+                                                                <i v-show="item.isOpen"
+                                                                    class="el-icon-caret-bottom"></i>
+                                                                <i v-show="!item.isOpen"
+                                                                    class="el-icon-caret-right"></i>
+                                                                {{item.title}}</span>
+                                                            <span v-if="item.name"
+                                                                class="itemInline">审核人：{{item.name}}</span>
                                                             <span v-else>暂无审核人</span>
                                                         </el-col>
                                                         <el-col :span="12">
@@ -33,16 +40,16 @@
                                                                 @click="viewCheckingDialog=true">设置审核人</span>
                                                             <span class="smallInline"
                                                                 @click="viewEditDialog=true">编辑</span>
-                                                            <span class="smallInline"
-                                                                @click="deleteConfirm">删除</span>
+                                                            <span class="smallInline" @click="deleteConfirm">删除</span>
                                                         </el-col>
                                                     </el-row>
                                                     <!-- 班级 -->
-                                                    <div v-show="item.isOpen"> 
+                                                    <div v-show="item.isOpen">
                                                         <el-row v-for="(it,ind) in item.class" :key="ind">
                                                             <el-col :span="12">
                                                                 <span class="itemInline">{{it.title}}</span>
-                                                                <span v-if="it.name" class="itemInline">班主任：{{it.name}}</span>
+                                                                <span v-if="it.name"
+                                                                    class="itemInline">班主任：{{it.name}}</span>
                                                                 <span v-else>暂无班主任</span>
                                                             </el-col>
                                                             <el-col :span="12">
@@ -66,21 +73,27 @@
                                 <div class="tabCard bg_white">初中</div>
                                 <div class="halfBg">
                                     <div class="tabTitle bg_white">
-                                        <el-button type="primary" class="smallBt" @click="middleGradeExpandAll">{{middleGradeClassIsOpen?'折叠全部':'展开全部'}}</el-button>
+                                        <el-button type="primary" class="smallBt" @click="middleGradeExpandAll">
+                                            {{middleGradeClassIsOpen?'折叠全部':'展开全部'}}</el-button>
                                         <el-button type="success" class="smallBt">新增年级</el-button>
                                     </div>
 
-                                    <div class="halfClassItem" v-for="(item,index) in middleGradeClassData" :key="index">
+                                    <div class="halfClassItem" v-for="(item,index) in middleGradeClassData"
+                                        :key="index">
                                         <div>
                                             <template>
                                                 <div class="gradeContainer">
                                                     <el-row>
                                                         <el-col :span="12">
-                                                            <span class="itemInline" @click="middleExpandItem(item,index)">
-                                                                <i v-show="item.isOpen" class="el-icon-caret-bottom"></i>
-                                                                <i v-show="!item.isOpen" class="el-icon-caret-right"></i>
-                                                            {{item.title}}</span>
-                                                            <span v-if="item.name" class="itemInline">审核人：{{item.name}}</span>
+                                                            <span class="itemInline"
+                                                                @click="middleExpandItem(item,index)">
+                                                                <i v-show="item.isOpen"
+                                                                    class="el-icon-caret-bottom"></i>
+                                                                <i v-show="!item.isOpen"
+                                                                    class="el-icon-caret-right"></i>
+                                                                {{item.title}}</span>
+                                                            <span v-if="item.name"
+                                                                class="itemInline">审核人：{{item.name}}</span>
                                                             <span v-else>暂无审核人</span>
                                                         </el-col>
                                                         <el-col :span="12">
@@ -90,16 +103,16 @@
                                                                 @click="viewCheckingDialog=true">设置审核人</span>
                                                             <span class="smallInline"
                                                                 @click="viewEditDialog=true">编辑</span>
-                                                            <span class="smallInline"
-                                                                @click="deleteConfirm">删除</span>
+                                                            <span class="smallInline" @click="deleteConfirm">删除</span>
                                                         </el-col>
                                                     </el-row>
                                                     <!-- 班级 -->
-                                                    <div v-show="item.isOpen"> 
+                                                    <div v-show="item.isOpen">
                                                         <el-row v-for="(it,ind) in item.class" :key="ind">
                                                             <el-col :span="12">
                                                                 <span class="itemInline">{{it.title}}</span>
-                                                                <span v-if="it.name" class="itemInline">班主任：{{it.name}}</span>
+                                                                <span v-if="it.name"
+                                                                    class="itemInline">班主任：{{it.name}}</span>
                                                                 <span v-else>暂无班主任</span>
                                                             </el-col>
                                                             <el-col :span="12">
@@ -126,14 +139,15 @@
                 </el-tabs>
 
             </el-tab-pane>
-            <el-tab-pane label="栏目设置" name="栏目设置" >
+            <el-tab-pane label="栏目设置" name="栏目设置">
                 <div class="bgcolumn">
                     <el-button>
                         添加栏目
                     </el-button>
                     <div class="bgcchildren">
                         <div class="bgculumns">
-                            <el-button >栏目1 <i class="el-icon-delete " @click="deleteCulomn"></i> | <i @click="editCulomn" class="el-icon-edit-outline el-icon--right"></i></el-button>
+                            <el-button>栏目1 <i class="el-icon-delete " @click="deleteCulomn"></i> | <i
+                                    @click="editCulomn" class="el-icon-edit-outline el-icon--right"></i></el-button>
                         </div>
                     </div>
                 </div>
@@ -141,12 +155,14 @@
         </el-tabs>
 
         <!-- 新增年级 -->
-        <el-dialog title="添加年级" :visible.sync="addGradeDialog"  width="30%" @close="closeGradeDialog('addGradeRuleForm')">
-            <el-form :model="addGradeRuleForm" :rules="addGradeRules" ref="addGradeRuleForm" label-width="100px" class="demo-ruleForm">
+        <el-dialog title="添加年级" :visible.sync="addGradeDialog" width="30%"
+            @close="closeGradeDialog('addGradeRuleForm')">
+            <el-form :model="addGradeRuleForm" :rules="addGradeRules" ref="addGradeRuleForm" label-width="100px"
+                class="demo-ruleForm">
                 <el-form-item label="级别">
                     <el-radio-group v-model="addGradeRuleForm.level">
-                    <el-radio :label="0">年级</el-radio>
-                    <el-radio :label="1">班级</el-radio>
+                        <el-radio :label="0">年级</el-radio>
+                        <el-radio :label="1">班级</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="年级名称" prop="gradeName">
@@ -162,7 +178,7 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-        
+
 
         <!-- 添加班级弹框 -->
         <el-dialog title="添加班级" :visible.sync="viewClassDialog">
@@ -271,7 +287,7 @@
                     { name: 'team', label: '社团设置' },
                     { name: 'topic', label: '课题组' },
                     { name: 'teaching', label: '教研组' }
-                  
+
                 ],
                 schoolList: [
                     { name: 'east', label: '东区' },
@@ -299,10 +315,10 @@
             };
         },
         methods: {
-            deleteCulomn(id){
+            deleteCulomn(id) {
                 console.log('删除');
             },
-            editCulomn(id){
+            editCulomn(id) {
                 console.log('编辑')
             },
             deleteConfirm() {
@@ -323,7 +339,7 @@
                 });
             },
             toggleSettingType(tab) { //点击切换设置类型  班级 社团设置
-                console.log(tab, event); 
+                console.log(tab, event);
                 switch (tab.name) {
                     case "class": //班级设置
                         this.getGradeClassData();
@@ -339,17 +355,17 @@
                         break;
                     default:
                 }
-               
+
             },
-           
+
             // 班级设置部分 
             //东区   西区 南区 判断  activeSchool: 'east',
-            switchCampus(val){ //点击切换
-                console.log(val,'点击班级设置里面的切换校区')
+            switchCampus(val) { //点击切换
+                console.log(val, '点击班级设置里面的切换校区')
                 this.getGradeClassData(val.name);
             },
-            primaryAddGradeClass(){ //班级设置--东区里面 小学 点击新增年级按钮
-               this.addGradeDialog = true;
+            primaryAddGradeClass() { //班级设置--东区里面 小学 点击新增年级按钮
+                this.addGradeDialog = true;
             },
             confiemAddGrade(ruleForm) { //新增年级 弹窗 确认按钮
                 this.$refs[ruleForm].validate((valid) => {
@@ -380,10 +396,10 @@
             closeGradeDialog(ruleForm) {  //新增年级 弹窗 关闭 取消 遮罩  空白处
                 this.addGradeDialog = false;
                 this.$nextTick(() => {
-                   this.$refs[ruleForm].resetFields();
+                    this.$refs[ruleForm].resetFields();
                 });
             },
-            
+
             addClass() { //添加班级弹窗确定
                 var data = {};
                 request.post('', data, (res) => {
@@ -396,7 +412,7 @@
 
                 })
             },
-            getGradeClassData(area){ //获取年级班级数据
+            getGradeClassData(area) { //获取年级班级数据
                 var url = '';
                 switch (area) {
                     case "east": //东区
@@ -413,7 +429,7 @@
                 }
                 var self = this;
                 request.post(url, {}, (res) => {
-                    if(res.code == 0){
+                    if (res.code == 0) {
                         self.primaryGradeClassData = res.data.small.map(item => {
                             item.isOpen = false;//默认折叠
                             return item;
@@ -422,36 +438,36 @@
                             item.isOpen = false;
                             return item;
                         });//中学的年级班级数据
-                        console.log('小学年级班级数据列表',self.primaryGradeClassData);
-                        console.log('中学年级班级数据列表',self.middleGradeClassData);
+                        console.log('小学年级班级数据列表', self.primaryGradeClassData);
+                        console.log('中学年级班级数据列表', self.middleGradeClassData);
                     }
                 })
             },
-            primaryGradeExpandAll(){ //班级设置--东区里面 小学 点击了展开全部 折叠 全部
+            primaryGradeExpandAll() { //班级设置--东区里面 小学 点击了展开全部 折叠 全部
                 this.primaryGradeClassIsOpen = !this.primaryGradeClassIsOpen;
                 this.primaryGradeClassData = this.primaryGradeClassData.map(item => {
                     item.isOpen = !item.isOpen;
                     return item;
                 });//小学的年级班级数据
             },
-            primaryExpandItem(item,index){ //班级设置--东区里面 小学 点击了某一年级的展开项
-                if(item.isOpen){
+            primaryExpandItem(item, index) { //班级设置--东区里面 小学 点击了某一年级的展开项
+                if (item.isOpen) {
                     this.primaryGradeClassData[index].isOpen = false;
-                }else{
+                } else {
                     this.primaryGradeClassData[index].isOpen = true;
                 }
             },
-            middleGradeExpandAll(){ //班级设置--东区里面 初中 点击了展开全部 折叠 全部
+            middleGradeExpandAll() { //班级设置--东区里面 初中 点击了展开全部 折叠 全部
                 this.middleGradeClassIsOpen = !this.middleGradeClassIsOpen;
                 this.middleGradeClassData = this.middleGradeClassData.map(item => {
                     item.isOpen = !item.isOpen;
                     return item;
                 });//小学的年级班级数据
             },
-            middleExpandItem(item,index){ //班级设置--东区里面 小学 点击了某一年级的展开项
-                if(item.isOpen){
+            middleExpandItem(item, index) { //班级设置--东区里面 小学 点击了某一年级的展开项
+                if (item.isOpen) {
                     this.middleGradeClassData[index].isOpen = false;
-                }else{
+                } else {
                     this.middleGradeClassData[index].isOpen = true;
                 }
             }

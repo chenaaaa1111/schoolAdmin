@@ -1,6 +1,6 @@
 <template>
     <div>
-            <MainTabContent :showArticle="false" :showView="true"></MainTabContent>
+            <MainTabContent :showArticle="showArticle" :showView="showView"></MainTabContent>
     </div>
 </template>
 <script>
@@ -9,7 +9,8 @@
     export default{
         data(){
             return {
-
+                showArticle:false,
+                showView:true
             }
         },
         components:{
