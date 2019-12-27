@@ -226,12 +226,8 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-<<<<<<< HEAD
 
 
-=======
-        
->>>>>>> 8300002ff3595a1601b82703708ed62cb9254e8e
         <!-- 添加班级弹框 -->
         <el-dialog title="添加班级" :visible.sync="addClassDialog"  width="30%" @close="closeClassDialog('addClassRuleForm')">
             <el-dialog width="30%" :visible.sync="searchClickDialog" append-to-body class="searchUserDialog">
@@ -525,15 +521,10 @@
                 console.log(val, '点击班级设置里面的切换校区')
                 this.getGradeClassData(val.name);
             },
-<<<<<<< HEAD
-            primaryAddGradeClass() { //班级设置--东区里面 小学 点击新增年级按钮
-                this.addGradeDialog = true;
-=======
             primaryAddGradeClass(){ //班级设置--东区里面 小学 点击新增年级按钮
                this.addGradeRuleForm.gradeName = '';
                this.addGradeRuleForm.gradeReviewer = '';
                this.addGradeDialog = true;
->>>>>>> 8300002ff3595a1601b82703708ed62cb9254e8e
             },
             confiemAddGrade(ruleForm) { //新增年级 弹窗 确认按钮
                 this.$refs[ruleForm].validate((valid) => {
@@ -563,8 +554,6 @@
                     this.$refs[ruleForm].resetFields();
                 });
             },
-<<<<<<< HEAD
-=======
             addGradeSearchUserClick(){ //新增年级弹窗  --年级审核人 --点击查找 出现下面的查询弹窗
                 this.searchClickDialog = true; //内层弹窗出现
             },
@@ -642,7 +631,6 @@
             addClassSarchUserClick(){ //新增班级弹窗  --班主任 --点击查找 出现下面的查询弹窗
                 this.searchClickDialog = true; //内层搜索班主任  弹窗出现
             },
->>>>>>> 8300002ff3595a1601b82703708ed62cb9254e8e
 
             addClass() { //添加班级弹窗确定
                 var data = {};
