@@ -12,7 +12,6 @@
                                         <el-button type="primary" class="smallBt" @click="primaryGradeExpandAll">{{primaryGradeClassIsOpen?'折叠全部':'展开全部'}}</el-button>
                                         <el-button type="success" class="smallBt" @click="primaryAddGradeClass">新增年级</el-button>
                                     </div>
-
                                     <div class="halfClassItem" v-for="(item,index) in primaryGradeClassData" :key="index">
                                         <div>
                                             <template>
@@ -142,11 +141,36 @@
 
         <!-- 新增年级 -->
         <el-dialog title="添加年级" :visible.sync="addGradeDialog"  width="30%" @close="closeGradeDialog('addGradeRuleForm')">
+            <el-dialog width="30%" :visible.sync="searchClickDialog" append-to-body class="searchUserDialog">
+                <el-eow :gutter="20">
+                    <el-col :span="19">
+                        <el-input v-model="searchUserName" placeholder="请输入用户名"></el-input>
+                    </el-col>
+                    <el-col :span="4" :offset="1">
+                        <el-button type="primary" @click="searchListClick">查询</el-button>
+                    </el-col>
+                </el-eow>
+                <el-eow :gutter="20">
+                    <el-col :span="24">
+                       <p class="searchTip">提示：搜索结果只展示已注册用户，如果没有搜索到要找的用户，请到用户管理里去先添加该用户。</p>
+                    </el-col>
+                </el-eow>
+                <el-eow :gutter="20">
+                    <el-col :span="24">
+                        <ul>
+                            <li v-for="(item,index) in searchUseerList" :key="index">
+                                <el-radio v-model="item.id" :label="item.name"></el-radio>
+                                <span>{{item.mobile}}</span>
+                            </li>
+                        </ul>
+                    </el-col>
+                </el-eow>
+            </el-dialog>
             <el-form :model="addGradeRuleForm" :rules="addGradeRules" ref="addGradeRuleForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item label="级别">
                     <el-radio-group v-model="addGradeRuleForm.level">
-                    <el-radio :label="0">年级</el-radio>
-                    <el-radio :label="1">班级</el-radio>
+                        <el-radio :label="0">年级</el-radio>
+                        <!-- <el-radio :label="1">班级</el-radio> -->
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="年级名称" prop="gradeName">
@@ -154,7 +178,7 @@
                 </el-form-item>
                 <el-form-item label="年级审核人">
                     <el-input v-model="addGradeRuleForm.gradeReviewer" style="width:70%;"></el-input>
-                    <el-button style="width:27%;margin-left:3%;">查找</el-button>
+                    <el-button style="width:27%;margin-left:3%;" @click="searchUserClick">查找</el-button>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="confiemAddGrade('addGradeRuleForm')">确 认</el-button>
@@ -231,7 +255,17 @@
         margin: 0 auto;
     }
 
-    .flexhalf {}
+    .searchUserDialog .el-dialog .el-dialog__body{
+        height: 300px;
+    }
+    .searchUserDialog .searchTip{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(164,104,104,1);
+        line-height:20px;
+    }
+
 </style>
 <script>
     import request from '@/api/request.js';
@@ -295,7 +329,13 @@
                         { required: true, message: '请输入活动名称', trigger: 'blur' },
                         // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
                     ],
-                }
+                },
+                searchClickDialog: false, //新增年级弹窗  --年级审核人 --点击查找 出现下面的查询弹窗
+                searchUserName: '', //查询弹窗下的 搜索字段
+                searchUseerList: [], //搜索的用户列表
+                userName: '', //搜索出来的结果选中
+               
+
             };
         },
         methods: {
@@ -306,17 +346,18 @@
                 console.log('编辑')
             },
             deleteConfirm() {
-                this.$confirm('删除后该栏目下的文章会自动被删除，是否确认删除？', '提示', {
+                var _that = this;
+                _that.$confirm('删除后该栏目下的文章会自动被删除，是否确认删除？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
+                    t_thathis.$message({
                         type: 'success',
                         message: '删除成功!'
                     });
                 }).catch(() => {
-                    this.$message({
+                    _that.$message({
                         type: 'info',
                         message: '已取消删除'
                     });
@@ -383,7 +424,27 @@
                    this.$refs[ruleForm].resetFields();
                 });
             },
-            
+            searchUserClick(){ //新增年级弹窗  --年级审核人 --点击查找 出现下面的查询弹窗
+                this.searchClickDialog = true; //内层弹窗出现
+            },
+            searchListClick(){ //内层弹窗中点击 查询按钮
+                this.getSearchUserList();
+            },
+            // 查询弹窗 用户搜索接口 获取查询到的用户列表
+            getSearchUserList(){
+                var data = {
+                    keyword: this.searchUserName, //关键字 （传空显示全部）
+                    page: 1,
+                }
+                request.post('/backapi/Classify/User', data, (res) => {
+                    if(res.code ==0){
+                        if(res.data.model.length>0){
+                            this.searchUseerList = res.data.model;
+                        }
+                    }
+                })
+            },
+
             addClass() { //添加班级弹窗确定
                 var data = {};
                 request.post('', data, (res) => {
