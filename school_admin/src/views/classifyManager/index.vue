@@ -14,13 +14,7 @@
                                         <el-button type="success" class="smallBt" @click="primaryAddGradeClass">新增年级
                                         </el-button>
                                     </div>
-<<<<<<< HEAD
-
-                                    <div class="halfClassItem" v-for="(item,index) in primaryGradeClassData"
-                                        :key="index">
-=======
                                     <div class="halfClassItem" v-for="(item,index) in primaryGradeClassData" :key="index">
->>>>>>> 8300002ff3595a1601b82703708ed62cb9254e8e
                                         <div>
                                             <template>
                                                 <div class="gradeContainer">
@@ -101,18 +95,9 @@
                                                             <span v-else>暂无审核人</span>
                                                         </el-col>
                                                         <el-col :span="12">
-<<<<<<< HEAD
-                                                            <span class="smallInline"
-                                                                @click="viewClassDialog=true">添加班级</span>
-                                                            <span class="smallInline"
-                                                                @click="viewCheckingDialog=true">设置审核人</span>
-                                                            <span class="smallInline"
-                                                                @click="viewEditDialog=true">编辑</span>
-=======
                                                             <span class="smallInline">添加班级</span>
                                                             <span class="smallInline" @click="viewCheckingDialog=true">设置审核人</span>
                                                             <span class="smallInline" @click="viewEditDialog=true">编辑</span>
->>>>>>> 8300002ff3595a1601b82703708ed62cb9254e8e
                                                             <span class="smallInline" @click="deleteConfirm">删除</span>
                                                         </el-col>
                                                     </el-row>
@@ -165,16 +150,6 @@
         </el-tabs>
 
         <!-- 新增年级 -->
-<<<<<<< HEAD
-        <el-dialog title="添加年级" :visible.sync="addGradeDialog" width="30%"
-            @close="closeGradeDialog('addGradeRuleForm')">
-            <el-form :model="addGradeRuleForm" :rules="addGradeRules" ref="addGradeRuleForm" label-width="100px"
-                class="demo-ruleForm">
-                <el-form-item label="级别">
-                    <el-radio-group v-model="addGradeRuleForm.level">
-                        <el-radio :label="0">年级</el-radio>
-                        <el-radio :label="1">班级</el-radio>
-=======
         <el-dialog title="添加年级" :visible.sync="addGradeDialog"  width="30%" @close="closeGradeDialog('addGradeRuleForm')">
             <el-dialog width="30%" :visible.sync="searchClickDialog" append-to-body class="searchUserDialog">
                 <el-eow :gutter="20">
@@ -210,7 +185,6 @@
                     <el-radio-group v-model="addGradeRuleForm.level">
                         <el-radio :label="0">年级</el-radio>
                         <!-- <el-radio :label="1">班级</el-radio> -->
->>>>>>> 8300002ff3595a1601b82703708ed62cb9254e8e
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="年级名称" prop="gradeName">
@@ -707,6 +681,7 @@
         mounted() {
             this.getGradeClassData();
             // this.getGradeClassData(this.activeSchool);
+            console.log('mounted')
         }
     }
 </script>
