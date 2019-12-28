@@ -48,8 +48,8 @@
                               <span class="smallInline" @click="clickAddClassBtn(item)">添加班级</span>
                               <span v-if="item.name" class="smallInline" @click="changeReviewerClick(item)">更改审核人</span>
                               <span v-else class="smallInline" @click="setReviewerClick(item)">设置审核人</span>
-                              <span class="smallInline" @click="editTypeClick(item)">编辑</span>
-                              <span class="smallInline" @click="deleteGradeClass(item)">删除</span>
+                              <span class="smallInline" @click="editGradeClick(item)">编辑</span>
+                              <span class="smallInline" @click="deleteGrade(item)">删除</span>
                             </el-col>
                           </el-row>
                           <!-- 班级 -->
@@ -64,8 +64,8 @@
                                 <span class="smallInline"></span>
                                 <span v-if="it.name" class="smallInline" @click="changeHeadmasterClick(it)">更改班主任</span>
                                 <span v-else class="smallInline" @click="setHeadmasterClick(it)">设置班主任</span>
-                                <span class="smallInline">编辑</span>
-                                <span class="smallInline">删除</span>
+                                <span class="smallInline" @click="editClassClick(item)">编辑</span>
+                                <span class="smallInline" @click="deleteClass(item)">删除</span>
                               </el-col>
                             </el-row>
                           </div>
@@ -436,7 +436,7 @@
     </el-dialog>
 
     <!-- 编辑年级 -->
-    <el-dialog title="编辑" width="30%" :visible.sync="editGradeClassDialog" @close="closeEditGradeClassDialog('editGradeClassRuleForm')">
+    <el-dialog title="编辑年级" width="30%" :visible.sync="editGradeClassDialog" @close="closeEditGradeClassDialog('editGradeClassRuleForm')">
         <el-form :model="editGradeClassRuleForm" :rules="editGradeClassRules" ref="editGradeClassRuleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="年级名称" prop="name">
                 <el-input v-model="editGradeClassRuleForm.name"></el-input>
@@ -498,7 +498,7 @@
       >
         <el-row class="dialogTitle">
             <el-col :span="24">
-                <span>小学20</span><span>{{setHeadmasterRuleForm.classNameTitle}}</span>
+                <span>{{setHeadmasterRuleForm.classNameTitle}}</span>
             </el-col>
         </el-row>
         <el-form-item label="班主任" prop="headmasterName">
@@ -562,7 +562,7 @@
       >
         <el-row class="dialogTitle">
             <el-col :span="24">
-                <span>小学20</span><span>{{changeHeadmasterRuleForm.classNameTitle}}</span>
+               <span>{{changeHeadmasterRuleForm.classNameTitle}}</span>
             </el-col>
         </el-row>
         <el-form-item label="班主任" prop="headmasterName">
@@ -574,6 +574,19 @@
           <el-button @click="closeChangeHeadmaster('changeHeadmasterRuleForm')">取 消</el-button>
         </el-form-item>
       </el-form>
+    </el-dialog>
+
+     <!-- 编辑班级 -->
+    <el-dialog title="编辑班级" width="30%" :visible.sync="editClassDialog" @close="closeEditClassDialog('editClassRuleForm')">
+        <el-form :model="editClassRuleForm" :rules="editClassRules" ref="editClassRuleForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="班级名称" prop="name">
+                <el-input v-model="editClassRuleForm.name"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="confirmEditClass('editClassRuleForm')">确 认</el-button>
+                <el-button @click="closeEditClassDialog('editClassRuleForm')">取 消</el-button>
+            </el-form-item>
+        </el-form>
     </el-dialog>
 
   </div>
@@ -790,6 +803,19 @@ export default {
         ]
       },
       // 班级---更改班主任 --end
+
+      //编辑班级 班级 部分 开始
+      editClassDialog: false, //编辑弹窗
+      editClassRuleForm: {
+        classId: '',//班级id
+        name: '' ,//名称
+      },
+      editClassRules: { //编辑班级 班级 验证规则
+        name: [
+          { required: true, message: "请输入年级名称", trigger: "blur" }
+        ]
+      },
+      //编辑班级 班级 部分 结束
 
     };
   },
@@ -1107,7 +1133,7 @@ export default {
     //东区 --小学 点击某一年级中的 更改审核人  --end
 
     //东区 --小学 点击某一年级中的 编辑年级  --start
-    editTypeClick (item) { //编辑年级 
+    editGradeClick (item) { //编辑年级 
         console.log(item,'得到当前年级信息');
         this.editGradeClassRuleForm.gradeId = item.id; //年级id
         this.editGradeClassRuleForm.name = '';//清空编辑 年级 班级名称
@@ -1136,7 +1162,7 @@ export default {
             }
         });
     },
-    closeEditGradeClassDialog(ruleForm) {  //东区 --小学 新增班级 弹窗 关闭 取消 遮罩  空白处
+    closeEditGradeClassDialog(ruleForm) {  //东区 --小学 编辑班级 弹窗 关闭 取消 遮罩  空白处
       this.editGradeClassDialog = false;
       this.$nextTick(() => {
         this.$refs[ruleForm].resetFields();
@@ -1145,7 +1171,7 @@ export default {
     //东区 --小学 点击某一年级中的 编辑年级  --end
 
     //东区 --小学  点击某一年级 删除年级 --start
-    deleteGradeClass(item) {
+    deleteGrade(item) {
         var _that = this;
         _that.$confirm("是否删除该年级，是否确认删除？", "提示", {
           confirmButtonText: "确定",
@@ -1256,6 +1282,74 @@ export default {
       });
     },
     ///东区 --小学 点击某一年级中的 班级---更改班主任 --end
+
+    //东区 --小学 点击某一年级中的 编辑班级  --start
+    editClassClick (item) { //编辑班级
+        console.log(item,'得到点击的班级信息');
+        this.editClassRuleForm.classId = item.id; //班级id
+        this.editClassRuleForm.name = '';//清空编辑 班级名称
+        this.editClassDialog = true;
+    },
+    confirmEditClass(ruleForm) {  // 东区 --小学 编辑班级 班级 -- 弹窗 确认按钮
+        this.$refs[ruleForm].validate(valid => {
+            if (valid) {
+            var self = this;
+            let data = {
+                id: self.editClassRuleForm.classId, //班级id
+                title: self.editClassRuleForm.name, //班级名称
+            };
+            request.post("/backapi/Classify/editGrade", data, function(res) {
+                if (res.code == 0) {
+                    self.$message({
+                        type: "success",
+                        message: res.message
+                    });
+                    self.editClassDialog = false;
+                    this.getGradeClassData();
+                }
+            });
+            } else {
+                return false;
+            }
+        });
+    },
+    closeEditClassDialog(ruleForm) {  //东区 --小学 编辑班级 弹窗 关闭 取消 遮罩  空白处
+      this.editClassDialog = false;
+      this.$nextTick(() => {
+        this.$refs[ruleForm].resetFields();
+      });
+    },
+    //东区 --小学 点击某一年级中的 编辑年级  --end
+
+    //东区 --小学  点击某一年级 删除班级 --start
+    deleteClass(item) {
+        var _that = this;
+        _that.$confirm("是否删除该班级，是否确认删除？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(() => {
+            let data = {
+                id: item.id, //班级id
+            };
+            request.post("/backapi/Classify/delClass", data, function(res) {
+                if (res.code == 0) {
+                    _that.$message({
+                        type: "success",
+                        message: res.message
+                    });
+                    this.getGradeClassData();
+                }
+            });
+        })
+        .catch(() => {
+          _that.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
     
   },
   mounted() {
