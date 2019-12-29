@@ -24,7 +24,7 @@
                       class="smallBt"
                       @click="primaryGradeExpandAll"
                     >{{primaryGradeClassIsOpen?'折叠全部':'展开全部'}}</el-button>
-                    <el-button type="success" class="smallBt" @click="primaryAddGradeClass">新增年级</el-button>
+                    <el-button type="success" class="smallBt" @click="addGradeClassClick(1)">新增年级</el-button>
                   </div>
                   <div
                     class="halfClassItem"
@@ -45,9 +45,9 @@
                               <span v-else class="itemInline">暂无审核人</span>
                             </el-col>
                             <el-col :span="12">
-                              <span class="smallInline" @click="clickAddClassBtn(item)">添加班级</span>
-                              <span v-if="item.name" class="smallInline" @click="changeReviewerClick(item)">更改审核人</span>
-                              <span v-else class="smallInline" @click="setReviewerClick(item)">设置审核人</span>
+                              <span class="smallInline" @click="clickAddClassBtn(item,1)">添加班级</span>
+                              <span v-if="item.name" class="smallInline" @click="changeReviewerClick(item,1)">更改审核人</span>
+                              <span v-else class="smallInline" @click="setReviewerClick(item, 1)">设置审核人</span>
                               <span class="smallInline" @click="editGradeClick(item)">编辑</span>
                               <span class="smallInline" @click="deleteGrade(item)">删除</span>
                             </el-col>
@@ -85,7 +85,7 @@
                       class="smallBt"
                       @click="middleGradeExpandAll"
                     >{{middleGradeClassIsOpen?'折叠全部':'展开全部'}}</el-button>
-                    <el-button type="success" class="smallBt">新增年级</el-button>
+                    <el-button type="success" class="smallBt" @click="addGradeClassClick(2)">新增年级</el-button>
                   </div>
 
                   <div
@@ -107,11 +107,11 @@
                               <span v-else class="itemInline">暂无审核人</span>
                             </el-col>
                             <el-col :span="12">
-                              <span class="smallInline">添加班级</span>
-                              <span v-if="item.name" class="smallInline">更改审核人</span>
-                              <span v-else class="smallInline">设置审核人</span>
-                              <span class="smallInline">编辑</span>
-                              <span class="smallInline">删除</span>
+                              <span class="smallInline" @click="clickAddClassBtn(item,2)">添加班级</span>
+                              <span v-if="item.name" class="smallInline" @click="changeReviewerClick(item,2)">更改审核人</span>
+                              <span v-else class="smallInline" @click="setReviewerClick(item, 2)">设置审核人</span>
+                              <span class="smallInline" @click="editGradeClick(item)">编辑</span>
+                              <span class="smallInline" @click="deleteGrade(item)">删除</span>
                             </el-col>
                           </el-row>
                           <!-- 班级 -->
@@ -124,10 +124,10 @@
                               </el-col>
                               <el-col :span="12">
                                 <span class="smallInline"></span>
-                                <span v-if="it.name" class="smallInline">更改班主任</span>
-                                <span v-else class="smallInline">设置班主任</span>
-                                <span class="smallInline">编辑</span>
-                                <span class="smallInline">删除</span>
+                                <span v-if="it.name" class="smallInline" @click="changeHeadmasterClick(it)">更改班主任</span>
+                                <span v-else class="smallInline" @click="setHeadmasterClick(it)">设置班主任</span>
+                                <span class="smallInline" @click="editClassClick(item)">编辑</span>
+                                <span class="smallInline" @click="deleteClass(item)">删除</span>
                               </el-col>
                             </el-row>
                           </div>
@@ -357,7 +357,9 @@
       >
         <el-row class="dialogTitle">
             <el-col :span="24">
-                <span>小学20</span><span>{{setReviewerRuleForm.gradeNameTitle}}</span>
+              <span v-if="setReviewerFlag == 1">小学20</span>
+              <span v-if="setReviewerFlag == 2">初中20</span>
+              <span>{{setReviewerRuleForm.gradeNameTitle}}</span>
             </el-col>
         </el-row>
         <el-form-item label="年级审核人" prop="gradeReviewerName">
@@ -421,7 +423,9 @@
       >
         <el-row class="dialogTitle">
             <el-col :span="24">
-                <span>小学20</span><span>{{changeReviewerRuleForm.gradeNameTitle}}</span>
+                <span v-if="changeReviewerFlag == 1">小学20</span>
+                <span v-if="changeReviewerFlag == 2">初中20</span>
+                <span>{{changeReviewerRuleForm.gradeNameTitle}}</span>
             </el-col>
         </el-row>
         <el-form-item label="年级审核人" prop="gradeReviewerName">
@@ -684,6 +688,16 @@ export default {
       middleGradeClassData: {}, //年级班级数据 初中  东区 西区 南区
 
       // 班级设置 弹窗部分
+
+      //点击增加年级的类型标识  如果是小学中 点击年级 标识1  如果是点击初中 点击年级 标识2
+      addGradeFlag: '', 
+      //点击增加班级的类型标识  如果是小学中 点击班级 标识1  如果是点击初中 点击班级 标识2
+      addClassFlag: '', 
+      //点击更改审核人类型标识  如果是小学中 点击更改审核人 标识1  如果是点击初中 点击更改审核人 标识2
+      changeReviewerFlag: '',
+      //点击设置审核人类型标识  如果是小学中 点击设置审核人 标识1  如果是点击初中 点击设置审核人 标识2
+      setReviewerFlag: '',
+
       // 新增年级 弹窗 --start
       addGradeDialog: false, //新增年级弹窗
       addGradeRuleForm: {
@@ -908,23 +922,39 @@ export default {
     }, 
 
     //班级设置--东区里面 小学 点击新增年级  ---start
-    primaryAddGradeClass() { //班级设置--东区里面 小学 点击新增年级按钮
+    addGradeClassClick(flag) { //班级设置--东区里面 小学 点击新增年级按钮
       this.addGradeRuleForm.gradeName = ""; //清空年级名称
       this.addGradeRuleForm.gradeReviewer = ""; //年级审核人
       this.addGradeDialog = true;
+      if(flag == 1){ //如果是小学中点击年级 标识为1
+        this.addGradeFlag = 1; 
+      } else if(flag == 2){ //如果是初中中点击年级 标识为2
+        this.addGradeFlag = 2; 
+      }
     },
     confirmAddGrade(ruleForm) {  //新增年级 弹窗 确认按钮
       this.$refs[ruleForm].validate(valid => {
         if (valid) {
           var self = this;
-          let data = {
-            s_id: self.primaryGradeClassIsOpen[0].s_id, //校区id 小学
-            l_id: self.primaryGradeClassIsOpen[0].l_id, //校部id  小学 初中
-            title: self.addGradeRuleForm.gradeName, //	年级名称
-            u_id: self.checkedVal, //审核员id
-            name: self.addGradeRuleForm.gradeReviewer //审核员名字
-          };
-          request.post("/backapi/Classify/addGrade", data, function(res) {
+          var params = {};
+          if(self.addGradeFlag == 1){ //如果是小学
+            params = {
+              s_id: self.primaryGradeClassData[0].s_id, //校区id 小学
+              l_id: self.primaryGradeClassData[0].l_id, //校部id  小学
+              title: self.addGradeRuleForm.gradeName, //	年级名称
+              u_id: self.checkedVal, //审核员id
+              name: self.addGradeRuleForm.gradeReviewer //审核员名字
+            };
+          } else if(self.addGradeFlag == 2){ //如果是初中
+            params = {
+              s_id: self.middleGradeClassData[0].s_id, //校区id 初中
+              l_id: self.middleGradeClassData[0].l_id, //校部id  初中
+              title: self.addGradeRuleForm.gradeName, //	年级名称
+              u_id: self.checkedVal, //审核员id
+              name: self.addGradeRuleForm.gradeReviewer //审核员名字
+            };
+          }
+          request.post("/backapi/Classify/addGrade", params, function(res) {
             if (res.code == 0) {
                 self.$message({
                     type: "success",
@@ -995,7 +1025,7 @@ export default {
     //用户查询弹窗 通用--end
 
     //新增班级 部分-start
-    clickAddClassBtn(item) {// 东区 --小学 点击某一年级的新增班级按钮
+    clickAddClassBtn(item, flag) {// 东区 --小学 初中  点击某一年级的新增班级按钮
       //点击新增班级 出现弹窗
       console.log(item, "东区-小学--点击添加班级--得到该年级信息");
       this.addClassRuleForm.superiorGradeId = item.id;//上级年级 id
@@ -1003,7 +1033,12 @@ export default {
       this.addClassRuleForm.className = "";
       this.addClassRuleForm.headmaster = "";
       this.addClassDialog = true;
-    //   this.getSuperiorGradeList();
+      if(flag == 1){ //如果是小学中点击班级 标识为1
+        this.addClassFlag = 1; 
+      } else if(flag == 2){ //如果是初中中点击班级 标识为2
+        this.addClassFlag = 2; 
+      }
+      //   this.getSuperiorGradeList();
     },
     getSuperiorGradeList() {  //获取上级年级 列表  通用
       var params = {
@@ -1019,14 +1054,25 @@ export default {
       this.$refs[ruleForm].validate(valid => {
         if (valid) {
           var self = this;
-          let data = {
-            s_id: self.primaryGradeClassIsOpen[0].s_id, //校区id 小学
-            l_id: self.addClassRuleForm.superiorGradeId, //年级id
-            title: self.addClassRuleForm.className, //	班级名称
-            u_id: self.checkedVal, //班主任id
-            name: self.addClassRuleForm.headmaster //班主任名字
-          };
-          request.post("/backapi/Classify/addClass", data, function(res) {
+          var params = {};
+          if(self.addClassFlag == 1){ //如果是小学
+            params = {
+              s_id: self.primaryGradeClassData[0].s_id, //校区id 小学
+              l_id: self.addClassRuleForm.superiorGradeId, //年级id
+              title: self.addClassRuleForm.className, //	班级名称
+              u_id: self.checkedVal, //班主任id
+              name: self.addClassRuleForm.headmaster //班主任名字
+            }
+          }else if(self.addClassFlag == 2){ //如果是中学
+            params = {
+              s_id: self.middleGradeClassData[0].s_id, //校区id 小学
+              l_id: self.addClassRuleForm.superiorGradeId, //年级id
+              title: self.addClassRuleForm.className, //	班级名称
+              u_id: self.checkedVal, //班主任id
+              name: self.addClassRuleForm.headmaster //班主任名字
+            }
+          }
+          request.post("/backapi/Classify/addClass", params, function(res) {
             if (res.code == 0) {
                 self.$message({
                     type: "success",
@@ -1053,12 +1099,17 @@ export default {
     //新增班级 部分-end
 
     //东区 --小学 点击某一年级中的 设置审核人  --start
-    setReviewerClick(item){ //东区 --小学 点击某一年级 设置审核人 出现弹窗
-        console.log(item, "东区-小学--点击设置审核人--得到该年级信息");
-        this.setReviewerRuleForm.gradeNameTitle = item.title; //审核的年级名称
-        this.setReviewerRuleForm.gradeReviewerId = item.id;// 年级id
-        this.setReviewerRuleForm.gradeReviewerName = ''; //清空年级审核人
-        this.setReviewerDialog = true;
+    setReviewerClick(item, flag){ //东区 --小学 初中 点击某一年级 设置审核人 出现弹窗
+      console.log(item, "东区-小学--点击设置审核人--得到该年级信息");
+      this.setReviewerRuleForm.gradeNameTitle = item.title; //审核的年级名称
+      this.setReviewerRuleForm.gradeReviewerId = item.id;// 年级id
+      this.setReviewerRuleForm.gradeReviewerName = ''; //清空年级审核人
+      this.setReviewerDialog = true;
+      if(flag == 1){ //如果是小学中点击设置审核人 标识为1
+        this.setReviewerFlag = 1; 
+      } else if(flag == 2){ //如果是初中设置审核人 标识为2
+        this.setReviewerFlag = 2; 
+      }
     },
     confirmSetReviewer(ruleForm) {  // 东区 --小学 设置审核人-- 弹窗 确认按钮
       this.$refs[ruleForm].validate(valid => {
@@ -1093,14 +1144,19 @@ export default {
     //东区 --小学 点击某一年级中的 设置审核人  --end
 
     //东区 --小学 点击某一年级中的 更改审核人  --start
-    changeReviewerClick(item){ //东区 --小学 点击某一年级 设置审核人 出现弹窗
+    changeReviewerClick(item, flag){ //东区 --小学 点击某一年级 设置审核人 出现弹窗
         console.log(item, "东区-小学--点击更改审核人--得到该年级信息");
         this.changeReviewerRuleForm.gradeNameTitle = item.title; //审核的年级名称
         this.changeReviewerRuleForm.gradeReviewerId = item.id;// 年级id
         this.changeReviewerRuleForm.gradeReviewerName = ''; //清空年级审核人
         this.changeReviewerDialog = true;
+        if(flag == 1){ //如果是小学中点击更改审核人 标识为1
+          this.changeReviewerFlag = 1; 
+        } else if(flag == 2){ //如果是初中更改审核人 标识为2
+          this.changeReviewerFlag = 2; 
+        }
     },
-    confirmChangeReviewer(ruleForm) {  // 东区 --小学 更改审核人-- 弹窗 确认按钮
+    confirmChangeReviewer(ruleForm) {  // 东区 --小学 中学 更改审核人-- 弹窗 确认按钮
       this.$refs[ruleForm].validate(valid => {
         if (valid) {
           var self = this;
@@ -1134,10 +1190,10 @@ export default {
 
     //东区 --小学 点击某一年级中的 编辑年级  --start
     editGradeClick (item) { //编辑年级 
-        console.log(item,'得到当前年级信息');
-        this.editGradeClassRuleForm.gradeId = item.id; //年级id
-        this.editGradeClassRuleForm.name = '';//清空编辑 年级 班级名称
-        this.editGradeClassDialog = true;
+      console.log(item,'得到当前年级信息');
+      this.editGradeClassRuleForm.gradeId = item.id; //年级id
+      this.editGradeClassRuleForm.name = '';//清空编辑 年级 班级名称
+      this.editGradeClassDialog = true;
     },
     confirmEditGradeClass(ruleForm) {  // 东区 --小学 编辑年级 班级 -- 弹窗 确认按钮
         this.$refs[ruleForm].validate(valid => {
@@ -1285,10 +1341,10 @@ export default {
 
     //东区 --小学 点击某一年级中的 编辑班级  --start
     editClassClick (item) { //编辑班级
-        console.log(item,'得到点击的班级信息');
-        this.editClassRuleForm.classId = item.id; //班级id
-        this.editClassRuleForm.name = '';//清空编辑 班级名称
-        this.editClassDialog = true;
+      console.log(item,'得到点击的班级信息');
+      this.editClassRuleForm.classId = item.id; //班级id
+      this.editClassRuleForm.name = '';//清空编辑 班级名称
+      this.editClassDialog = true;
     },
     confirmEditClass(ruleForm) {  // 东区 --小学 编辑班级 班级 -- 弹窗 确认按钮
         this.$refs[ruleForm].validate(valid => {
