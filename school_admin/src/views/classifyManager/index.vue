@@ -127,7 +127,8 @@
                                 <span v-if="it.name" class="smallInline" @click="changeHeadmasterClick(it)">更改班主任</span>
                                 <span v-else class="smallInline" @click="setHeadmasterClick(it)">设置班主任</span>
                                 <span class="smallInline" @click="editClassClick(item)">编辑</span>
-                                <span class="smallInline" @click="deleteClass(item)">删除</span>
+                                <span class="smallInline" @click="
+                                (item)">删除</span>
                               </el-col>
                             </el-row>
                           </div>
@@ -138,7 +139,69 @@
                 </div>
               </div>
             </div>
-            <div v-show="activeName =='team'">我是社团设置</div>
+            <div v-show="activeName =='team'">
+              <div class="halfItem bg_white">
+                <div class="halfBg">
+                  <div class="tabTitle bg_white">
+                    <div class="leftSection">
+                      <el-button type="primary" class="smallBt" @click="setTeamExpandAll">{{setTeamIsPageOpen?'折叠全部':'展开全部'}}</el-button>
+                      <el-button type="success" class="smallBt">新增社团</el-button>
+                    </div>
+                    <div class="rightSection">
+                      <el-badge :value="12">
+                        <el-button type="primary" class="applyBtn">社团申请处理</el-button>
+                      </el-badge>
+                     
+                    </div>
+                  </div>
+                  <div
+                    class="halfClassItem"
+                    v-for="(item,index) in setTeamPageData"
+                    :key="index"
+                  >
+                    <div>
+                      <template>
+                        <div class="gradeContainer">
+                          <el-row>
+                            <el-col :span="12">
+                              <span class="itemInline" @click="setTeamExpandItem(item,index)">
+                                <i v-show="item.isOpen" class="el-icon-caret-bottom"></i>
+                                <i v-show="!item.isOpen" class="el-icon-caret-right"></i>
+                                {{item.title}}
+                              </span>
+                              <span v-if="item.name" class="itemInline">发布人：{{item.name}}</span>
+                              <span v-else class="itemInline">暂无发布人</span>
+                              <span v-if="item.name" class="itemInline">审核人：{{item.name}}</span>
+                              <span v-else class="itemInline">暂无审核人</span>
+                            </el-col>
+                            <el-col :span="12" class="rightSection">
+                              <span class="smallInline">添加用户</span>
+                              <span class="smallInline">编辑</span>
+                              <span class="smallInline">删除</span>
+                            </el-col>
+                          </el-row>
+                          <!-- 社团 -->
+                          <div v-show="item.isOpen">
+                            <el-row v-for="(it,ind) in item.member" :key="ind">
+                              <el-col :span="12">
+                                <span class="itemInline">{{it.name}}</span>
+                                <span v-if="it.sh == 1" class="itemInline">审核人</span>
+                              </el-col>
+                              <el-col :span="12" class="rightSection">
+                                <span class="smallInline"></span>
+                                <span v-if="it.sh == 0" class="smallInline">设为审核人</span>
+                                <span class="smallInline">详情</span>
+                                <span class="smallInline">删除</span>
+                              </el-col>
+                            </el-row>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div v-show="activeName =='topic'">我是课题组设置</div>
             <div v-show="activeName =='teaching'">我是教研组设置</div>
           </el-tab-pane>
@@ -831,6 +894,15 @@ export default {
       },
       //编辑班级 班级 部分 结束
 
+
+      //社团设置部分  --start
+      //社团数据
+      setTeamPageData: [],
+      setTeamIsPageOpen: false, //社团数据 展开项 是否全部展开了
+
+
+      //社团设置部分  --end
+
     };
   },
   methods: {
@@ -843,6 +915,7 @@ export default {
           break;
         case "team": //社团设置
           console.log("点击了社团设置");
+          this.getSetTeamPageData();
           break;
         case "topic": //课题组
           console.log("点击了课题组");
@@ -853,6 +926,28 @@ export default {
         default:
       }
     },
+    //东区   西区 南区 判断  activeSchool: 'east',
+    switchCampus(val) { //点击切换
+      console.log(val, "点击设置里面的切换校区");
+      switch (this.activeName) {
+        case "class": //班级设置
+          this.getGradeClassData(val.name);
+          break;
+        case "team": //社团设置
+          console.log("点击了社团设置");
+          this.getSetTeamPageData(val.name);
+          break;
+        case "topic": //课题组
+          console.log("点击了课题组");
+          break;
+        case "teaching": //教研组
+          console.log("点击了教研组");
+          break;
+        default:
+      }
+    },
+
+    //班级设置
     getGradeClassData(area) {   // 班级设置--获取年级班级数据
       var url = "";
       switch (area) {
@@ -912,14 +1007,6 @@ export default {
         this.middleGradeClassData[index].isOpen = true;
       }
     },
-
-    // 班级设置部分
-    //东区   西区 南区 判断  activeSchool: 'east',
-    switchCampus(val) {
-      //点击切换
-      console.log(val, "点击班级设置里面的切换校区");
-      this.getGradeClassData(val.name);
-    }, 
 
     //班级设置--东区里面 小学 点击新增年级  ---start
     addGradeClassClick(flag) { //班级设置--东区里面 小学 点击新增年级按钮
@@ -1405,6 +1492,52 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+
+    //社团设置
+    getSetTeamPageData(area) {   // 社团设置--获取社团数据
+      var s_id = '';
+      var url = '/backapi/Classify/Community';
+      switch (area) {
+        case "east": //东区
+          s_id = 1;
+          break;
+        case "west": //西区
+          s_id = 2;
+          break;
+        case "south": //南区
+          s_id = 3;
+          break;
+        default:
+          s_id = 1;
+      }
+      var params = {
+        s_id: s_id
+      };
+      var self = this;
+      request.post(url, params, res => {
+        if (res.code == 0) {
+          self.setTeamPageData = res.data.map(item => {
+            item.isOpen = false; //默认折叠
+            return item;
+          }); //设置社团页面数据
+          console.log("设置社团页面数据列表", self.setTeamPageData);
+        }
+      });
+    },
+    setTeamExpandAll() { // 社团设置-点击社团 点击了展开全部 折叠 全部
+      this.setTeamIsPageOpen = !this.setTeamIsPageOpen;
+      this.setTeamPageData = this.setTeamPageData.map(item => {
+        item.isOpen = !item.isOpen;
+        return item;
+      }); //小学的年级班级数据
+    },
+    setTeamExpandItem(item, index) {  //社团设置-点击社团的展开项
+      if (item.isOpen) {
+        this.setTeamPageData[index].isOpen = false;
+      } else {
+        this.setTeamPageData[index].isOpen = true;
+      }
     },
     
   },

@@ -38,14 +38,38 @@
     margin-top: 10px;
 }
 
+.gradeContainer .rightSection{
+    text-align: right;
+}
+
 .tabTitle {
     height: 60px;
     line-height: 60px;
-    padding-left: 10px;
+    padding: 0 15px 0 10px;
 }
 
 .halfBg {
     padding: 10px;
+}
+
+.tabTitle .leftSection{
+    width: 50%;
+    float: left;
+}
+
+.tabTitle .rightSection{
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+.tabTitle .rightSection .applyBtn  span{
+    /* margin-left: 10px;
+    width:32px;
+    height:32px;
+    display: inline-block;
+    border-radius: 50%;
+    background:rgba(255,59,48,1); */
 }
 
 .halfClassItem {
