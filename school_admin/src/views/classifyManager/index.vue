@@ -169,7 +169,7 @@
                                 <i v-show="!item.isOpen" class="el-icon-caret-right"></i>
                                 {{item.title}}
                               </span>
-                              <span v-if="item.name" class="itemInline">发布人：{{item.name}}</span>
+                              <span v-if="item.cj_name" class="itemInline">发布人：{{item.cj_name}}</span>
                               <span v-else class="itemInline">暂无发布人</span>
                               <span v-if="item.name" class="itemInline">审核人：{{item.name}}</span>
                               <span v-else class="itemInline">暂无审核人</span>
@@ -226,13 +226,13 @@
                                 <i v-show="!item.isOpen" class="el-icon-caret-right"></i>
                                 {{item.title}}
                               </span>
-                              <span v-if="item.name" class="itemInline">发布人：{{item.statement}}</span>
-                              <span v-else class="itemInline">暂无发布人</span>
+                              <!-- <span v-if="item.name" class="itemInline">发布人：{{item.statement}}</span>
+                              <span v-else class="itemInline">暂无发布人</span> -->
                             </el-col>
                             <el-col :span="12" class="rightSection">
-                              <span class="smallInline" @click="teamSetAddUserClick(item)">添加用户</span>
-                              <span class="smallInline" @click="editTeamNameClick(item)">编辑</span>
-                              <span class="smallInline" @click="deleteTeamClick(item)">删除</span>
+                              <span class="smallInline" @click="topicSetAddUserClick(item)">添加用户</span>
+                              <span class="smallInline" @click="editTopicNameClick(item)">编辑</span>
+                              <span class="smallInline" @click="deleteTopicClick(item)">删除</span>
                             </el-col>
                           </el-row>
                           <!-- 课题组-->
@@ -240,11 +240,11 @@
                             <el-row v-for="(it,ind) in item.member" :key="ind">
                               <el-col :span="12">
                                 <span class="itemInline">{{it.name}}</span>
-                                <span v-if="it.sh == 1" class="itemInline">审核人</span>
+                                <span class="itemInline"></span>
                               </el-col>
                               <el-col :span="12" class="rightSection">
                                 <span class="smallInline"></span>
-                                <span v-if="it.sh == 0" class="smallInline" @click="teamSetReviewerClick(item)">设为审核人</span>
+                                <span class="smallInline"></span>
                                 <span class="smallInline">详情</span>
                                 <span class="smallInline">删除</span>
                               </el-col>
@@ -281,27 +281,26 @@
                                 <i v-show="!item.isOpen" class="el-icon-caret-right"></i>
                                 {{item.title}}
                               </span>
-                              <span v-if="item.name" class="itemInline">发布人：{{item.name}}</span>
-                              <span v-else class="itemInline">暂无发布人</span>
-                              <span v-if="item.name" class="itemInline">教研组组长：{{item.name}}</span>
+                              <!-- <span v-if="item.name" class="itemInline">发布人：{{item.name}}</span>
+                              <span v-else class="itemInline">暂无发布人</span> -->
+                              <span v-if="item.name" class="itemInline" style="width:200px;">教研组组长：{{item.name}}</span>
                               <span v-else class="itemInline">暂无教研组组长</span>
                             </el-col>
                             <el-col :span="12" class="rightSection">
-                              <span class="smallInline" @click="teamSetAddUserClick(item)">添加用户</span>
-                              <span class="smallInline" @click="editTeamNameClick(item)">编辑</span>
-                              <span class="smallInline" @click="deleteTeamClick(item)">删除</span>
+                              <span class="smallInline" @click="teachingSetAddUserClick(item)">添加用户</span>
+                              <span class="smallInline" @click="editTeachingNameClick(item)">编辑</span>
+                              <span class="smallInline" @click="deleteTeachingClick(item)">删除</span>
                             </el-col>
                           </el-row>
-                          <!-- 社团 -->
+                          <!-- 教研组 -->
                           <div v-show="item.isOpen">
                             <el-row v-for="(it,ind) in item.member" :key="ind">
                               <el-col :span="12">
                                 <span class="itemInline">{{it.name}}</span>
-                                <span v-if="it.sh == 1" class="itemInline">审核人</span>
                               </el-col>
                               <el-col :span="12" class="rightSection">
-                                <span class="smallInline"></span>
-                                <span v-if="it.sh == 0" class="smallInline" @click="teamSetReviewerClick(item)">设为教研组组长</span>
+                                <!-- <span class="smallInline"></span> -->
+                                <span class="smallInline" style="width:105px;" @click="teachingSetReviewerClick(item)">设为教研组组长</span>
                                 <span class="smallInline">详情</span>
                                 <span class="smallInline">删除</span>
                               </el-col>
@@ -317,19 +316,23 @@
           </el-tab-pane>
         </el-tabs>
       </el-tab-pane>
-      <el-tab-pane label="栏目设置" name="栏目设置">
-        <div class="bgcolumn">
-          <el-button>添加栏目</el-button>
-          <div class="bgcchildren">
-            <div class="bgculumns">
-              <el-button>
-                栏目1
-                <i class="el-icon-delete"></i> |
-                <i class="el-icon-edit-outline el-icon--right"></i>
-              </el-button>
-            </div>
-          </div>
-        </div>
+      <el-tab-pane label="栏目设置" name="columnSet" class="columnSection">
+        <el-row class="addColumn">
+          <el-col :span="24"><el-button icon="el-icon-plus" @click="addColumnClick">添加栏目</el-button></el-col>
+        </el-row>
+        <el-row class="columnList">
+          <el-col :span="24">
+            <el-row class="bgcchildren">
+              <el-col :span="24">
+                <el-row class="bgculumns">
+                  <el-col :span="3" v-for="(item,index) in setColumnList" :key="index" class="columnItem">
+                    <el-button class="columnButton">{{item.title}}<i class="el-icon-delete" @click="deleteColumnClick(item)"></i><i class="el-icon-edit-outline el-icon--right" @click="editColumnNameClick(item)"></i></el-button>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </el-col>
+        </el-row>
       </el-tab-pane>
     </el-tabs>
 
@@ -865,34 +868,38 @@
       <el-row v-if="teamApplicationProcessList.length ==0" class="titleTip">
         <el-col :span="24">暂无申请列表</el-col>
       </el-row>
-      <el-row class="applicationItem" v-for="(item, index) in teamApplicationProcessList" :key="index">
-        <el-col :span="21" class="leftSection">
-          <el-row class="item">
-            <el-col :span="3" class="name">申请社团:</el-col>
-            <el-col :span="21" class="content">{{item.title}}</el-col>
-          </el-row>
-          <el-row class="item">
-            <el-col :span="3" class="name">申请说明：</el-col>
-            <el-col :span="21" class="content">{{item.statement}}</el-col>
-          </el-row>
-          <el-row class="item">
-            <el-col :span="3" class="name">申请人:</el-col>
-            <el-col :span="5" class="content">{{item.name}}</el-col>
-            <el-col :span="16">
-              <span class="name">申请时间：</span>
-              <span class="content">{{item.create_time}}</span>
+      <el-row>
+        <el-col :span="24" class="teamApplicationLists">
+          <el-row class="applicationItem" v-for="(item, index) in teamApplicationProcessList" :key="index">
+            <el-col :span="21" class="leftSection">
+              <el-row class="item">
+                <el-col :span="3" class="name">申请社团:</el-col>
+                <el-col :span="21" class="content">{{item.title}}</el-col>
+              </el-row>
+              <el-row class="item">
+                <el-col :span="3" class="name">申请说明：</el-col>
+                <el-col :span="21" class="content">{{item.statement}}</el-col>
+              </el-row>
+              <el-row class="item">
+                <el-col :span="3" class="name">申请人:</el-col>
+                <el-col :span="5" class="content">{{item.name}}</el-col>
+                <el-col :span="16">
+                  <span class="name">申请时间：</span>
+                  <span class="content">{{item.create_time}}</span>
+                </el-col>
+              </el-row>
             </el-col>
-          </el-row>
-        </el-col>
-        <el-col :span="3" class="rightSection">
-          <el-row class="operateItem">
-            <el-col :span="24">
-              <el-button>同意</el-button>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-button>拒绝</el-button>
+            <el-col :span="3" class="rightSection">
+              <el-row class="operateItem">
+                <el-col :span="24">
+                  <el-button>同意</el-button>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="24">
+                  <el-button>拒绝</el-button>
+                </el-col>
+              </el-row>
             </el-col>
           </el-row>
         </el-col>
@@ -981,6 +988,83 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+     <!-- 添加用户 -->
+    <el-dialog
+      title="添加用户"
+      :visible.sync="topicSetAddUserDialog"
+      width="30%"
+      @close="closeTopicSetAddUser('topicSetAddUserRuleForm')"
+    >
+      <el-dialog
+        width="30%"
+        :visible.sync="searchClickDialog"
+        append-to-body
+        class="searchUserDialog"
+      >
+        <el-row>
+          <el-col :span="18">
+            <el-input v-model="searchUserName" placeholder="请输入姓名或账号"></el-input>
+          </el-col>
+          <el-col :span="6" style="padding-left:2%;">
+            <el-button style="width:90%;" type="primary" @click="searchListClick">查询</el-button>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <p class="searchTip">提示：搜索结果只展示已注册用户，如果没有搜索到要找的用户，请到用户管理里去先添加该用户。</p>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <ul class="userList">
+              <li v-for="(item,index) in searchUseerList" :key="index">
+                <el-radio v-model="checkedVal" :label="item.id" class="radioWidth">{{item.name}}</el-radio>
+                <span>{{item.mobile}}</span>
+              </li>
+            </ul>
+          </el-col>
+        </el-row>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="searchClickDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmUserName('topicSetAddUser')">确 认</el-button>
+        </div>
+      </el-dialog>
+      <el-form
+        :model="topicSetAddUserRuleForm"
+        :rules="topicSetAddUserRules"
+        ref="topicSetAddUserRuleForm"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-row class="dialogTitle">
+            <el-col :span="24">
+              <span>{{topicSetAddUserRuleForm.topicName}}</span>
+            </el-col>
+        </el-row>
+        <el-form-item label="用户名称" prop="userName">
+          <el-input v-model="topicSetAddUserRuleForm.userName" readonly style="width:70%;"></el-input>
+          <el-button style="width:27%;margin-left:3%;" @click="searchUserClick">查 找</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmTopicSetAddUser('topicSetAddUserRuleForm')">确 认</el-button>
+          <el-button @click="closeTopicSetAddUser('topicSetAddUserRuleForm')">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
+    <!-- 编辑课题组名字 -->
+    <el-dialog title="编辑课题组" width="30%" :visible.sync="editTopicNameDialog" @close="closeEditTopicNameDialog('editTopicNameRuleForm')">
+      <el-form :model="editTopicNameRuleForm" :rules="editTopicNameRules" ref="editTopicNameRuleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="课题组名称" prop="topicName">
+          <el-input v-model="editTopicNameRuleForm.topicName"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmEditTopicName('editTopicNameRuleForm')">确 认</el-button>
+          <el-button @click="closeEditTopicNameDialog('editTopicNameRuleForm')">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
      <!-- 课题组设置  ---end-->
 
     <!-- 教研组设置  ---start-->
@@ -996,7 +1080,179 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+     <!-- 添加用户 -->
+    <el-dialog
+      title="添加用户"
+      :visible.sync="teachingSetAddUserDialog"
+      width="30%"
+      @close="closeTeachingSetAddUser('teachingSetAddUserRuleForm')"
+    >
+      <el-dialog
+        width="30%"
+        :visible.sync="searchClickDialog"
+        append-to-body
+        class="searchUserDialog"
+      >
+        <el-row>
+          <el-col :span="18">
+            <el-input v-model="searchUserName" placeholder="请输入姓名或账号"></el-input>
+          </el-col>
+          <el-col :span="6" style="padding-left:2%;">
+            <el-button style="width:90%;" type="primary" @click="searchListClick">查询</el-button>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <p class="searchTip">提示：搜索结果只展示已注册用户，如果没有搜索到要找的用户，请到用户管理里去先添加该用户。</p>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <ul class="userList">
+              <li v-for="(item,index) in searchUseerList" :key="index">
+                <el-radio v-model="checkedVal" :label="item.id" class="radioWidth">{{item.name}}</el-radio>
+                <span>{{item.mobile}}</span>
+              </li>
+            </ul>
+          </el-col>
+        </el-row>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="searchClickDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmUserName('teachingSetAddUser')">确 认</el-button>
+        </div>
+      </el-dialog>
+      <el-form
+        :model="teachingSetAddUserRuleForm"
+        :rules="teachingSetAddUserRules"
+        ref="teachingSetAddUserRuleForm"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-row class="dialogTitle">
+            <el-col :span="24">
+              <span>{{teachingSetAddUserRuleForm.teamName}}</span>
+            </el-col>
+        </el-row>
+        <el-form-item label="用户名称" prop="userName">
+          <el-input v-model="teachingSetAddUserRuleForm.userName" readonly style="width:70%;"></el-input>
+          <el-button style="width:27%;margin-left:3%;" @click="searchUserClick">查 找</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmTeachingSetAddUser('teachingSetAddUserRuleForm')">确 认</el-button>
+          <el-button @click="closeTeachingSetAddUser('teachingSetAddUserRuleForm')">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
+    <!-- 编辑教研组名字 -->
+    <el-dialog title="编辑教研组" width="30%" :visible.sync="editTeachingNameDialog" @close="closeEditTeachingNameDialog('editTeachingNameRuleForm')">
+      <el-form :model="editTeachingNameRuleForm" :rules="editTeachingNameRules" ref="editTeachingNameRuleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="教研组名称" prop="teachingName">
+          <el-input v-model="editTeachingNameRuleForm.teachingName"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmEditTeachingName('editTeachingNameRuleForm')">确 认</el-button>
+          <el-button @click="closeEditTeachingNameDialog('editTeachingNameRuleForm')">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
+    <!-- 设置教研组组长 -->
+    <el-dialog
+      title="设置审核人"
+      :visible.sync="teachingSetReviewerDialog"
+      width="30%"
+      @close="closeTeachingSetReviewer('teachingSetReviewerRuleForm')"
+    >
+      <el-dialog
+        width="30%"
+        :visible.sync="searchClickDialog"
+        append-to-body
+        class="searchUserDialog"
+      >
+        <el-row>
+          <el-col :span="18">
+            <el-input v-model="searchUserName" placeholder="请输入姓名或账号"></el-input>
+          </el-col>
+          <el-col :span="6" style="padding-left:2%;">
+            <el-button style="width:90%;" type="primary" @click="searchListClick">查询</el-button>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <p class="searchTip">提示：搜索结果只展示已注册用户，如果没有搜索到要找的用户，请到用户管理里去先添加该用户。</p>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <ul class="userList">
+              <li v-for="(item,index) in searchUseerList" :key="index">
+                <el-radio v-model="checkedVal" :label="item.id" class="radioWidth">{{item.name}}</el-radio>
+                <span>{{item.mobile}}</span>
+              </li>
+            </ul>
+          </el-col>
+        </el-row>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="searchClickDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmUserName('setTeachingReviewer')">确 认</el-button>
+        </div>
+      </el-dialog>
+      <el-form
+        :model="teachingSetReviewerRuleForm"
+        :rules="teachingSetReviewerRules"
+        ref="teachingSetReviewerRuleForm"
+        label-width="120px"
+        class="demo-ruleForm"
+      >
+        <el-row class="dialogTitle">
+            <el-col :span="24">
+              <span>{{teachingSetReviewerRuleForm.teachingNameTitle}}</span>
+            </el-col>
+        </el-row>
+        <el-form-item label="教研组审核人" prop="teachingReviewerName">
+          <el-input v-model="teachingSetReviewerRuleForm.teachingReviewerName" readonly style="width:70%;"></el-input>
+          <el-button style="width:27%;margin-left:3%;" @click="searchUserClick">查 找</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmTeachingSetReviewer('teachingSetReviewerRuleForm')">确 认</el-button>
+          <el-button @click="closeTeachingSetReviewer('teachingSetReviewerRuleForm')">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!-- 设置教研组组长--end -->
     <!-- 教研组设置  ---end-->
+
+    <!-- 栏目设置  start -->
+    <!-- 添加栏目  start-->
+    <el-dialog title="添加栏目" width="30%" :visible.sync="addColumnDialog" @close="closeAddColumnDialog('addColumnRuleForm')">
+      <el-form :model="addColumnRuleForm" :rules="addColumnRules" ref="addColumnRuleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="栏目名称" prop="columnName">
+          <el-input v-model="addColumnRuleForm.columnName" placeholder="请输入栏目名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmAddColumn('addColumnRuleForm')">确 认</el-button>
+          <el-button @click="closeAddColumnDialog('addColumnRuleForm')">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!-- 添加栏目  end-->
+
+    <!-- 编辑栏目  --start -->
+    <el-dialog title="编辑栏目" width="30%" :visible.sync="editColumnNameDialog" @close="closeEditColumnNameDialog('editColumnNameRuleForm')">
+      <el-form :model="editColumnNameRuleForm" :rules="editColumnNameRules" ref="editColumnNameRuleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="栏目名称" prop="columnName">
+          <el-input v-model="editColumnNameRuleForm.columnName" placeholder="请输入栏目名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmEditColumnName('editColumnNameRuleForm')">确 认</el-button>
+          <el-button @click="closeEditColumnNameDialog('editColumnNameRuleForm')">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!-- 编辑栏目  --end -->
+    <!-- 栏目设置  --end -->
 
 
   </div>
@@ -1076,6 +1332,11 @@
   color:rgba(153,153,153,1);
   line-height:22px;
 }
+.teamApplicationLists{
+  width: 100%;
+  height: 600px;
+  overflow-y: scroll;
+}
 .applicationItem{
   padding: 30px;
   width: 100%;
@@ -1139,13 +1400,13 @@ export default {
       // 班级设置 弹窗部分
 
       //点击增加年级的类型标识  如果是小学中 点击年级 标识1  如果是点击初中 点击年级 标识2
-      addGradeFlag: '', 
+      addGradeFlag: 1, 
       //点击增加班级的类型标识  如果是小学中 点击班级 标识1  如果是点击初中 点击班级 标识2
-      addClassFlag: '', 
+      addClassFlag: 1, 
       //点击更改审核人类型标识  如果是小学中 点击更改审核人 标识1  如果是点击初中 点击更改审核人 标识2
-      changeReviewerFlag: '',
+      changeReviewerFlag: 1,
       //点击设置审核人类型标识  如果是小学中 点击设置审核人 标识1  如果是点击初中 点击设置审核人 标识2
-      setReviewerFlag: '',
+      setReviewerFlag: 1,
 
       // 新增年级 弹窗 --start
       addGradeDialog: false, //新增年级弹窗
@@ -1338,7 +1599,7 @@ export default {
           { required: true, message: "请设置社团审核人", trigger: "blur" }
         ]
       },
-      // 班级设置-东区 小学  设置审核人 --end
+      // 社团  设置审核人 --end
 
       //社团设置部分  --end
 
@@ -1355,13 +1616,41 @@ export default {
           { required: true, message: "请输入课题组名称", trigger: "blur" }
         ]
       },
+      //新增课题组 --end
+
+      //课题组 设置 点击课题组一行中 的添加用户 --start
+      topicSetAddUserDialog: false, //添加用户 弹窗
+      topicSetAddUserRuleForm: {
+        topicName: '', //课题组名称
+        topicId: '', //课题组id
+        userName: '', //用户名称
+      },
+      topicSetAddUserRules: { //添加用户  验证规则
+        userName: [
+          { required: true, message: "请输入用户名称", trigger: "blur" }
+        ]
+      },
+      //课题组 设置 点击课题组一行中 的添加用户 --end
+
+      //课题组设置 编辑课题组名字 --start
+      editTopicNameDialog: false, //编辑课题组名字 弹窗
+      editTopicNameRuleForm: {
+        topicId: '', //课题组id
+        topicName: '', //课题组名称
+      },
+      editTopicNameRules: { //编辑课题组名字 验证规则
+        topicName: [
+          { required: true, message: "请输入的课题组名称", trigger: "blur" }
+        ]
+      },
+      //课题组设置 编辑课题组名字 --end
       //课题组设置 部分 ---end
 
 
       //教研组设置 --start
       setTeachingPageData: [],
       setTeachingIsPageOpen: false, //社团数据 展开项 是否全部展开了
-       //新增教研组组 --start
+      //新增教研组 --start
       addTeachingDialog: false, //新增教研组组
       addTeachingRuleForm: {
         addTeachingName: '', //新增教研组名称
@@ -1371,7 +1660,78 @@ export default {
           { required: true, message: "请输入教研组名称", trigger: "blur" }
         ]
       },
+      //新增教研组 --end
+
+      //教研组 设置 点击教研组一行中 的添加用户 --start
+      teachingSetAddUserDialog: false, //添加用户 弹窗
+      teachingSetAddUserRuleForm: {
+        teachingName: '', //教研组名称
+        teachingId: '', //教研组id
+        userName: '', //用户名称
+      },
+      teachingSetAddUserRules: { //添加用户  验证规则
+        userName: [
+          { required: true, message: "请输入用户名称", trigger: "blur" }
+        ]
+      },
+      //教研组 设置 点击教研组一行中 的添加用户 --end
+
+      //教研组设置 编辑教研组名字 --start
+      editTeachingNameDialog: false, //编辑教研组名字 弹窗
+      editTeachingNameRuleForm: {
+        teachingId: '', //教研组id
+        teachingName: '', //教研组名称
+      },
+      editTeachingNameRules: { //编辑教研组名字 验证规则
+        teachingName: [
+          { required: true, message: "请输入的教研组名称", trigger: "blur" }
+        ]
+      },
+      //教研组设置 编辑教研组名字 --end
+
+      // 教研组设置审核人 --start
+      teachingSetReviewerDialog: false, //点击 设置审核人 出现弹窗
+      teachingSetReviewerRuleForm: { //设置审核人 绑定值
+        teachingNameTitle: '', //教研组名称
+        teachingReviewerName: '', //教研组审核人名称
+        teachingReviewerId: '' //教研组审核人id
+      },
+      teachingSetReviewerRules: { //设置审核人弹窗 验证规则
+        teachingReviewerName: [
+          { required: true, message: "请设置教研组组长", trigger: "blur" }
+        ]
+      },
+      // 教研组  设置审核人 --end
       //教研组组设置 部分 ---end
+
+      //栏目设置--start
+      setColumnList: [], //栏目列表
+       //添加栏目 --start
+      addColumnDialog: false, //添加栏目 弹窗
+      addColumnRuleForm: {
+        s_id: '', //校区id
+        columnName: '', //栏目名称
+      },
+      addColumnRules: { //添加栏目  验证规则
+        columnName: [
+          { required: true, message: "请输入栏目名称", trigger: "blur" }
+        ]
+      },
+      //添加栏目 --end
+      //编辑栏目名称  --start
+      editColumnNameDialog: false, //弹窗
+      editColumnNameRuleForm: {
+        columnId: '', //栏目id
+        columnName: '' //栏目名称 
+      },
+      editColumnNameRules: { //添加栏目  验证规则
+        columnName: [
+          { required: true, message: "请输入栏目名称", trigger: "blur" }
+        ]
+      },
+      //编辑栏目名称  --end
+
+      //栏目设置  --end
 
 
 
@@ -1396,6 +1756,10 @@ export default {
         case "teaching": //教研组
           console.log("点击了教研组设置");
           this.getSetTeachingPageData();
+          break;
+        case "columnSet": //栏目设置
+          console.log("点击了栏目设置");
+          this.getSetColumnList();
           break;
         default:
       }
@@ -1587,6 +1951,12 @@ export default {
         this.teamSetAddUserRuleForm.userName = this.filterUser.name; //添加用户的名称
       } else if(val == 'setTeamReviewer'){ //社团设置审核人
         this.teamSetReviewerRuleForm.teamReviewerName = this.filterUser.name; //社团审核人的名称
+      } else if(val == 'topicSetAddUser'){ //课题组设置--添加用户
+        this.topicSetAddUserRuleForm.userName = this.filterUser.name; //添加用户的名称
+      } else if(val == 'teachingSetAddUser'){ //教研组设置--添加用户
+        this.teachingSetAddUserRuleForm.userName = this.filterUser.name; //添加用户的名称
+      } else if(val == 'setTeachingReviewer'){ //教研组设置审核人教研组组长
+        this.teachingSetReviewerRuleForm.teachingReviewerName = this.filterUser.name; //社团审核人的名称
       }
     },
     //用户查询弹窗 通用--end  
@@ -2096,7 +2466,7 @@ export default {
     },
     //点击社团 -添加用户 --end
 
-     //社团设置 编辑社团名字  --start
+    //社团设置 编辑社团名字  --start
     editTeamNameClick (item) { //编辑社团名称 
       console.log(item,'得到当前点击的社团信息');
       this.editTeamNameRuleForm.teamId = item.id; //社团id
@@ -2179,7 +2549,7 @@ export default {
       });
     },
 
-     //社团设置审核人  --start
+    //社团设置审核人  --start
     teamSetReviewerClick(item){ //点击社团 设置审核人 出现弹窗
       console.log(item, "社团设置审核人--得到该社团信息");
       this.teamSetReviewerRuleForm.teamNameTitle = item.title; //社团名称
@@ -2284,7 +2654,7 @@ export default {
                     message: res.message
                 });
                 self.addTopicDialog = false;
-                this.getSetTopicPageData();
+                self.getSetTopicPageData(self.activeName);
             }
         });
         } else {
@@ -2299,6 +2669,114 @@ export default {
       });
     },
     //课题组设置 新增课题 --end
+
+    //课题组设置 添加用户  --start
+    topicSetAddUserClick(item){ //点击课题组 -添加用户 出现弹窗
+      console.log(item, "点击课题组 -添加用户--得到该课题组信息");
+      this.topicSetAddUserRuleForm.topicName = item.title; //课题组名称
+      this.topicSetAddUserRuleForm.topicId = item.id;// 课题组id
+      this.topicSetAddUserRuleForm.userName = ''; //清空用户名称
+      this.topicSetAddUserDialog = true;
+    },
+    confirmTopicSetAddUser(ruleForm) {  // 点击课题组 -添加用户-- 弹窗 确认按钮
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
+          var self = this;
+          let data = {
+            c_id: self.topicSetAddUserRuleForm.topicId, //课题组id
+            u_id: self.checkedVal //用户id
+          };
+          request.post("/backapi/Classify/addSubjectuser", data, function(res) {
+            if (res.code == 0) {
+                self.$message({
+                    type: "success",
+                    message: res.message
+                });
+                self.topicSetAddUserDialog = false;
+                self.getSetTopicPageData(self.activeName);
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    closeTopicSetAddUser(ruleForm) {  //点击课题组 -添加用户 弹窗 关闭 取消 遮罩  空白处
+      this.topicSetAddUserDialog = false;
+      this.$nextTick(() => {
+        this.$refs[ruleForm].resetFields();
+      });
+    },
+    //点击课题组 -添加用户 --end
+
+     //课题组 编辑课题组名字  --start
+    editTopicNameClick (item) { //编辑课题组名称 
+      console.log(item,'得到当前点击的课题组信息');
+      this.editTopicNameRuleForm.topicId = item.id; //课题组id
+      this.editTopicNameRuleForm.topicName = '';//清空编辑 课题组名称
+      this.editTopicNameDialog = true;
+    },
+    confirmEditTopicName(ruleForm) {  // 课题组设置 编辑课题组名字 -- 弹窗 确认按钮
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
+        var self = this;
+        let data = {
+          id: self.editTopicNameRuleForm.topicId, //课题组id
+          title: self.editTopicNameRuleForm.topicName, //课题组名称
+        };
+        request.post("/backapi/Classify/editSubject", data, function(res) {
+            if (res.code == 0) {
+                self.$message({
+                    type: "success",
+                    message: res.message
+                });
+                self.editTopicNameDialog = false;
+                self.getSetTopicPageData(self.activeName);
+            }
+        });
+        } else {
+          return false;
+        }
+      });
+    },
+    closeEditTopicNameDialog(ruleForm) {  //课题组设置 编辑课题组名字 弹窗 关闭 取消 遮罩  空白处
+      this.editTopicNameDialog = false;
+      this.$nextTick(() => {
+        this.$refs[ruleForm].resetFields();
+      });
+    },
+    //课题组设置 编辑课题组名字 --end
+
+    //课题组设置 删除课题组 --start
+    deleteTopicClick(item) {
+      var _that = this;
+      _that.$confirm("是否删除该课题组，是否确认删除？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        let data = {
+          id: item.id, //课题组id
+        };
+        request.post("/backapi/Classify/delSubject", data, function(res) {
+          if (res.code == 0) {
+            _that.$message({
+              type: "success",
+              message: res.message
+            });
+            _that.getSetTopicPageData(_that.activeName);
+          }
+        });
+      })
+      .catch(() => {
+        _that.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
+    //课题组设置 删除课题组  --end
     //课题组设置 --end
 
 
@@ -2382,8 +2860,278 @@ export default {
         this.$refs[ruleForm].resetFields();
       });
     },
-    //课题组设置 新增课题 --end
+    //教研组设置 新增教研组 --end
+
+    //教研组设置 添加用户  --start
+    teachingSetAddUserClick(item){ //点击教研组 -添加用户 出现弹窗
+      console.log(item, "点击教研组 -添加用户--得到该教研组信息");
+      this.teachingSetAddUserRuleForm.teachingName = item.title; //教研组名称
+      this.teachingSetAddUserRuleForm.teachingId = item.id;// 教研组id
+      this.teachingSetAddUserRuleForm.userName = ''; //清空用户名称
+      this.teachingSetAddUserDialog = true;
+    },
+    confirmTeachingSetAddUser(ruleForm) {  // 点击教研组 -添加用户-- 弹窗 确认按钮
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
+          var self = this;
+          let data = {
+            c_id: self.teachingSetAddUserRuleForm.teachingId, //教研组id
+            u_id: self.checkedVal //用户id
+          };
+          request.post("/backapi/Classify/addTeachinguser", data, function(res) {
+            if (res.code == 0) {
+                self.$message({
+                    type: "success",
+                    message: res.message
+                });
+                self.teachingSetAddUserDialog = false;
+                self.getSetTeachingPageData(self.activeName);
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    closeTeachingSetAddUser(ruleForm) {  //点击教研组 -添加用户 弹窗 关闭 取消 遮罩  空白处
+      this.teachingSetAddUserDialog = false;
+      this.$nextTick(() => {
+        this.$refs[ruleForm].resetFields();
+      });
+    },
+    //点击教研组 -添加用户 --end
+
+     //教研组设置 编辑教研组名字  --start
+    editTeachingNameClick (item) { //编辑教研组名称 
+      console.log(item,'得到当前点击的教研组信息');
+      this.editTeachingNameRuleForm.teachingId = item.id; //教研组id
+      this.editTeachingNameRuleForm.teachingName = '';//清空编辑 教研组名称
+      this.editTeachingNameDialog = true;
+    },
+    confirmEditTeachingName(ruleForm) {  // 教研组设置 编辑教研组名字 -- 弹窗 确认按钮
+      this.$refs[ruleForm].validate(valid => {
+          if (valid) {
+          var self = this;
+          let data = {
+              id: self.editTeachingNameRuleForm.teachingId, //教研组id
+              title: self.editTeachingNameRuleForm.teachingName, //教研组名称
+          };
+          request.post("/backapi/Classify/editTeaching", data, function(res) {
+              if (res.code == 0) {
+                  self.$message({
+                      type: "success",
+                      message: res.message
+                  });
+                  self.editTeachingNameDialog = false;
+                  self.getSetTeachingPageData(self.activeName);
+              }
+          });
+          } else {
+              return false;
+          }
+      });
+    },
+    closeEditTeachingNameDialog(ruleForm) {  //教研组设置 编辑教研组名字 弹窗 关闭 取消 遮罩  空白处
+      this.editTeachingNameDialog = false;
+      this.$nextTick(() => {
+        this.$refs[ruleForm].resetFields();
+      });
+    },
+    //教研组设置 编辑教研组名字 --end
+
+    //教研组设置 删除教研组 --start
+    deleteTeachingClick(item) {
+      var _that = this;
+      _that.$confirm("是否删除该教研组，是否确认删除？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        let data = {
+          id: item.id, //教研组id
+        };
+        request.post("/backapi/Classify/delTeaching", data, function(res) {
+          if (res.code == 0) {
+            _that.$message({
+              type: "success",
+              message: res.message
+            });
+            _that.getSetTeachingPageData(_that.activeName);
+          }
+        });
+      })
+      .catch(() => {
+        _that.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
+    //教研组设置 删除教研组  --end
+
+    //教研组设置审核人 组长 --start
+    teachingSetReviewerClick(item){ //点击教研组成员 设置为教研组组长 出现弹窗
+      console.log(item, "设置教研组组长--得到该教研组信息");
+      this.teachingSetReviewerRuleForm.teachingNameTitle = item.title; //教研组名称
+      this.teachingSetReviewerRuleForm.teachingReviewerId = item.id;// 教研组id
+      this.teachingSetReviewerRuleForm.teachingReviewerName = ''; //教研组名称 用户名称
+      this.teachingSetReviewerDialog = true;
+    },
+    confirmTeachingSetReviewer(ruleForm) {  // 教研组成员 设置为教研组组长 -- 弹窗 确认按钮
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
+          var self = this;
+          let data = {
+            c_id: self.teachingSetReviewerRuleForm.teachingReviewerId, //教研组id
+            u_id: self.checkedVal //用户id
+          };
+          request.post("/backapi/Classify/editTeachingsh", data, function(res) {
+            if (res.code == 0) {
+              self.$message({
+                  type: "success",
+                  message: res.message
+              });
+              self.teachingSetReviewerDialog = false;
+              self.getSetTeachingPageData(self.activeName);
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    closeTeachingSetReviewer(ruleForm) {  //教研组成员 设置为教研组组长  弹窗 关闭 取消 遮罩  空白处
+      this.teachingSetReviewerDialog = false;
+      this.$nextTick(() => {
+        this.$refs[ruleForm].resetFields();
+      });
+    },
+    //教研组设置审核人 组长 --end
     //教研组设置 --end
+
+    //栏目设置 ---start
+    //获取栏目列表
+    getSetColumnList(){
+      var self = this;
+      request.post("/backapi/Classify/column", {}, function(res) {
+        if (res.code == 0) {
+          self.setColumnList = res.data;
+        }
+      });
+    },
+
+    //添加栏目 --start
+    addColumnClick () { //添加栏目名称 出现弹窗
+      this.addColumnDialog = true;
+    },
+    confirmAddColumn(ruleForm) {  // 添加栏目 -- 弹窗 确认按钮
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
+          var self = this;
+          var sid  = '';
+          if(self.addGradeFlag == 1){ //如果是小学
+            sid = self.primaryGradeClassData[0].s_id;
+          } else if(self.addGradeFlag == 2){ //如果是初中
+            sid = self.middleGradeClassData[0].s_id;
+          }
+          let data = {
+            s_id: sid, //校区id
+            title: self.addColumnRuleForm.columnName, //栏目名称
+          };
+          request.post("/backapi/Classify/addColumn", data, function(res) {
+            if (res.code == 0) {
+              self.$message({
+                  type: "success",
+                  message: res.message
+              });
+              self.addColumnDialog = false;
+              self.getSetColumnList();
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    closeAddColumnDialog(ruleForm) {  //添加栏目 弹窗 关闭 取消 遮罩  空白处
+      this.addColumnDialog = false;
+      this.$nextTick(() => {
+        this.$refs[ruleForm].resetFields();
+      });
+    },
+    //添加栏目 --end
+
+    //编辑栏目名称  --start
+    editColumnNameClick(item){  //编辑栏目名称
+      console.log('点击得到当前栏目的信息',item);
+      this.editColumnNameDialog = true;
+      this.editColumnNameRuleForm.columnId = item.id; //栏目id
+      this.editColumnNameRuleForm.columnName = ''; //栏目名称
+    },
+    confirmEditColumnName(ruleForm) {  // 编辑栏目 -- 弹窗 确认按钮
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
+          var self = this;
+          let data = {
+            id: self.editColumnNameRuleForm.columnId, //栏目id
+            title: self.editColumnNameRuleForm.columnName, //栏目名称
+          };
+          request.post("/backapi/Classify/editColumn", data, function(res) {
+            if (res.code == 0) {
+              self.$message({
+                type: "success",
+                message: res.message
+              });
+              self.editColumnNameDialog = false;
+              self.getSetColumnList();
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    closeEditColumnNameDialog(ruleForm) {  //编辑 弹窗 关闭 取消 遮罩  空白处
+      this.editColumnNameDialog = false;
+      this.$nextTick(() => {
+        this.$refs[ruleForm].resetFields();
+      });
+    },
+    //编辑栏目名称  --end
+
+    //删除栏目 --start
+    deleteColumnClick(item) {
+      var _that = this;
+      _that.$confirm("是否删除该栏目，是否确认删除？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        let data = {
+          id: item.id, //栏目id
+        };
+        request.post("/backapi/Classify/delColumn", data, function(res) {
+          if (res.code == 0) {
+            _that.$message({
+              type: "success",
+              message: res.message
+            });
+            _that.getSetColumnList();
+          }
+        });
+      })
+      .catch(() => {
+        _that.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
+    //删除栏目  --end
+    //栏目设置 ---end
+
 
     
   },
