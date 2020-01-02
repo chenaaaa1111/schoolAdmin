@@ -28,7 +28,7 @@
     .loginContent {
         width: 50%;
         height: 550px;
-        background: #fff;
+        /* background: #fff; */
         border-radius: 12px;
         position: absolute;
         left: 50%;
@@ -113,9 +113,9 @@
                 }
                 var data={
                     mobile:this.mobile,
-                    password:this.password
+                    LoginPWD:this.password
                 }
-                request.post('/backapi/Login/Loginpwd',data,function(res){
+                request.post('/roomapi/Login/Loginpwd',data,function(res){
                         if(res.code==0){
                             sessionStorage.setItem('Authorization',res.data.token);
                             sessionStorage.setItem('userInfo',JSON.stringify(res.data.user));

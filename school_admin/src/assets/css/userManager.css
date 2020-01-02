@@ -1,34 +1,96 @@
-.userNanager .el-tabs__nav-scroll{
+.userNanager .el-tabs__nav-scroll {
     background: #fff;
-    padding:20px 30px 16px 30px;
+    padding: 20px 30px 16px 30px;
     font-size: 16px;
 }
-.userNanager  .el-tab-pane{
+
+.userNanager .el-tab-pane {
     background: #fff;
-    padding:20px 30px 16px 30px;
+    padding: 20px 30px 16px 30px;
 }
+
 .el-select {
     display: inline-block;
     position: relative;
     width: 100px;
     margin-top: 14px;
 }
+
+.tabsTop .el-input-group {
+    width: 253px;
+    margin-left: 17px;
+}
+
 .rightSlects {
     position: absolute;
     top: 0px;
     right: 20px;
 
 }
-.seachdate{
+
+.seachdate {
     margin-left: 10px;
 }
-.el-tabs__content{
+
+.el-tabs__content {
     background: #fff;
 }
-.tabsTop{
+
+.tabsTop {
     padding-left: 30px;
-    /* margin-bottom: 20px; */
+    margin-bottom: 30px;
 }
-.el-container{
-    background:rgba(246,246,246,1);
+
+.el-container {
+    background: rgba(246, 246, 246, 1);
+}
+
+.viewdialogContainer {
+    padding: 10px 49px 50px 30px;
+
+}
+
+.avoiter {
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.avoiterCotainer {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.fc_gray {
+    color: #666666;
+    line-height: 22px;
+    font-size: 12px;
+}
+
+.meTitle {
+    margin-top: 40px;
+    margin-bottom: 16px;
+}
+
+.mb_10 {
+    margin-bottom: 10xp;
+}
+
+.el-dialog {
+    width: 500px;
+}
+
+.el-form-item__content {
+    width: 300px;
+}
+
+.el-form-item {
+    display: flex;
+}
+
+.bt_top {
+    height: 47px;
+    background: rgba(3, 70, 146, 1);
+    border-radius: 4px;
+    font-size:14px;
+    color: #fff;
 }

@@ -16,7 +16,7 @@
                 <div>
                     <el-row :gutter="10">
                         <el-col :span="6">
-                            <el-input size="medium" placeholder="请输入内容" v-model="seachKey">
+                            <el-input size="medium" placeholder="请输入内容" v-model="keyword">
                                 <i class="el-icon-search el-input__icon" slot="suffix" @click="handleIconClick">
                                 </i>
                             </el-input>
@@ -24,11 +24,13 @@
                         <el-col :span="18">
                             <div class="block">
                                 <span class="demonstration">发布时间</span>
-                                <el-date-picker class="elDate" v-model="startTime" type="date" placeholder="选择日期">
+                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
+                                    placeholder="选择日期">
                                 </el-date-picker>
                                 --
 
-                                <el-date-picker v-model="endTime" type="date" placeholder="选择日期">
+                                <el-date-picker value-format="yyyy-MM-dd" v-model="endTime" type="date"
+                                    placeholder="选择日期">
                                 </el-date-picker>
                                 <el-button class="seachdate" @click="seachTime">查询</el-button>
                             </div>
@@ -119,18 +121,18 @@
                                     <el-row :gutter="10">
                                         <el-col :span="6">
                                             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-search"
-                                                v-model="seachKey">
+                                                v-model="keyword">
                                             </el-input>
                                         </el-col>
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" v-model="startTime" type="date"
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
                                                     placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
@@ -262,18 +264,18 @@
                                     <el-row :gutter="10">
                                         <el-col :span="6">
                                             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-search"
-                                                v-model="seachKey">
+                                                v-model="keyword">
                                             </el-input>
                                         </el-col>
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" v-model="startTime" type="date"
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
                                                     placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
@@ -401,18 +403,18 @@
                                     <el-row :gutter="10">
                                         <el-col :span="6">
                                             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-search"
-                                                v-model="seachKey">
+                                                v-model="keyword">
                                             </el-input>
                                         </el-col>
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" v-model="startTime" type="date"
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
                                                     placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
@@ -540,18 +542,18 @@
                                     <el-row :gutter="10">
                                         <el-col :span="6">
                                             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-seach"
-                                                v-model="seachKey">
+                                                v-model="keyword">
                                             </el-input>
                                         </el-col>
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" v-model="startTime" type="date"
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
                                                     placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
@@ -679,18 +681,18 @@
                                     <el-row :gutter="10">
                                         <el-col :span="6">
                                             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-seach"
-                                                v-model="seachKey">
+                                                v-model="keyword">
                                             </el-input>
                                         </el-col>
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" v-model="startTime" type="date"
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
                                                     placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
@@ -821,18 +823,18 @@
                                     <el-row :gutter="10">
                                         <el-col :span="6">
                                             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-search"
-                                                v-model="seachKey">
+                                                v-model="keyword">
                                             </el-input>
                                         </el-col>
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" v-model="startTime" type="date"
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
                                                     placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
@@ -931,6 +933,7 @@
         },
         data() {
             return {
+                keyword: '',
                 url: '/backapi/Management/newClass',
                 dialogVisible: false,
                 selectId: '',
@@ -963,9 +966,8 @@
                 gradeOptions: [],
                 classOptions: { id: 'all', title: '全部' },
                 classTableData: [],//班级空间数据
-                seachKey: '',
-                startTime: '4',
-                endTime: '5',
+                startTime: '',
+                endTime: '',
                 activeName: 'classSpace',
                 fit: 'fill',
                 tableData: [
@@ -975,7 +977,7 @@
         },
         mounted() {
             var url = "/backapi/Management/newClass";
-            var checkingUrl = "/backapi/Management/auditClass";
+            var checkingUrl = "/roomapi/Room_Class/audit";
             this.getArticles(url, 'classData');
             // this.getChecking();
             this.getSchools(checkingUrl, 'classData');
@@ -986,7 +988,10 @@
                 var data = {
                     strtime: this.startTime,
                     endTime: this.endTime,
-                    page: this.page
+                    page: this.page,
+                    psize: this.psize,
+                    keyword: this.keyword
+
                 }
                 request.post(this.url, data, (res) => {
                     var tab = this.tab;
@@ -1019,7 +1024,7 @@
                 console.log('1212');
                 var data = {
                     page: 1,
-                    seachKey: this.seachKey
+                    keyword: this.keyword
                 }
                 this.page = 1;
                 request.post(this.url, data, (res) => {
@@ -1091,7 +1096,7 @@
                 this.getArticles();
             },
             getSchools() {
-                let url = "/backapi/Statistical/sgb";
+                let url = "/backapi/Statistical/bjlb";
                 request.post(url, {}, (res) => {
                     res.data.unshift({ title: '全部', id: 'all' })
                     this.schoolOptions = res.data;
@@ -1126,18 +1131,15 @@
 
             },
             seach() {
-                var data = {
-                    type: this.type,//申核狀態
-                    strtime: '',
-                    endtime: '',
-                    page: 1,
-                    s_id: this.schoolName,
-                    c_id: this.className,
-                    psize: 10
-                }
-                request.post(this.url, data, (res) => {
-
-                })
+                // var data = {
+                //     strtime: this.startTime,
+                //     endtime: this.endTime,
+                //     page: 1,
+                //     keyword:this.keyword,
+                //     psize: 10
+                // }
+                this.page=1;
+                this.getArticles();
             },
             deleteArt(res) {
                 console.log('delete', res);
@@ -1163,27 +1165,11 @@
             },
 
             handleClick(tab, event) {
+                debugger
                 console.log(tab, event, 'handleClick');
                 this.activeName = tab.name;
                 this.page = 1;
                 var url = "";
-                switch (tab.name) {
-                    case 'classSpace':
-                        url = "/backapi/Management/newClass";
-                        this.url = url;
-                        break;
-                    case 'gradeSpace':
-                        url = "/backapi/Management/newClass";
-                        this.url = url;
-                        break;
-                    case 'specialSpace':
-                        url = "/backapi/Management/newProject";
-                        this.url = url;
-                        break;
-                    default://默认班级
-                        url = '/backapi/Management/newClass';
-                        this.url = url;
-                }
                 this.getArticles(url, tab.name);
             },
             getArticles(url, key) {
@@ -1195,7 +1181,7 @@
                         if (this.showArticle) {
                             url = "/backapi/Management/newClass";
                         } else {
-                            url = "/backapi/Management/auditClass";
+                            url = "/roomapi/Room_Class/audit";
                         }
 
                         break;
@@ -1203,7 +1189,7 @@
                         if (this.showArticle) {//年纪
                             url = "/backapi/Management/newClass";
                         } else {
-                            url = "/backapi/Management/auditClass";
+                            url = "/roomapi/Room_Class/audit";
                         }
 
                         break;
@@ -1223,11 +1209,19 @@
                         }
 
                         break;
+                    case 'topicSpace':   //课题空间
+                        if (this.showArticle) { //showArticle 为true 为文章管理，false为文章审核
+                            url = "/backapi/Management/newCommunity";//接口还没有 
+                        } else {
+                            url = "/backapi/Management/auditCommunity";//接口还没有 
+                        }
+
+                        break;
                     case 'teachingSpace':   //教研空间
                         if (this.showArticle) {
                             url = "/backapi/Management/newTeaching";
                         } else {
-                            url = "/backapi/Management/auditTeaching";
+                            url = "/roomapi/Teaching/audit";
                         }
                         break;
                     default://默认班级
@@ -1239,10 +1233,12 @@
 
                 }
                 let data = {
-                    type: this.type,
+                    strtime: this.startTime,
+                    endtime: this.endTime,
+                    // type: this.type,
                     page: this.page,
                     psize: this.psize,
-                    seachKey: this.seachKey
+                    keyword: this.keyword
                 };
                 request.post(url, data, (res) => {
                     if (res.code == 0) {
@@ -1257,6 +1253,10 @@
                                 break;
                             case 'specialSpace':
                                 this.spicialData = res.data.model;
+                                this.total = res.data.total;
+                                break;
+                            case 'topicSpace':
+                                this.topicData = res.data.model;
                                 this.total = res.data.total;
                                 break;
                             case 'teamSpace':

@@ -651,7 +651,7 @@
                 this.getArticles();
             },
             getSchools() {
-                let url = "/backapi/Statistical/sgb";
+                let url = "/backapi/Statistical/bjlb";
                 request.post(url, {}, (res) => {
                     res.data.unshift({ title: '全部', id: 'all' })
                     this.schoolOptions = res.data;
