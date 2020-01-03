@@ -19,9 +19,14 @@
 
 .rightSlects {
     position: absolute;
-    top: 0px;
+    top: -2px;
     right: 20px;
 
+}
+.rightSlectsTop{
+    position: absolute;
+    top: 0px;
+    right: 20px;
 }
 
 .elInput {

@@ -35,7 +35,8 @@
                                 <el-button class="seachdate" @click="seachTime">查询</el-button>
                             </div>
                             <template>
-                                <div class="rightSlects">
+                                <!-- 班级空间筛选 -->
+                                <div class="rightSlects" v-show="activeName=='classSpace'">
                                     <el-select v-model="schoolName" @change="getGrade" class="elInput"
                                         placeholder="请选择">
                                         <el-option v-for="item in schoolOptions" :key="item.id" :label="item.title"
@@ -58,7 +59,68 @@
                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
                                 </div>
+                                 <!-- 年级空间筛选 -->
+                                 <div class="rightSlects" v-show="activeName=='gradeSpace'">
+                                    <el-select v-model="schoolName" @change="getSchoolPart"
+                                        class="elInput" placeholder="请选择">
+                                        <el-option v-for="item in schoolOptions" :key="item.id"
+                                            :label="item.title" :value="item.id">
+                                        </el-option>
+                                    </el-select>
 
+                                    <el-select v-model="schoolPartName" @change="getGrade"
+                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
+                                        <el-option v-for="item in schoolPartOptions" :key="item.id"
+                                            :label="item.title" :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <el-select v-model="gradeName" @change="getClass" collapse-tags
+                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
+                                        <el-option v-for="item in gradeOptions" :key="item.value"
+                                            :label="item.title" :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <!-- <el-select v-model="className" collapse-tags class="elInput"
+                                        style="margin-left: 10px;" placeholder="请选择">
+                                        <el-option v-for="item in classOptions" :key="item.title"
+                                            :label="item.title" :value="item.id">
+                                        </el-option>
+                                    </el-select> -->
+                                    <el-button class="seachdate" @click="seach">筛选</el-button>
+
+                                </div>
+                                <!-- 专题空间筛选 -->
+                                <div class="rightSlects" v-show="activeName=='specialSpace'">
+                                    <el-select v-model="spicialSchoolName" @change="changeSpicial"
+                                        class="elInput" placeholder="请选择">
+                                        <el-option v-for="item in spicialSchoolOptions" :key="item.id"
+                                            :label="item.title" :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <el-select v-model="spiciaName" collapse-tags class="elInput"
+                                        style="margin-left: 20px;" placeholder="请选择">
+                                        <el-option v-for="item in spicialOptions" :key="item.title"
+                                            :label="item.title" :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <el-button class="seachdate" @click="seachSpicial">筛选</el-button>
+                                </div>
+                                <!-- 教研空间筛选 -->
+                                <div class="rightSlects" v-show="activeName=='teachingSpace'">
+                                    <el-select v-model="teachingSchoolName" @change="changeTeaching"
+                                        class="elInput" placeholder="请选择">
+                                        <el-option v-for="item in teachingSchoolOptions" :key="item.id"
+                                            :label="item.title" :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <el-select v-model="teachingName" collapse-tags class="elInput"
+                                        style="margin-left: 20px;" placeholder="请选择">
+                                        <el-option v-for="item in teachingOptions" :key="item.title"
+                                            :label="item.title" :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <el-button class="seachdate" @click="seachTeaching">筛选</el-button>
+                                </div>
                             </template>
                         </el-col>
                     </el-row>
@@ -138,17 +200,17 @@
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
-                                                <div class="rightSlects">
-                                                    <el-select v-model="schoolName" @change="getSchoolPart" class="elInput"
-                                                        placeholder="请选择">
+                                                <!-- 班级空间筛选 -->
+                                                <div class="rightSlects" >
+                                                    <el-select v-model="schoolName" @change="getSchoolPart"
+                                                        class="elInput" placeholder="请选择">
                                                         <el-option v-for="item in schoolOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
 
-                                                    <el-select v-model="schoolPartName" @change="getGrade" class="elInput"
-                                                    style="margin-left: 10px;"
-                                                        placeholder="请选择">
+                                                    <el-select v-model="schoolPartName" @change="getGrade"
+                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in schoolPartOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
@@ -168,7 +230,7 @@
                                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
                                                 </div>
-
+                                               
                                             </template>
                                         </el-col>
                                     </el-row>
@@ -290,16 +352,15 @@
                                             </div>
                                             <template>
                                                 <div class="rightSlects">
-                                                    <el-select v-model="schoolName" @change="getSchoolPart" class="elInput"
-                                                        placeholder="请选择">
+                                                    <el-select v-model="schoolName" @change="getSchoolPart"
+                                                        class="elInput" placeholder="请选择">
                                                         <el-option v-for="item in schoolOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
 
-                                                    <el-select v-model="schoolPartName" @change="getGrade" class="elInput"
-                                                    style="margin-left: 10px;"
-                                                        placeholder="请选择">
+                                                    <el-select v-model="schoolPartName" @change="getGrade"
+                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in schoolPartOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
@@ -437,7 +498,7 @@
                                             </div>
                                             <template>
                                                 <div class="rightSlects">
-                                                 
+
                                                     <el-select v-model="teamName" collapse-tags class="elInput"
                                                         style="margin-left: 20px;" placeholder="请选择">
                                                         <el-option v-for="item in teamOptions" :key="item.title"
@@ -565,8 +626,8 @@
                                             </div>
                                             <template>
                                                 <div class="rightSlects">
-                                                    <el-select v-model="spicialSchoolName" @change="changeSpicial" class="elInput"
-                                                        placeholder="请选择">
+                                                    <el-select v-model="spicialSchoolName" @change="changeSpicial"
+                                                        class="elInput" placeholder="请选择">
                                                         <el-option v-for="item in spicialSchoolOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
@@ -578,9 +639,7 @@
                                                         </el-option>
                                                     </el-select>
                                                     <el-button class="seachdate" @click="seachSpicial">筛选</el-button>
-
                                                 </div>
-
                                             </template>
                                         </el-col>
                                     </el-row>
@@ -626,9 +685,8 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="课题空间" name="topicSpace" v-if="showView">
-                <div class="topList" v-if="showView">
-
+            <el-tab-pane label="课题空间" name="topicSpace" v-if="showArticle">
+                <div class="topList" v-if="showArticle">
                     <template>
                         <el-table :data="spicialData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
@@ -841,27 +899,19 @@
                                             </div>
                                             <template>
                                                 <div class="rightSlects">
-                                                    <el-select v-model="schoolName" @change="getGrade" class="elInput"
-                                                        placeholder="请选择">
-                                                        <el-option v-for="item in schoolOptions" :key="item.id"
+                                                    <el-select v-model="teachingSchoolName" @change="changeTeaching"
+                                                        class="elInput" placeholder="请选择">
+                                                        <el-option v-for="item in teachingSchoolOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
-
-                                                    <el-select v-model="gradeName" @change="getClass" collapse-tags
-                                                        class="elInput" style="margin-left: 20px;" placeholder="请选择">
-                                                        <el-option v-for="item in gradeOptions" :key="item.value"
-                                                            :label="item.title" :value="item.id">
-                                                        </el-option>
-                                                    </el-select>
-                                                    <el-select v-model="className" collapse-tags class="elInput"
+                                                    <el-select v-model="teachingName" collapse-tags class="elInput"
                                                         style="margin-left: 20px;" placeholder="请选择">
-                                                        <el-option v-for="item in classOptions" :key="item.title"
+                                                        <el-option v-for="item in teachingOptions" :key="item.title"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
-                                                    <el-button class="seachdate" @click="seach">筛选</el-button>
-
+                                                    <el-button class="seachdate" @click="seachTeaching">筛选</el-button>
                                                 </div>
 
                                             </template>
@@ -926,7 +976,8 @@
     export default {
         props: {
             showArticle: {
-                default: true
+                default: true,
+                type:Boolean
             }, //显示文章列表
             showView: {
                 default: false
@@ -934,17 +985,21 @@
         },
         data() {
             return {
-                spicialSchoolOptions:[],
-                spicialSchoolName:'',
-                spicialOptions:[],
-                spiciaName:'',
+                teachingSchoolName: '',
+                teachingSchoolOptions: [],
+                teachingOptions: [],
+                teachingName: '',
+                spicialSchoolOptions: [],
+                spicialSchoolName: '',
+                spicialOptions: [],
+                spiciaName: '',
                 keyword: '',
                 url: '/backapi/Management/newClass',
                 dialogVisible: false,
                 selectId: '',
                 type: 1,//1待审核2审核通过3审核未通过
                 teaching: [],
-                schoolPartName:'全部',
+                schoolPartName: '全部',
                 schoolName: '全部',
                 gradeName: '全部',
                 className: '全部',//班级名称
@@ -953,8 +1008,8 @@
                 teamData: [],
                 psize: 10,
                 schoolPartOptions: [],
-                teamName:'',
-                teamOptions:[],
+                teamName: '',
+                teamOptions: [],
                 page: 1,
                 total: 0,
                 teachingData: [],
@@ -990,36 +1045,76 @@
             this.getArticles(url, 'classData');
             this.getSchools(checkingUrl, 'classData');
             this.getSpicialNames();
+            this.getTeachingNames();
         },
         methods: {
-            seachSpicial(){//筛选专题
-                var data={
-                    keyword:this.keyword,
-                    page:1,
-                    psize:1,
-                    strtime:this.startTime,
-                    endtime:this.endTime,
-                    s_id:this.spicialSchoolName
+            seachTeaching() {//筛选专题
+                var data = {
+                    keyword: this.keyword,
+                    page: 1,
+                    psize: 1,
+                    strtime: this.startTime,
+                    endtime: this.endTime,
+                    s_id: this.teachingSchoolName
                 }
                 this.getArticles();
             },
-            getSpicialNames(){
-                request.post('/backapi/Statistical/ktlb',{},(res)=>{
-                    this.spicialSchoolOptions=res.data;
-                    this.spicialSchoolName=res.data[0].id;
-                    this.changeSpicial(this.spicialSchoolName=res.data[0].id);
+            seachSpicial() {//筛选专题
+                var data = {
+                    keyword: this.keyword,
+                    page: 1,
+                    psize: 1,
+                    strtime: this.startTime,
+                    endtime: this.endTime,
+                    s_id: this.spicialSchoolName
+                }
+                this.getArticles();
+            },
+            getTeachingNames() {
+                request.post('/backapi/Statistical/jylb', {}, (res) => {
+                    this.teachingSchoolOptions = res.data;
+                    if( this.teachingSchoolOptions.length>0){
+                        this.teachingSchoolName = res.data[0].id;
+                    }
+                   
+                    if(this.teachingSchoolOptions.length>0){
+                        this.changeTeaching(this.teachingSchoolName);
+                    }else{
+                        this.teachingName='';
+                    }
+                    
                 })
             },
-            changeSpicial(id){
-                this.spicialSchoolOptions.forEach((item)=>{
-                    if(item.id==id){
-                        this.spicialOptions=item.subject;
-                        if(this.spicialOptions.length>0){
-                            this.spiciaName=this.spicialOptions[0].id;
-                        }else{
-                            this.spiciaName='';
+            changeTeaching(id) {
+                this.teachingSchoolOptions.forEach((item) => {
+                    if (item.id == id) {
+                        this.teachingOptions = item.subject;
+                        if (this.teachingOptions.length > 0) {
+                            this.teachingName = this.teachingOptions[0].id;
+                        } else {
+                            this.teachingName = '';
                         }
-                       
+
+                    }
+                })
+            },
+            getSpicialNames() {
+                request.post('/backapi/Statistical/ktlb', {}, (res) => {
+                    this.spicialSchoolOptions = res.data;
+                    this.spicialSchoolName = res.data[0].id;
+                    this.changeSpicial(res.data[0].id);
+                })
+            },
+            changeSpicial(id) {
+                this.spicialSchoolOptions.forEach((item) => {
+                    if (item.id == id) {
+                        this.spicialOptions = item.subject;
+                        if (this.spicialOptions.length > 0) {
+                            this.spiciaName = this.spicialOptions[0].id;
+                        } else {
+                            this.spiciaName = '';
+                        }
+
                     }
                 })
             },
@@ -1140,35 +1235,35 @@
                 request.post(url, {}, (res) => {
                     res.data.unshift({ title: '全部', id: 'all' })
                     this.schoolOptions = res.data;
-                    this.schoolName =this.schoolOptions[0].id;
-                   this.getSchoolPart(this.schoolOptions[0].id);
+                    this.schoolName = this.schoolOptions[0].id;
+                    this.getSchoolPart(this.schoolOptions[0].id);
                 })
             },
-            getSchoolPart(tab){
+            getSchoolPart(tab) {
                 console.log(tab)
                 if (tab == 'all') {
                     this.schoolPartOptions = [{ title: '全部', id: '全部', class: [{ id: '全部', title: '全部' }] }];
                     this.gradeOptions = [{ title: '全部', id: 'all', class: [{ id: 'all', title: '全部' }] }];
-                    this.schoolPartName="全部";
+                    this.schoolPartName = "全部";
                     this.gradeName = "全部";
                     this.className = "全部";
                 } else {
                     this.schoolOptions.forEach(element => {
-                        if (element.id == tab) {                          
+                        if (element.id == tab) {
                             this.schoolPartOptions = element.level;
-                            if(this.schoolPartOptions.length>0){
-                                this.schoolPartName=this.schoolPartOptions[0].id;
+                            if (this.schoolPartOptions.length > 0) {
+                                this.schoolPartName = this.schoolPartOptions[0].id;
                                 getGrade(this.schoolPartOptions[0].id)
-                            }else{
-                                this.gradeName="";
+                            } else {
+                                this.gradeName = "";
                             }
-                            
+
                         }
                     });
                 }
             },
             getGrade(tab) {
-                console.log(tab,'grade')
+                console.log(tab, 'grade')
                 if (tab == 'all') {
                     this.gradeOptions = [{ title: '全部', id: 'all', class: [{ id: 'all', title: '全部' }] }];
                     this.gradeName = "全部";
@@ -1177,13 +1272,13 @@
                     this.schoolPartOptions.forEach(element => {
                         if (element.id == tab) {
                             this.gradeOptions = element.garde;
-                            if(element.garde.length>0){
-                                this.gradeName= this.gradeOptions[0].id;
+                            if (element.garde.length > 0) {
+                                this.gradeName = this.gradeOptions[0].id;
                                 getClass(this.gradeOptions[0].id)
-                            }else{
-                                this.className="";
+                            } else {
+                                this.className = "";
                             }
-                            
+
                         }
                     });
                 }
@@ -1203,7 +1298,7 @@
 
             },
             seach() {
-            
+
                 this.page = 1;
                 this.getArticles();
             },
@@ -1239,7 +1334,7 @@
             },
             getArticles() {
                 //默认获取班级
-                var url='';
+                var url = '';
                 var tab = this.activeName;
                 let data = {
                     strtime: this.startTime,
@@ -1253,12 +1348,13 @@
                     case 'classSpace'://班级
                         if (this.showArticle) {
                             url = "/backapi/Management/newClass";
-                            data.s_id=this.schoolName=="全部"?'':this.schoolName;
-                            data.l_id=this.schoolPartName=="全部"?'':this.schoolPartName;
-                            data.g_id=this.gradeName=="全部"?'':this.gradeName;
-                            data.c_id=this.className=="全部"?'':this.className;
+                            data.s_id = this.schoolName == "全部" ? '' : this.schoolName;
+                            data.l_id = this.schoolPartName == "全部" ? '' : this.schoolPartName;
+                            data.g_id = this.gradeName == "全部" ? '' : this.gradeName;
+                            data.c_id = this.className == "全部" ? '' : this.className;
                         } else {
-                            url = "/roomapi/Room_Class/audit";
+                            data.type=this.type;
+                            url = "/backapi/Management/newClass";
                         }
 
                         break;
@@ -1266,16 +1362,18 @@
                         if (this.showArticle) {//年纪
                             url = "/backapi/Management/newClass";
                         } else {
+                            data.type=this.type;
                             url = "/roomapi/Room_Class/audit";
                         }
 
                         break;
                     case 'specialSpace':   //专题空间
-                        data.s_id=this.spicialSchoolName;
+                        data.s_id = this.spicialSchoolName;
                         if (this.showArticle) {
                             url = "/backapi/Management/newProject";
                         } else {
-                            url = "/backapi/Management/auditProject";
+                            data.type=this.type;
+                            url = "/backapi/Management/newProject";
                         }
 
                         break;
@@ -1283,7 +1381,8 @@
                         if (this.showArticle) {
                             url = "/backapi/Management/newCommunity";
                         } else {
-                            url = "/backapi/Management/auditCommunity";
+                            data.type=this.type;
+                            url = "/backapi/Management/newCommunity";
                         }
 
                         break;
@@ -1291,15 +1390,17 @@
                         if (this.showArticle) { //showArticle 为true 为文章管理，false为文章审核
                             url = "/backapi/Management/newCommunity";//接口还没有 
                         } else {
-                            url = "/backapi/Management/auditCommunity";//接口还没有 
+                            data.type=this.type;
+                            url = "/backapi/Management/newCommunity";//接口还没有 
                         }
 
                         break;
                     case 'teachingSpace':   //教研空间
+                        data.s_id = this.teachingSchoolName;
                         if (this.showArticle) {
                             url = "/backapi/Management/newTeaching";
                         } else {
-                            url = "/roomapi/Teaching/audit";
+                            url = "/backapi/Management/newTeaching";
                         }
                         break;
                     default://默认班级
@@ -1310,7 +1411,7 @@
                         }
 
                 }
-          
+
                 request.post(url, data, (res) => {
                     if (res.code == 0) {
                         switch (tab) {
