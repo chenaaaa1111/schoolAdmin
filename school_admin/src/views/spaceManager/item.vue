@@ -73,7 +73,6 @@
             this.showCheck=query.showCheck=='true';
             var data = { id: query.id };
             this.checkUrl=query.url;
-            debugger
             switch (query.type) {
                 case '1':
                     url = "/backapi/Statistical/detailsClass";

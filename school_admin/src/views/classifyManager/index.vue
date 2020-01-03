@@ -191,7 +191,7 @@
                                 <span class="smallInline"></span>
                                 <span v-if="it.sh == 0" class="smallInline" @click="teamSetReviewerClick(item)">设为审核人</span>
                                 <span class="smallInline">详情</span>
-                                <span class="smallInline">删除</span>
+                                <span class="smallInline" @click="deleteTeamUser(it)">删除</span>
                               </el-col>
                             </el-row>
                           </div>
@@ -246,7 +246,7 @@
                                 <span class="smallInline"></span>
                                 <span class="smallInline"></span>
                                 <span class="smallInline">详情</span>
-                                <span class="smallInline">删除</span>
+                                <span class="smallInline" @click="deleteTopicUser(it)">删除</span>
                               </el-col>
                             </el-row>
                           </div>
@@ -302,7 +302,7 @@
                                 <!-- <span class="smallInline"></span> -->
                                 <span class="smallInline" style="width:105px;" @click="teachingSetReviewerClick(item)">设为教研组组长</span>
                                 <span class="smallInline">详情</span>
-                                <span class="smallInline">删除</span>
+                                <span class="smallInline" @click="deleteTeachingUser">删除</span>
                               </el-col>
                             </el-row>
                           </div>
@@ -2534,7 +2534,93 @@ export default {
       });
     },
     //社团设置 删除社团  --end
-
+    //删除社团成员
+    deleteTeamUser(item){
+      var _that = this;
+      _that.$confirm("是否删除该社团成员，是否确认删除？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        let data = {
+          id: item.id, //社团id
+        };
+        request.post("/backapi/Classify/delCommunityuser", data, function(res) {
+          if (res.code == 0) {
+            _that.$message({
+              type: "success",
+              message: res.message
+            });
+            _that.getSetTeamPageData(_that.activeName);
+          }
+        });
+      })
+      .catch(() => {
+        _that.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
+    //删除课题组用户
+    deleteTopicUser(item){
+      var _that = this;
+      _that.$confirm("是否删除该课题组成员，是否确认删除？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        let data = {
+          id: item.id, //社团id
+        };
+        request.post("/backapi/Classify/delSubjectuser", data, function(res) {
+          if (res.code == 0) {
+            _that.$message({
+              type: "success",
+              message: res.message
+            });
+            _that.getSetTeamPageData(_that.activeName);
+          }
+        });
+      })
+      .catch(() => {
+        _that.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
+    //删除教研组用户
+    deleteTeachingUser(item){
+      var _that = this;
+      _that.$confirm("是否删除该课题组成员，是否确认删除？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        let data = {
+          id: item.id, //社团id
+        };
+        request.post("/backapi/Classify/delTeachinguser", data, function(res) {
+          if (res.code == 0) {
+            _that.$message({
+              type: "success",
+              message: res.message
+            });
+            _that.getSetTeamPageData(_that.activeName);
+          }
+        });
+      })
+      .catch(() => {
+        _that.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
     //社团申请列表 
     teamApplicationProcess(){ //点击社团申请列表
       this.teamApplicationDialog = true;

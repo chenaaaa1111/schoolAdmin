@@ -15,13 +15,13 @@
                 </div>
                 <div>
                     <el-row :gutter="10">
-                        <el-col :span="6">
+                        <el-col :span="4">
                             <el-input size="medium" placeholder="请输入内容" v-model="keyword">
                                 <i class="el-icon-search el-input__icon" slot="suffix" @click="handleIconClick">
                                 </i>
                             </el-input>
                         </el-col>
-                        <el-col :span="18">
+                        <el-col :span="20">
                             <div class="block">
                                 <span class="demonstration">发布时间</span>
                                 <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
@@ -119,40 +119,48 @@
                                 </div>
                                 <div>
                                     <el-row :gutter="10">
-                                        <el-col :span="6">
+                                        <el-col :span="4">
                                             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-search"
                                                 v-model="keyword">
                                             </el-input>
                                         </el-col>
-                                        <el-col :span="18">
+                                        <el-col :span="20">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
-                                                    placeholder="选择日期">
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd"
+                                                    v-model="startTime" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date"
+                                                    placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
                                                 <div class="rightSlects">
-                                                    <el-select v-model="schoolName" @change="getGrade" class="elInput"
+                                                    <el-select v-model="schoolName" @change="getSchoolPart" class="elInput"
                                                         placeholder="请选择">
                                                         <el-option v-for="item in schoolOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
 
+                                                    <el-select v-model="schoolPartName" @change="getGrade" class="elInput"
+                                                    style="margin-left: 10px;"
+                                                        placeholder="请选择">
+                                                        <el-option v-for="item in schoolPartOptions" :key="item.id"
+                                                            :label="item.title" :value="item.id">
+                                                        </el-option>
+                                                    </el-select>
                                                     <el-select v-model="gradeName" @change="getClass" collapse-tags
-                                                        class="elInput" style="margin-left: 20px;" placeholder="请选择">
+                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in gradeOptions" :key="item.value"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
                                                     <el-select v-model="className" collapse-tags class="elInput"
-                                                        style="margin-left: 20px;" placeholder="请选择">
+                                                        style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in classOptions" :key="item.title"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
@@ -206,7 +214,7 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="年级级空间" name="gradeSpace" v-if="showArticle">
+            <el-tab-pane label="年级空间" name="gradeSpace" v-if="showArticle">
                 <div class="topList" v-if="showView">
 
                     <template>
@@ -262,44 +270,52 @@
                                 </div>
                                 <div>
                                     <el-row :gutter="10">
-                                        <el-col :span="6">
+                                        <el-col :span="4">
                                             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-search"
                                                 v-model="keyword">
                                             </el-input>
                                         </el-col>
-                                        <el-col :span="18">
+                                        <el-col :span="20">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
-                                                    placeholder="选择日期">
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd"
+                                                    v-model="startTime" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date"
+                                                    placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
                                                 <div class="rightSlects">
-                                                    <el-select v-model="schoolName" @change="getGrade" class="elInput"
+                                                    <el-select v-model="schoolName" @change="getSchoolPart" class="elInput"
                                                         placeholder="请选择">
                                                         <el-option v-for="item in schoolOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
 
+                                                    <el-select v-model="schoolPartName" @change="getGrade" class="elInput"
+                                                    style="margin-left: 10px;"
+                                                        placeholder="请选择">
+                                                        <el-option v-for="item in schoolPartOptions" :key="item.id"
+                                                            :label="item.title" :value="item.id">
+                                                        </el-option>
+                                                    </el-select>
                                                     <el-select v-model="gradeName" @change="getClass" collapse-tags
-                                                        class="elInput" style="margin-left: 20px;" placeholder="请选择">
+                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in gradeOptions" :key="item.value"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
-                                                    <el-select v-model="className" collapse-tags class="elInput"
-                                                        style="margin-left: 20px;" placeholder="请选择">
+                                                    <!-- <el-select v-model="className" collapse-tags class="elInput"
+                                                        style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in classOptions" :key="item.title"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
-                                                    </el-select>
+                                                    </el-select> -->
                                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
                                                 </div>
@@ -409,33 +425,22 @@
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
-                                                    placeholder="选择日期">
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd"
+                                                    v-model="startTime" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date"
+                                                    placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
                                                 <div class="rightSlects">
-                                                    <el-select v-model="schoolName" @change="getGrade" class="elInput"
-                                                        placeholder="请选择">
-                                                        <el-option v-for="item in schoolOptions" :key="item.id"
-                                                            :label="item.title" :value="item.id">
-                                                        </el-option>
-                                                    </el-select>
-
-                                                    <el-select v-model="gradeName" @change="getClass" collapse-tags
-                                                        class="elInput" style="margin-left: 20px;" placeholder="请选择">
-                                                        <el-option v-for="item in gradeOptions" :key="item.value"
-                                                            :label="item.title" :value="item.id">
-                                                        </el-option>
-                                                    </el-select>
-                                                    <el-select v-model="className" collapse-tags class="elInput"
+                                                 
+                                                    <el-select v-model="teamName" collapse-tags class="elInput"
                                                         style="margin-left: 20px;" placeholder="请选择">
-                                                        <el-option v-for="item in classOptions" :key="item.title"
+                                                        <el-option v-for="item in teamOptions" :key="item.title"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
@@ -548,37 +553,31 @@
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
-                                                    placeholder="选择日期">
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd"
+                                                    v-model="startTime" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date"
+                                                    placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
                                                 <div class="rightSlects">
-                                                    <el-select v-model="schoolName" @change="getGrade" class="elInput"
+                                                    <el-select v-model="spicialSchoolName" @change="changeSpicial" class="elInput"
                                                         placeholder="请选择">
-                                                        <el-option v-for="item in schoolOptions" :key="item.id"
+                                                        <el-option v-for="item in spicialSchoolOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
-
-                                                    <el-select v-model="gradeName" @change="getClass" collapse-tags
-                                                        class="elInput" style="margin-left: 20px;" placeholder="请选择">
-                                                        <el-option v-for="item in gradeOptions" :key="item.value"
-                                                            :label="item.title" :value="item.id">
-                                                        </el-option>
-                                                    </el-select>
-                                                    <el-select v-model="className" collapse-tags class="elInput"
+                                                    <el-select v-model="spiciaName" collapse-tags class="elInput"
                                                         style="margin-left: 20px;" placeholder="请选择">
-                                                        <el-option v-for="item in classOptions" :key="item.title"
+                                                        <el-option v-for="item in spicialOptions" :key="item.title"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
-                                                    <el-button class="seachdate" @click="seach">筛选</el-button>
+                                                    <el-button class="seachdate" @click="seachSpicial">筛选</el-button>
 
                                                 </div>
 
@@ -687,12 +686,13 @@
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
-                                                    placeholder="选择日期">
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd"
+                                                    v-model="startTime" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date"
+                                                    placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
@@ -829,12 +829,13 @@
                                         <el-col :span="18">
                                             <div class="block">
                                                 <span class="demonstration">发布时间</span>
-                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd" v-model="startTime" type="date"
-                                                    placeholder="选择日期">
+                                                <el-date-picker class="elDate" value-format="yyyy-MM-dd"
+                                                    v-model="startTime" type="date" placeholder="选择日期">
                                                 </el-date-picker>
                                                 --
 
-                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
+                                                <el-date-picker v-model="endTime" value-format="yyyy-MM-dd" type="date"
+                                                    placeholder="选择日期">
                                                 </el-date-picker>
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
@@ -933,19 +934,27 @@
         },
         data() {
             return {
+                spicialSchoolOptions:[],
+                spicialSchoolName:'',
+                spicialOptions:[],
+                spiciaName:'',
                 keyword: '',
                 url: '/backapi/Management/newClass',
                 dialogVisible: false,
                 selectId: '',
                 type: 1,//1待审核2审核通过3审核未通过
                 teaching: [],
-                schoolName: '',
-                gradeName: '',
-                className: '',//班级名称
+                schoolPartName:'全部',
+                schoolName: '全部',
+                gradeName: '全部',
+                className: '全部',//班级名称
                 classData: [],
                 classList: [],//班级新闻
                 teamData: [],
                 psize: 10,
+                schoolPartOptions: [],
+                teamName:'',
+                teamOptions:[],
                 page: 1,
                 total: 0,
                 teachingData: [],
@@ -964,7 +973,7 @@
                 specialList: [],
                 schoolOptions: [],
                 gradeOptions: [],
-                classOptions: { id: 'all', title: '全部' },
+                classOptions: [],
                 classTableData: [],//班级空间数据
                 startTime: '',
                 endTime: '',
@@ -979,10 +988,41 @@
             var url = "/backapi/Management/newClass";
             var checkingUrl = "/roomapi/Room_Class/audit";
             this.getArticles(url, 'classData');
-            // this.getChecking();
             this.getSchools(checkingUrl, 'classData');
+            this.getSpicialNames();
         },
         methods: {
+            seachSpicial(){//筛选专题
+                var data={
+                    keyword:this.keyword,
+                    page:1,
+                    psize:1,
+                    strtime:this.startTime,
+                    endtime:this.endTime,
+                    s_id:this.spicialSchoolName
+                }
+                this.getArticles();
+            },
+            getSpicialNames(){
+                request.post('/backapi/Statistical/ktlb',{},(res)=>{
+                    this.spicialSchoolOptions=res.data;
+                    this.spicialSchoolName=res.data[0].id;
+                    this.changeSpicial(this.spicialSchoolName=res.data[0].id);
+                })
+            },
+            changeSpicial(id){
+                this.spicialSchoolOptions.forEach((item)=>{
+                    if(item.id==id){
+                        this.spicialOptions=item.subject;
+                        if(this.spicialOptions.length>0){
+                            this.spiciaName=this.spicialOptions[0].id;
+                        }else{
+                            this.spiciaName='';
+                        }
+                       
+                    }
+                })
+            },
             seachTime() { //根据开始和结束时间查询
                 this.page = 1;
                 var data = {
@@ -1100,18 +1140,50 @@
                 request.post(url, {}, (res) => {
                     res.data.unshift({ title: '全部', id: 'all' })
                     this.schoolOptions = res.data;
+                    this.schoolName =this.schoolOptions[0].id;
+                   this.getSchoolPart(this.schoolOptions[0].id);
                 })
             },
-            getGrade(tab) {
+            getSchoolPart(tab){
                 console.log(tab)
+                if (tab == 'all') {
+                    this.schoolPartOptions = [{ title: '全部', id: '全部', class: [{ id: '全部', title: '全部' }] }];
+                    this.gradeOptions = [{ title: '全部', id: 'all', class: [{ id: 'all', title: '全部' }] }];
+                    this.schoolPartName="全部";
+                    this.gradeName = "全部";
+                    this.className = "全部";
+                } else {
+                    this.schoolOptions.forEach(element => {
+                        if (element.id == tab) {                          
+                            this.schoolPartOptions = element.level;
+                            if(this.schoolPartOptions.length>0){
+                                this.schoolPartName=this.schoolPartOptions[0].id;
+                                getGrade(this.schoolPartOptions[0].id)
+                            }else{
+                                this.gradeName="";
+                            }
+                            
+                        }
+                    });
+                }
+            },
+            getGrade(tab) {
+                console.log(tab,'grade')
                 if (tab == 'all') {
                     this.gradeOptions = [{ title: '全部', id: 'all', class: [{ id: 'all', title: '全部' }] }];
                     this.gradeName = "全部";
                     this.className = "全部";
                 } else {
-                    this.schoolOptions.forEach(element => {
+                    this.schoolPartOptions.forEach(element => {
                         if (element.id == tab) {
-                            this.gradeOptions = element.grade;
+                            this.gradeOptions = element.garde;
+                            if(element.garde.length>0){
+                                this.gradeName= this.gradeOptions[0].id;
+                                getClass(this.gradeOptions[0].id)
+                            }else{
+                                this.className="";
+                            }
+                            
                         }
                     });
                 }
@@ -1131,14 +1203,8 @@
 
             },
             seach() {
-                // var data = {
-                //     strtime: this.startTime,
-                //     endtime: this.endTime,
-                //     page: 1,
-                //     keyword:this.keyword,
-                //     psize: 10
-                // }
-                this.page=1;
+            
+                this.page = 1;
                 this.getArticles();
             },
             deleteArt(res) {
@@ -1165,21 +1231,32 @@
             },
 
             handleClick(tab, event) {
-                debugger
                 console.log(tab, event, 'handleClick');
                 this.activeName = tab.name;
                 this.page = 1;
                 var url = "";
                 this.getArticles(url, tab.name);
             },
-            getArticles(url, key) {
+            getArticles() {
                 //默认获取班级
-                debugger
+                var url='';
                 var tab = this.activeName;
+                let data = {
+                    strtime: this.startTime,
+                    endtime: this.endTime,
+                    // type: this.type,
+                    page: this.page,
+                    psize: this.psize,
+                    keyword: this.keyword
+                };
                 switch (tab) {
                     case 'classSpace'://班级
                         if (this.showArticle) {
                             url = "/backapi/Management/newClass";
+                            data.s_id=this.schoolName=="全部"?'':this.schoolName;
+                            data.l_id=this.schoolPartName=="全部"?'':this.schoolPartName;
+                            data.g_id=this.gradeName=="全部"?'':this.gradeName;
+                            data.c_id=this.className=="全部"?'':this.className;
                         } else {
                             url = "/roomapi/Room_Class/audit";
                         }
@@ -1194,6 +1271,7 @@
 
                         break;
                     case 'specialSpace':   //专题空间
+                        data.s_id=this.spicialSchoolName;
                         if (this.showArticle) {
                             url = "/backapi/Management/newProject";
                         } else {
@@ -1232,14 +1310,7 @@
                         }
 
                 }
-                let data = {
-                    strtime: this.startTime,
-                    endtime: this.endTime,
-                    // type: this.type,
-                    page: this.page,
-                    psize: this.psize,
-                    keyword: this.keyword
-                };
+          
                 request.post(url, data, (res) => {
                     if (res.code == 0) {
                         switch (tab) {

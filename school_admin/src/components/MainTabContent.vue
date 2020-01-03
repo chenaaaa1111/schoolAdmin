@@ -732,7 +732,6 @@
             },
             getArticles(url, key) {
                 //默认获取班级
-                debugger
                 var tab = this.activeName;
                 switch (tab) {
                     case 'classSpace':
