@@ -14,7 +14,7 @@
     <el-container>
       <el-aside class="leftBar" width="140px">
 
-        <el-menu :default-active="active" router class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+        <el-menu :default-active="active" router class="el-menu-vertical-demo" @select="selectKey" @open="handleOpen" @close="handleClose"
           background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff"
           :collapse="isCollapse">
           <el-menu-item index="index">
@@ -42,7 +42,7 @@
       </el-aside>
       <el-container>
         <el-main>
-          <router-view />
+          <router-view  @changeTab="selectKey" />
         </el-main>
 
       </el-container>
@@ -68,10 +68,18 @@
       }
     },
     methods: {
+      selectKey(key){
+        console.log('selectKey'+key);
+        this.selectMenu(key);
+      },
+      changeTab(key){
+        this.selectMenu(key);
+      },
       selectMenu(key, value) {
         console.log(key, value)
         if (this.active != key) {
           this.$router.push({ name: key })
+          this.active=key;
         }
       },
       handleOpen(key, keyPath) {

@@ -63,26 +63,29 @@
                 <div class="viewdialogContainer">
                     <div>基本信息</div>
                     <div class="avoiterCotainer" style="vertical-align: middle;">
-                        <el-image class="avoiter" style="width: 50px; height: 50px" :src="url"></el-image>
-                        <span style="vertical-align: middle;margin-left: 10px;">张三</span>
+                        <el-image class="avoiter" style="width: 50px; height: 50px" :src="viewuserInfo.avatar"></el-image>
+                        <span style="vertical-align: middle;margin-left: 10px;">{{viewuserInfo.name}}</span>
                     </div>
                     <div class="fc_gray">
-                        登录账号 ： 13120523333
+                        登录账号 ： {{viewuserInfo.mobile}}
                     </div>
                     <div class="meTitle">
-                        权限信息 ：速度快废了SDK
+                        权限信息 ：  {{viewuserInfo.auth}}
                     </div>
                     <div class="fc_gray mb_10">
-                        班级 ： 13120523333
+                        班级 ： {{viewuserInfo.class}}
                     </div>
                     <div class="fc_gray mb_10">
-                        社团 ： 13120523333
+                        社团 ： 
+                        <span v-for ="(item,key) in viewuserInfo.community">{{item.title}}</span>
                     </div>
                     <div class="fc_gray mb_10">
-                        课题组 ： 13120523333
+                        课题组 ： 
+                        <span v-for ="(item,key) in viewuserInfo.subject">{{item.title}}</span>
                     </div>
                     <div class="fc_gray">
-                        教研组 ： 教研组
+                        教研组 ： 
+                        <span v-for ="(item,key) in viewuserInfo.teaching">{{item.title}}</span>
                     </div>
                 </div>
 
@@ -174,6 +177,8 @@
     export default {
         data() {
             return {
+                viewUserId :'',
+                viewuserInfo:{},
                 registTime:{},//注册时间
                 showTimeDialog: false,
                 showAdd: false,
@@ -209,6 +214,12 @@
             };
         },
         methods: {
+            getUserInfo(){
+                var data={id :this.viewUserId}
+                request.post('/backapi/Users/Details',data,(res)=>{
+                    this.viewuserInfo=res.data;
+                })
+            },
             getTimeregist(){
                 request.post('/backapi/Users/reg',{},(res)=>{
                     if(res.data.res_starttime&&res.data.res_status!=2){
@@ -235,8 +246,10 @@
                 //     this.registTime=registtime;
                 // })
             },
-            fviewDialog() {
+            fviewDialog(item) {
+                this.viewUserId=item.id;
                 this.viewDialog = true;
+                this.getUserInfo(this.viewUserId);
             },
             feditDialog(item) {
                 this.editDialog = true;

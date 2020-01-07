@@ -36,7 +36,7 @@
                             </div>
                             <template>
                                 <!-- 班级空间筛选 -->
-                                <div class="rightSlects" v-show="activeName=='classSpace'">
+                                <div class="rightSlectsTop" v-show="activeName=='classSpace'">
                                     <el-select v-model="schoolName" @change="getGrade" class="elInput"
                                         placeholder="请选择">
                                         <el-option v-for="item in schoolOptions" :key="item.id" :label="item.title"
@@ -60,7 +60,7 @@
 
                                 </div>
                                  <!-- 年级空间筛选 -->
-                                 <div class="rightSlects" v-show="activeName=='gradeSpace'">
+                                 <div class="rightSlectsTop" v-show="activeName=='gradeSpace'">
                                     <el-select v-model="schoolName" @change="getSchoolPart"
                                         class="elInput" placeholder="请选择">
                                         <el-option v-for="item in schoolOptions" :key="item.id"
@@ -90,7 +90,7 @@
 
                                 </div>
                                 <!-- 专题空间筛选 -->
-                                <div class="rightSlects" v-show="activeName=='specialSpace'">
+                                <div class="rightSlectsTop" v-show="activeName=='specialSpace'">
                                     <el-select v-model="spicialSchoolName" @change="changeSpicial"
                                         class="elInput" placeholder="请选择">
                                         <el-option v-for="item in spicialSchoolOptions" :key="item.id"
@@ -106,7 +106,7 @@
                                     <el-button class="seachdate" @click="seachSpicial">筛选</el-button>
                                 </div>
                                 <!-- 教研空间筛选 -->
-                                <div class="rightSlects" v-show="activeName=='teachingSpace'">
+                                <div class="rightSlectsTop" v-show="activeName=='teachingSpace'">
                                     <el-select v-model="teachingSchoolName" @change="changeTeaching"
                                         class="elInput" placeholder="请选择">
                                         <el-option v-for="item in teachingSchoolOptions" :key="item.id"
@@ -1253,9 +1253,11 @@
                             this.schoolPartOptions = element.level;
                             if (this.schoolPartOptions.length > 0) {
                                 this.schoolPartName = this.schoolPartOptions[0].id;
-                                getGrade(this.schoolPartOptions[0].id)
+                                this.getGrade(this.schoolPartOptions[0].id)
                             } else {
-                                this.gradeName = "";
+                                this.schoolPartName = "";
+                                this.gradeName="";
+                                this.className="";
                             }
 
                         }
@@ -1274,9 +1276,10 @@
                             this.gradeOptions = element.garde;
                             if (element.garde.length > 0) {
                                 this.gradeName = this.gradeOptions[0].id;
-                                getClass(this.gradeOptions[0].id)
+                                this.getClass(this.gradeOptions[0].id)
                             } else {
-                                this.className = "";
+                                this.gradeName = "";
+                                this.className="";
                             }
 
                         }
@@ -1292,6 +1295,11 @@
                     this.gradeOptions.forEach(element => {
                         if (element.id == tab) {
                             this.classOptions = element.class;
+                            if(this.classOptions.length>0){
+                               this.className=this.classOptions[0].id; 
+                            }else{
+                                this.className="";
+                            }
                         }
                     });
                 }

@@ -85,7 +85,7 @@
                         </el-option>
                     </el-select>
                 </template>
-                <div class="right" > <router-link to="/home/spaces">查看全部</router-link> </div>
+                <div class="right" @click="changeTabChilder('articleManager')" > 查看全部 </div>
             </div>
             <div class="rangsList">
                 <el-row>
@@ -163,6 +163,10 @@
             this.changeSelect('1');
         },
         methods: {
+            changeTabChilder(item){
+                console.log(123)
+                this.$emit('changeTab',item);
+            },
             goToAll(id){
                 this.$router.push({url:'/home/spaces'})
 
@@ -175,7 +179,6 @@
             },
             getNewst(type){
                 var url="";
-                debugger
                 switch(type){
                     case '1':
                         this.newestKey=type;
@@ -209,7 +212,6 @@
                 })
             },
             getDate(date){
-                debugger
                 switch(date){
                     case '1':
                     this.date='1';
@@ -228,7 +230,6 @@
                 this.changeSelect(this.select);
             },
             changeSelect(ses){
-                debugger
                 console.log(ses);
                 var url="";
                 
