@@ -16,13 +16,8 @@ axios.interceptors.request.use(
             }else{
                 if (sessionStorage.getItem('Authorization')) {
                     config.data.token = sessionStorage.getItem('Authorization');
-                    // config.data.token=token;
                   }else{
-                    //   console.log('this',this);
                       vm.$router.push('/login')
-                    console.log(config.data);
-                    config.data.token=token;
-
                   }
             }
           

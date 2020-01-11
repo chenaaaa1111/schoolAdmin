@@ -35,9 +35,10 @@
 .el-tabs__content {
     background: #fff;
 }
-
+.deletebox{
+    margin-bottom: 20px;
+}
 .tabsTop {
-    padding-left: 30px;
     margin-bottom: 30px;
 }
 
@@ -58,6 +59,10 @@
 .avoiterCotainer {
     margin-top: 16px;
     margin-bottom: 16px;
+}
+.checkgropBox{
+    display: flex;
+    padding-bottom: 12px;
 }
 
 .fc_gray {
@@ -93,4 +98,30 @@
     border-radius: 4px;
     font-size:14px;
     color: #fff;
+}
+.checkboxBox{
+    background:rgba(240,242,247,1);
+    padding: 10px;
+}
+.grouBg{
+    background: #fff;
+    margin-bottom: 10px;
+
+}
+.checkboxdiv{
+    height: 50px;
+    line-height: 50px;
+}
+.el-checkbox{
+    margin-left: 10px;
+    margin-right: 0;
+}
+.quanxian .el-dialog{
+    width: 750px;
+}
+.checkboxdiv .el-checkbox__input{
+   /* display: none; */
+}
+.checkboxdiv{
+    padding-left: 10px;
 }

@@ -4,9 +4,9 @@
     <el-container>
       <el-header>
         <div class="homehead">
-          <img src="" alt=""> <span> 华悦蜀山区第一中学空间管理后台</span>
+          <img src="../assets/images/logo.png" class="logo" alt="logo">
           <div class="avator">
-            <!-- <img  src="@/assets/logo.png"> -->
+            <topAvoit></topAvoit>
           </div>
         </div>
       </el-header>
@@ -14,35 +14,64 @@
     <el-container>
       <el-aside class="leftBar" width="140px">
 
-        <el-menu :default-active="active" router class="el-menu-vertical-demo" @select="selectKey" @open="handleOpen" @close="handleClose"
-          background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff"
+        <el-menu :default-active="active" router class="el-menu-vertical-demo" @select="selectKey" @open="handleOpen"
+          @close="handleClose" background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff"
           :collapse="isCollapse">
-          <el-menu-item index="index">
-            <i class="el-icon-s-home"></i>
-            <span slot="title">查询与统计</span>
+          <el-menu-item index="index" v-show="userInfo.level!=3">
+            <div style="text-align: center;line-height: 30px;height: 30px;">
+              <i class="iconfont home_icon">&#xe607;</i>
+            </div>
+            <div style="height: 20px;line-height: 20px;text-align: center;font-size: 12px;">
+              <span slot="title">查询与统计</span>
+            </div>
+
           </el-menu-item>
-          <el-menu-item index="usersManager">
-            <i class="el-icon-s-custom"></i>
-            <span slot="title">用户管理</span>
+          <el-menu-item index="usersManager" v-show="userInfo.level!=3">
+            <div style="text-align: center;line-height: 30px;height: 30px;">
+              <i class="iconfont home_icon">&#xe60f;</i>
+            </div>
+            <div style="height: 20px;line-height: 20px;text-align: center;font-size: 12px;">
+              <span slot="title">用户管理</span>
+            </div>
+
+
           </el-menu-item>
-          <el-menu-item index="articleManager">
-            <i class="el-icon-setting"></i>
-            <span slot="title">文章管理</span>
+          <el-menu-item index="articleManager" v-show="userInfo.level!=3">
+            <div style="text-align: center;line-height: 30px;height: 30px;">
+              <i class="iconfont home_icon">&#xe624;</i>
+            </div>
+            <div style="height: 20px;line-height: 20px;text-align: center;font-size: 12px;">
+              <span slot="title">文章管理</span>
+            </div>
+
+
           </el-menu-item>
-         
+
           <el-menu-item index="revieweManager">
-            <i class="el-icon-suitcase"></i>
-            <span slot="title">文章审核</span>
+            <div style="text-align: center;line-height: 30px;height: 30px;">
+              <i class="iconfont home_icon">&#xe715;</i>
+            </div>
+            <div style="height: 20px;line-height: 20px;text-align: center;font-size: 12px;">
+              <span slot="title">文章审核</span>
+            </div>
+
+
           </el-menu-item>
-          <el-menu-item index="classifyManager">
-            <i class="el-icon-suitcase"></i>
-            <span slot="title">分类管理</span>
+          <el-menu-item index="classifyManager" v-show="userInfo.level!=3">
+            <div style="text-align: center;line-height: 30px;height: 30px;">
+              <i class="iconfont home_icon">&#xe612;</i>
+            </div>
+            <div style="height: 20px;line-height: 20px;text-align: center;font-size: 12px;">
+              <span slot="title">分类管理</span>
+            </div>
+
+
           </el-menu-item>
         </el-menu>
       </el-aside>
       <el-container>
         <el-main>
-          <router-view  @changeTab="selectKey" />
+          <router-view @changeTab="selectKey" />
         </el-main>
 
       </el-container>
@@ -54,32 +83,33 @@
 </template>
 <script>
   // @ is an alias to /src
-  // import HelloWorld from '@/components/HelloWorld.vue'
-
+  import topAvoit from '@/components/topAvoit.vue';
+  import request from '@/api/request.js';
   export default {
     name: 'home',
     components: {
-      // HelloWorld
+      topAvoit
     },
     data() {
       return {
+        userInfo: {},
         isCollapse: false,
         active: 'index'
       }
     },
     methods: {
-      selectKey(key){
-        console.log('selectKey'+key);
+      selectKey(key) {
+        console.log('selectKey' + key);
         this.selectMenu(key);
       },
-      changeTab(key){
+      changeTab(key) {
         this.selectMenu(key);
       },
       selectMenu(key, value) {
         console.log(key, value)
         if (this.active != key) {
           this.$router.push({ name: key })
-          this.active=key;
+          this.active = key;
         }
       },
       handleOpen(key, keyPath) {
@@ -92,7 +122,18 @@
     mounted() {
       console.log(location.hash.split('/')[2], 'hash');
       this.active = location.hash.split('/')[2];
-
+      this.userInfo = this.getUserInfo();
+      // this.$getUserInfo().level;
+      var data = { id: this.userInfo.id }
+      request.post('/backapi/Users/Details', data, (res) => {
+        sessionStorage.setItem('userInfo', JSON.stringify(res.data));
+        this.$userInfo = res.data;
+        if (res.data.level != 3) {
+          self.$router.push('/')
+        } else {
+          self.$router.push('/home/revieweManager')
+        }
+      })
     }
   }
 </script>
@@ -102,7 +143,59 @@
     min-height: 400px;
   } */
 </style>
+<style>
+  /* 阿里图标库 */
+  @font-face {
+    font-family: 'iconfont';
+    /* project id 1607641 */
+    src: url('//at.alicdn.com/t/font_1607641_c9lfnvyiosk.eot');
+    src: url('//at.alicdn.com/t/font_1607641_c9lfnvyiosk.eot?#iefix') format('embedded-opentype'),
+      url('//at.alicdn.com/t/font_1607641_c9lfnvyiosk.woff2') format('woff2'),
+      url('//at.alicdn.com/t/font_1607641_c9lfnvyiosk.woff') format('woff'),
+      url('//at.alicdn.com/t/font_1607641_c9lfnvyiosk.ttf') format('truetype'),
+      url('//at.alicdn.com/t/font_1607641_c9lfnvyiosk.svg#iconfont') format('svg');
+  }
+
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+    margin-right: 8px;
+    /* margin-right: 5px;
+    width: 24px;
+    text-align: center;
+    font-size: 18px;
+    vertical-align: middle; */
+  }
+
+  .el-menu-item i.home_icon {
+    color: #6FA5E3;
+    font-size: 25px;
+    margin-right: 0;
+  }
+
+  .el-dialog__wrapper .el-dialog {
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .el-dialog__header {
+    background: #C8D8F1;
+    border-radius: 8px 8px 0px 0px;
+  }
+</style>
 <style scoped>
+  .el-menu-item {
+    margin-bottom: 20px;
+  }
+
+  .el-menu-item,
+  .el-submenu__title {
+    height: 50px;
+  }
+
   .menuTitle {
     /* display: block;
     text-align: center; */
@@ -152,13 +245,17 @@
     vertical-align: middle;
   }
 
+  .logo {
+    height: 45px;
+    margin-left: 70px;
+  }
+
   .avator {
-    width: 32px;
-    height: 32px;
+
     border-radius: 50%;
     background: url(/img/logo.82b9c7a5.png) no-repeat center center;
     position: absolute;
-    top: 36px;
+    top: -3px;
     right: 44px;
   }
 

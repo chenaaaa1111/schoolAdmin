@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    baseUrl:"http://school.i2f2f.com"
   },
   mutations: {
   },

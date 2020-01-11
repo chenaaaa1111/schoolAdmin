@@ -36,91 +36,103 @@
                             </div>
                             <template>
                                 <!-- 班级空间筛选 -->
-                                <div class="rightSlectsTop" v-show="activeName=='classSpace'">
-                                    <el-select v-model="schoolName" @change="getGrade" class="elInput"
+                                <!-- <div class="rightSlectsTop" v-show="activeName=='classSpace'">
+                                    <el-select v-model="schoolName" @change="getSchoolPart" class="elInput"
                                         placeholder="请选择">
                                         <el-option v-for="item in schoolOptions" :key="item.id" :label="item.title"
                                             :value="item.id">
                                         </el-option>
                                     </el-select>
 
-                                    <el-select v-model="gradeName" @change="getClass" collapse-tags class="elInput"
-                                        style="margin-left: 20px;" placeholder="请选择">
+                                    <el-select v-model="schoolPartName" :disabled="disabled" @change="getGrade"
+                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
+                                        <el-option v-for="item in schoolPartOptions" :key="item.id" :label="item.title"
+                                            :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <el-select v-model="gradeName" :disabled="disabled" @change="getClass" collapse-tags
+                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
                                         <el-option v-for="item in gradeOptions" :key="item.value" :label="item.title"
                                             :value="item.id">
                                         </el-option>
                                     </el-select>
-                                    <el-select v-model="className" collapse-tags class="elInput"
-                                        style="margin-left: 20px;" placeholder="请选择">
+                                    <el-select v-model="className" :disabled="disabled" collapse-tags class="elInput"
+                                        style="margin-left: 10px;" placeholder="请选择">
                                         <el-option v-for="item in classOptions" :key="item.title" :label="item.title"
                                             :value="item.id">
                                         </el-option>
                                     </el-select>
                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
-                                </div>
-                                 <!-- 年级空间筛选 -->
-                                 <div class="rightSlectsTop" v-show="activeName=='gradeSpace'">
-                                    <el-select v-model="schoolName" @change="getSchoolPart"
-                                        class="elInput" placeholder="请选择">
-                                        <el-option v-for="item in schoolOptions" :key="item.id"
-                                            :label="item.title" :value="item.id">
+                                </div> -->
+                                <!-- 年级空间筛选 -->
+                                <!-- <div class="rightSlectsTop" v-show="activeName=='gradeSpace'">
+                                    <el-select v-model="schoolName" @change="getSchoolPart" class="elInput"
+                                        placeholder="请选择">
+                                        <el-option v-for="item in schoolOptions" :key="item.id" :label="item.title"
+                                            :value="item.id">
                                         </el-option>
                                     </el-select>
 
-                                    <el-select v-model="schoolPartName" @change="getGrade"
-                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
-                                        <el-option v-for="item in schoolPartOptions" :key="item.id"
-                                            :label="item.title" :value="item.id">
-                                        </el-option>
-                                    </el-select>
-                                    <el-select v-model="gradeName" @change="getClass" collapse-tags
-                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
-                                        <el-option v-for="item in gradeOptions" :key="item.value"
-                                            :label="item.title" :value="item.id">
-                                        </el-option>
-                                    </el-select>
-                                    <!-- <el-select v-model="className" collapse-tags class="elInput"
+                                    <el-select v-model="schoolPartName" @change="getGrade" class="elInput"
                                         style="margin-left: 10px;" placeholder="请选择">
-                                        <el-option v-for="item in classOptions" :key="item.title"
-                                            :label="item.title" :value="item.id">
+                                        <el-option v-for="item in schoolPartOptions" :key="item.id" :label="item.title"
+                                            :value="item.id">
                                         </el-option>
-                                    </el-select> -->
+                                    </el-select>
+                                    <el-select v-model="gradeName" @change="getClass" collapse-tags class="elInput"
+                                        style="margin-left: 10px;" placeholder="请选择">
+                                        <el-option v-for="item in gradeOptions" :key="item.value" :label="item.title"
+                                            :value="item.id">
+                                        </el-option>
+                                    </el-select>
                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
-                                </div>
+                                </div> -->
+                                <!-- 社团空间筛选 -->
+                                <!-- <div class="rightSlectsTop" v-show="activeName=='gradeSpace'">
+
+                                    <el-select v-model="teamName" collapse-tags class="elInput"
+                                        style="margin-left: 20px;" placeholder="请选择">
+                                        <el-option v-for="item in teamOptions" :key="item.title" :label="item.title"
+                                            :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <el-button class="seachdate" @click="seach">筛选</el-button>
+
+                                </div> -->
                                 <!-- 专题空间筛选 -->
-                                <div class="rightSlectsTop" v-show="activeName=='specialSpace'">
-                                    <el-select v-model="spicialSchoolName" @change="changeSpicial"
-                                        class="elInput" placeholder="请选择">
+                                <!-- <div class="rightSlectsTop" v-show="activeName=='specialSpace'">
+                                    <el-select v-model="spicialSchoolName" @change="changeSpicial" class="elInput"
+                                        placeholder="请选择">
                                         <el-option v-for="item in spicialSchoolOptions" :key="item.id"
                                             :label="item.title" :value="item.id">
                                         </el-option>
                                     </el-select>
                                     <el-select v-model="spiciaName" collapse-tags class="elInput"
                                         style="margin-left: 20px;" placeholder="请选择">
-                                        <el-option v-for="item in spicialOptions" :key="item.title"
-                                            :label="item.title" :value="item.id">
+                                        <el-option v-for="item in spicialOptions" :key="item.title" :label="item.title"
+                                            :value="item.id">
                                         </el-option>
                                     </el-select>
                                     <el-button class="seachdate" @click="seachSpicial">筛选</el-button>
-                                </div>
+                                </div> -->
                                 <!-- 教研空间筛选 -->
-                                <div class="rightSlectsTop" v-show="activeName=='teachingSpace'">
-                                    <el-select v-model="teachingSchoolName" @change="changeTeaching"
-                                        class="elInput" placeholder="请选择">
+                                <!-- <div class="rightSlectsTop" v-show="activeName=='teachingSpace'">
+                                    <el-select v-model="teachingSchoolName" @change="changeTeaching" class="elInput"
+                                        placeholder="请选择">
                                         <el-option v-for="item in teachingSchoolOptions" :key="item.id"
                                             :label="item.title" :value="item.id">
                                         </el-option>
                                     </el-select>
                                     <el-select v-model="teachingName" collapse-tags class="elInput"
                                         style="margin-left: 20px;" placeholder="请选择">
-                                        <el-option v-for="item in teachingOptions" :key="item.title"
-                                            :label="item.title" :value="item.id">
+                                        <el-option v-for="item in teachingOptions" :key="item.title" :label="item.title"
+                                            :value="item.id">
                                         </el-option>
                                     </el-select>
                                     <el-button class="seachdate" @click="seachTeaching">筛选</el-button>
-                                </div>
+                                </div> -->
                             </template>
                         </el-col>
                     </el-row>
@@ -133,22 +145,24 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
                                 <template slot-scope="scope">
-                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,200):'文章'}}
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
+                            </el-table-column>
+                            <el-table-column prop="name" label="班级">
                             </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
@@ -201,7 +215,7 @@
                                             </div>
                                             <template>
                                                 <!-- 班级空间筛选 -->
-                                                <div class="rightSlects" >
+                                                <!-- <div class="rightSlects">
                                                     <el-select v-model="schoolName" @change="getSchoolPart"
                                                         class="elInput" placeholder="请选择">
                                                         <el-option v-for="item in schoolOptions" :key="item.id"
@@ -209,28 +223,30 @@
                                                         </el-option>
                                                     </el-select>
 
-                                                    <el-select v-model="schoolPartName" @change="getGrade"
-                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
+                                                    <el-select v-model="schoolPartName" :disabled="disabled"
+                                                        @change="getGrade" class="elInput" style="margin-left: 10px;"
+                                                        placeholder="请选择">
                                                         <el-option v-for="item in schoolPartOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
-                                                    <el-select v-model="gradeName" @change="getClass" collapse-tags
-                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
+                                                    <el-select v-model="gradeName" :disabled="disabled"
+                                                        @change="getClass" collapse-tags class="elInput"
+                                                        style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in gradeOptions" :key="item.value"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
-                                                    <el-select v-model="className" collapse-tags class="elInput"
-                                                        style="margin-left: 10px;" placeholder="请选择">
+                                                    <el-select v-model="className" :disabled="disabled" collapse-tags
+                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in classOptions" :key="item.title"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
                                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
-                                                </div>
-                                               
+                                                </div> -->
+
                                             </template>
                                         </el-col>
                                     </el-row>
@@ -241,16 +257,19 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -284,14 +303,14 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
                                 <template slot-scope="scope">
@@ -351,7 +370,7 @@
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
-                                                <div class="rightSlects">
+                                                <!-- <div class="rightSlects">
                                                     <el-select v-model="schoolName" @change="getSchoolPart"
                                                         class="elInput" placeholder="请选择">
                                                         <el-option v-for="item in schoolOptions" :key="item.id"
@@ -360,26 +379,22 @@
                                                     </el-select>
 
                                                     <el-select v-model="schoolPartName" @change="getGrade"
-                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
+                                                        :disabled="disabled" class="elInput" style="margin-left: 10px;"
+                                                        placeholder="请选择">
                                                         <el-option v-for="item in schoolPartOptions" :key="item.id"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
                                                     </el-select>
-                                                    <el-select v-model="gradeName" @change="getClass" collapse-tags
-                                                        class="elInput" style="margin-left: 10px;" placeholder="请选择">
+                                                    <el-select v-model="gradeName" @change="getClass"
+                                                        :disabled="disabled" collapse-tags class="elInput"
+                                                        style="margin-left: 10px;" placeholder="请选择">
                                                         <el-option v-for="item in gradeOptions" :key="item.value"
                                                             :label="item.title" :value="item.id">
                                                         </el-option>
-                                                    </el-select>
-                                                    <!-- <el-select v-model="className" collapse-tags class="elInput"
-                                                        style="margin-left: 10px;" placeholder="请选择">
-                                                        <el-option v-for="item in classOptions" :key="item.title"
-                                                            :label="item.title" :value="item.id">
-                                                        </el-option>
-                                                    </el-select> -->
+                                                    </el-select>                                      
                                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
-                                                </div>
+                                                </div> -->
 
                                             </template>
                                         </el-col>
@@ -391,16 +406,20 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -434,16 +453,20 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -497,7 +520,7 @@
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
-                                                <div class="rightSlects">
+                                                <!-- <div class="rightSlects">
 
                                                     <el-select v-model="teamName" collapse-tags class="elInput"
                                                         style="margin-left: 20px;" placeholder="请选择">
@@ -507,7 +530,7 @@
                                                     </el-select>
                                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
-                                                </div>
+                                                </div> -->
 
                                             </template>
                                         </el-col>
@@ -519,16 +542,20 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -562,16 +589,20 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -625,7 +656,7 @@
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
-                                                <div class="rightSlects">
+                                                <!-- <div class="rightSlects">
                                                     <el-select v-model="spicialSchoolName" @change="changeSpicial"
                                                         class="elInput" placeholder="请选择">
                                                         <el-option v-for="item in spicialSchoolOptions" :key="item.id"
@@ -639,7 +670,7 @@
                                                         </el-option>
                                                     </el-select>
                                                     <el-button class="seachdate" @click="seachSpicial">筛选</el-button>
-                                                </div>
+                                                </div> -->
                                             </template>
                                         </el-col>
                                     </el-row>
@@ -650,16 +681,20 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -686,22 +721,26 @@
                 </div>
             </el-tab-pane>
             <el-tab-pane label="课题空间" name="topicSpace" v-if="showArticle">
-                <div class="topList" v-if="showArticle">
+                <div class="topList" v-if="!showArticle">
                     <template>
                         <el-table :data="spicialData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -755,7 +794,7 @@
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
-                                                <div class="rightSlects">
+                                                <!-- <div class="rightSlects">
                                                     <el-select v-model="schoolName" @change="getGrade" class="elInput"
                                                         placeholder="请选择">
                                                         <el-option v-for="item in schoolOptions" :key="item.id"
@@ -777,7 +816,7 @@
                                                     </el-select>
                                                     <el-button class="seachdate" @click="seach">筛选</el-button>
 
-                                                </div>
+                                                </div> -->
 
                                             </template>
                                         </el-col>
@@ -789,16 +828,20 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -831,14 +874,14 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
                                 <template slot-scope="scope">
@@ -898,7 +941,7 @@
                                                 <el-button class="seachdate" @click="seach">查询</el-button>
                                             </div>
                                             <template>
-                                                <div class="rightSlects">
+                                                <!-- <div class="rightSlects">
                                                     <el-select v-model="teachingSchoolName" @change="changeTeaching"
                                                         class="elInput" placeholder="请选择">
                                                         <el-option v-for="item in teachingSchoolOptions" :key="item.id"
@@ -912,7 +955,7 @@
                                                         </el-option>
                                                     </el-select>
                                                     <el-button class="seachdate" @click="seachTeaching">筛选</el-button>
-                                                </div>
+                                                </div> -->
 
                                             </template>
                                         </el-col>
@@ -924,16 +967,20 @@
                             <el-table-column prop="image" label="发布封面" width="180">
                                 <template slot-scope="scope">
                                     <el-image :key="scope.row.name" style="width: 100px; height: 100px"
-                                        src="http://pic1.win4000.com/wallpaper/4/5732e68f46b50.jpg" :fit="fit">
+                                        src="scope.row.image" :fit="fit">
                                     </el-image>
 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="create_time" label="发布日期" width="180">
                             </el-table-column>
-                            <el-table-column prop="column_name" label="发布主题">
+                            <el-table-column prop="title" label="发布主题">
                             </el-table-column>
                             <el-table-column prop="content" label="发布内容">
+                                <template slot-scope="scope">
+                                    {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
+
+                                </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
@@ -977,7 +1024,7 @@
         props: {
             showArticle: {
                 default: true,
-                type:Boolean
+                type: Boolean
             }, //显示文章列表
             showView: {
                 default: false
@@ -985,6 +1032,7 @@
         },
         data() {
             return {
+                disabled: '',
                 teachingSchoolName: '',
                 teachingSchoolOptions: [],
                 teachingOptions: [],
@@ -1073,16 +1121,16 @@
             getTeachingNames() {
                 request.post('/backapi/Statistical/jylb', {}, (res) => {
                     this.teachingSchoolOptions = res.data;
-                    if( this.teachingSchoolOptions.length>0){
+                    if (this.teachingSchoolOptions.length > 0) {
                         this.teachingSchoolName = res.data[0].id;
                     }
-                   
-                    if(this.teachingSchoolOptions.length>0){
+
+                    if (this.teachingSchoolOptions.length > 0) {
                         this.changeTeaching(this.teachingSchoolName);
-                    }else{
-                        this.teachingName='';
+                    } else {
+                        this.teachingName = '';
                     }
-                    
+
                 })
             },
             changeTeaching(id) {
@@ -1247,7 +1295,9 @@
                     this.schoolPartName = "全部";
                     this.gradeName = "全部";
                     this.className = "全部";
+                    this.disabled = true;
                 } else {
+                    this.disabled = false;
                     this.schoolOptions.forEach(element => {
                         if (element.id == tab) {
                             this.schoolPartOptions = element.level;
@@ -1256,8 +1306,8 @@
                                 this.getGrade(this.schoolPartOptions[0].id)
                             } else {
                                 this.schoolPartName = "";
-                                this.gradeName="";
-                                this.className="";
+                                this.gradeName = "";
+                                this.className = "";
                             }
 
                         }
@@ -1279,7 +1329,9 @@
                                 this.getClass(this.gradeOptions[0].id)
                             } else {
                                 this.gradeName = "";
-                                this.className="";
+                                this.className = "";
+                                this.gradeOptions = [];
+                                this.classOptions = [];
                             }
 
                         }
@@ -1289,16 +1341,22 @@
             },
             getClass(tab) {
                 console.log(tab);
+                debugger
                 if (tab == 'all' || '') {
                     this.tab = 'tab';
                 } else {
+                    if (this.gradeOptions && this.gradeOptions.length == 0) {
+                        this.classOptions = [];
+                        return;
+                    }
                     this.gradeOptions.forEach(element => {
                         if (element.id == tab) {
                             this.classOptions = element.class;
-                            if(this.classOptions.length>0){
-                               this.className=this.classOptions[0].id; 
-                            }else{
-                                this.className="";
+
+                            if (this.classOptions.length > 0) {
+                                this.className = this.classOptions[0].id;
+                            } else {
+                                this.className = "";
                             }
                         }
                     });
@@ -1361,7 +1419,7 @@
                             data.g_id = this.gradeName == "全部" ? '' : this.gradeName;
                             data.c_id = this.className == "全部" ? '' : this.className;
                         } else {
-                            data.type=this.type;
+                            data.type = this.type;
                             url = "/backapi/Management/newClass";
                         }
 
@@ -1370,7 +1428,7 @@
                         if (this.showArticle) {//年纪
                             url = "/backapi/Management/newClass";
                         } else {
-                            data.type=this.type;
+                            data.type = this.type;
                             url = "/roomapi/Room_Class/audit";
                         }
 
@@ -1380,7 +1438,7 @@
                         if (this.showArticle) {
                             url = "/backapi/Management/newProject";
                         } else {
-                            data.type=this.type;
+                            data.type = this.type;
                             url = "/backapi/Management/newProject";
                         }
 
@@ -1389,7 +1447,7 @@
                         if (this.showArticle) {
                             url = "/backapi/Management/newCommunity";
                         } else {
-                            data.type=this.type;
+                            data.type = this.type;
                             url = "/backapi/Management/newCommunity";
                         }
 
@@ -1398,7 +1456,7 @@
                         if (this.showArticle) { //showArticle 为true 为文章管理，false为文章审核
                             url = "/backapi/Management/newCommunity";//接口还没有 
                         } else {
-                            data.type=this.type;
+                            data.type = this.type;
                             url = "/backapi/Management/newCommunity";//接口还没有 
                         }
 

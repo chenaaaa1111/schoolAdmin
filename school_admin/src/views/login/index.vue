@@ -115,16 +115,31 @@
                     mobile:this.mobile,
                     LoginPWD:this.password
                 }
-                request.post('/roomapi/Login/Loginpwd',data,function(res){
+                request.post('/roomapi/Login/Loginpwd',data,(res)=>{
                         if(res.code==0){
                             sessionStorage.setItem('Authorization',res.data.token);
-                            sessionStorage.setItem('userInfo',JSON.stringify(res.data.user));
-                            self.$router.push('/')
+                            var userData={id:res.data.user.id};
+                            var userInfo=request.post('/backapi/Users/Details',userData,(res)=>{
+                                sessionStorage.setItem('userInfo',JSON.stringify(res.data));
+                                this.$userInfo=res.data;
+                                if(res.data.level!=3){
+                                    self.$router.push('/')
+                                }else{
+                                    self.$router.push('/home/revieweManager')
+                                }
+                            })
+                           
+                           
                     }else{
                         alert(res.message);
                     }
                 })
             }
+        },
+        mounted(){
+            // if(sessionStorage.getItem('Authorization')&&sessionStorage.getItem('Authorization')!='underfind'){
+            //     this.$router.push('/')
+            // }
         }
     }
 
