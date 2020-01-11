@@ -105,7 +105,7 @@
                                 <span class="smallInline"></span>
                                 <span v-if="it.name" class="smallInline" @click="changeHeadmasterClick(it)">更改班主任</span>
                                 <span v-else class="smallInline" @click="setHeadmasterClick(it)">设置班主任</span>
-                                <span class="smallInline" @click="editClassClick(item)">编辑</span>
+                                <span class="smallInline" @click="editClassClick(it)">编辑</span>
                                 <span class="smallInline" @click="
                                 (item)">删除</span>
                               </el-col>
@@ -2211,7 +2211,7 @@
               id: self.editClassRuleForm.classId, //班级id
               title: self.editClassRuleForm.name, //班级名称
             };
-            request.post("/backapi/Classify/editGrade", data, function (res) {
+            request.post("/backapi/Classify/editClass", data, function (res) {
               if (res.code == 0) {
                 self.$message({
                   type: "success",
@@ -2537,7 +2537,6 @@
       },
       //删除教研组用户
       deleteTeachingUser(item) {
-        debugger
         var _that = this;
         _that.$confirm("是否删除该教研组成员，是否确认删除？", "提示", {
           confirmButtonText: "确定",
@@ -2548,8 +2547,7 @@
             let data = {
               id: item.id, //社团id
             };
-            request.post("/backapi/Classify/delTeachinguser", data, function (res) {
-             
+            request.post("/backapi/Classify/delTeachinguser", data, function (res) {          
               if (res.code == 0) {
                 _that.$message({
                   type: "success",

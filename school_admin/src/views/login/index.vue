@@ -123,8 +123,13 @@
                                 sessionStorage.setItem('userInfo',JSON.stringify(res.data));
                                 this.$userInfo=res.data;
                                 if(res.data.level!=3){
-                                    self.$router.push('/')
-                                }else{
+                                    if(res.data.level==4){
+                                        this.$message.success('您后台没有权限');
+                                    }else{
+                                        self.$router.push('/')
+                                    }
+                                   
+                                }else {
                                     self.$router.push('/home/revieweManager')
                                 }
                             })
