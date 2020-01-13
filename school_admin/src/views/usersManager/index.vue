@@ -95,15 +95,15 @@
                     </div>
                     <div class="fc_gray mb_10">
                         社团 ：
-                        <span v-for="(item,key) in viewuserInfo.community" :key="key">{{item.title}}</span>
+                        <span v-for="(item,key) in viewuserInfo.community" :key="key">{{item.title}} ; </span>
                     </div>
                     <div class="fc_gray mb_10">
                         课题组 ：
-                        <span v-for="(item,key) in viewuserInfo.subject" :key="key">{{item.title}}</span>
+                        <span v-for="(item,key) in viewuserInfo.subject" :key="key">{{item.title}} ; </span>
                     </div>
                     <div class="fc_gray">
                         教研组 ：
-                        <span v-for="(item,key) in viewuserInfo.teaching" :key="key">{{item.title}}</span>
+                        <span v-for="(item,key) in viewuserInfo.teaching" :key="key">{{item.title}} ; </span>
                     </div>
                 </div>
 
@@ -574,6 +574,7 @@
             feditDialog(item) {
                 this.editDialog = true;
                 this.editId = item.id;
+                this.form=item;
             },
             submitEditTime() {
                 console.log(this.registTime);
