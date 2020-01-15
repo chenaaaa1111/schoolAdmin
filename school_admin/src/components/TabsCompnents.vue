@@ -162,7 +162,10 @@
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
-                            <el-table-column prop="name" label="班级">
+                            <el-table-column prop="c_name" label="班级">
+                                <template slot-scope="scope">
+                                    {{scope.row.c_name}}
+                                </template>
                             </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
@@ -272,6 +275,11 @@
                                 </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
+                            </el-table-column>
+                            <el-table-column prop="c_name" label="班级">
+                                <template slot-scope="scope">
+                                    {{scope.row.c_name}}
+                                </template>
                             </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
@@ -447,7 +455,6 @@
             </el-tab-pane>
             <el-tab-pane label="社团空间" name="teamSpace">
                 <div class="topList" v-if="showView">
-
                     <template>
                         <el-table :data="teamData" style="width: 100%" class="tableTh">
                             <el-table-column prop="image" label="发布封面" width="180">
@@ -465,10 +472,11 @@
                             <el-table-column prop="content" label="发布内容">
                                 <template slot-scope="scope">
                                     {{scope.row.content&&scope.row.content.match(/[\u4e00-\u9fa5]/g)?scope.row.content.match(/[\u4e00-\u9fa5]/g).join("").substring(0,180):'文章'}}
-
                                 </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
+                            </el-table-column>
+                            <el-table-column prop="c_name" label="所在社团">
                             </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
@@ -559,6 +567,8 @@
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
+                            <el-table-column prop="c_name" label="所在社团">
+                            </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
                                     <span>
@@ -606,6 +616,7 @@
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
+                           
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
                                     <span>
@@ -845,6 +856,8 @@
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
+                            <el-table-column prop="c_name" label="所在课题组">
+                            </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
                                     <span>
@@ -890,6 +903,8 @@
                                 </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
+                            </el-table-column>
+                            <el-table-column prop="c_name" label="所在教研组">
                             </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
@@ -984,6 +999,8 @@
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
+                            <el-table-column prop="c_name" label="所在教研组">
+                            </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
                                     <span>
@@ -1007,7 +1024,14 @@
             </el-tab-pane>
         </el-tabs>
         <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
-            <span>确定审核通过嘛?</span>
+            <span>一旦确认后便不能再修改，请核实好再确认</span>
+            <div style="margin-top: 16px;">
+                <el-radio-group v-model="checkType">
+                    <el-radio :label="2">通过</el-radio>
+                    <el-radio :label="3">未通过</el-radio>
+                </el-radio-group>
+            </div>
+
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="checkArt">确 定</el-button>
@@ -1032,6 +1056,7 @@
         },
         data() {
             return {
+                checkType: 2,//审核是否通过
                 disabled: '',
                 teachingSchoolName: '',
                 teachingSchoolOptions: [],
@@ -1259,8 +1284,11 @@
                     case 'specialSpace':
                         url = "/backapi/Management/auditProject"
                         break;
+                    case 'teachingSpace':
+                        url = "/backapi/Management/auditProject"
+                        break;
                 }
-                request.post(url, { id: this.selectId }, (res) => {
+                request.post(url, { id: this.selectId, type: this.checkType }, (res) => {
                     if (res.code == 0) {
                         this.$message.success('操作成功');
                         this.dialogVisible = false;
@@ -1341,7 +1369,6 @@
             },
             getClass(tab) {
                 console.log(tab);
-                debugger
                 if (tab == 'all' || '') {
                     this.tab = 'tab';
                 } else {
