@@ -145,8 +145,8 @@
                                 <i v-show="!item.isOpen" class="el-icon-caret-right"></i>
                                 {{item.title}}
                               </span>
-                              <span v-if="item.cj_name" class="itemInline">发布人：{{item.cj_name}}</span>
-                              <span v-else class="itemInline">暂无发布人</span>
+                              <!-- <span v-if="item.cj_name" class="itemInline">发布人：{{item.cj_name}}</span>
+                              <span v-else class="itemInline">暂无发布人</span> -->
                               <span v-if="item.name" class="itemInline">审核人：{{item.name}}</span>
                               <span v-else class="itemInline">暂无审核人</span>
                             </el-col>
