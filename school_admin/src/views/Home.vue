@@ -106,11 +106,12 @@
         this.selectMenu(key);
       },
       selectMenu(key, value) {
-        console.log(key, value)
-        if (this.active != key) {
-          this.$router.push({ name: key })
-          this.active = key;
-        }
+        console.log(key, value);
+        //自动跳转了，不用这样了
+        // if (this.active != key) {
+        //   this.$router.push({ name: key })
+        //   this.active = key;
+        // }
       },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
@@ -120,8 +121,10 @@
       }
     },
     mounted() {
-      console.log(location.hash.split('/')[2], 'hash');
-      this.active = location.hash.split('/')[2];
+          //自动跳转自动判断activekey了，
+      // console.log(location.hash.split('/')[2], 'hash');
+      // this.active = location.hash.split('/')[2]; 
+   
       this.userInfo = this.getUserInfo();
       // this.$getUserInfo().level;
       var data = { id: this.userInfo.id }
@@ -130,9 +133,9 @@
         this.$userInfo = res.data;
         if (res.data.level != 4) {
           if(res.data.level == 3){
-            self.$router.push('/login');
+            this.$router.push('/login');
           }else{
-            self.$router.push('/')
+            this.$router.push('/')
           }
         
         } else {
