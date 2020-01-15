@@ -775,12 +775,12 @@
             <el-col :span="3" class="rightSection">
               <el-row class="operateItem">
                 <el-col :span="24">
-                  <el-button>同意</el-button>
+                  <el-button @click="agreeApplication(item.id)">同意</el-button>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="24">
-                  <el-button>拒绝</el-button>
+                  <el-button @click="refuseApplication(id)">拒绝</el-button>
                 </el-col>
               </el-row>
             </el-col>
@@ -2578,6 +2578,36 @@
         request.post("/backapi/Classify/sqCommunity", {}, function (res) {
           if (res.code == 0) {
             this.teamApplicationProcessList = res.data;
+          }
+        });
+      },
+      agreeApplication(id){ //社团社情列表 同意申请 社团id
+        var data = {
+          c_id: id
+        }
+        var self = this;
+        request.post("/backapi/Classify/tyCommunity", data, function (res) {
+          if (res.code == 0) {
+            self.$message({
+              type: "success",
+              message: res.message
+            });
+            self.getTeamApplicationList();
+          }
+        });
+      },
+      refuseApplication(id){ //社团社情列表 拒绝申请 社团id
+        var data = {
+          c_id: id
+        }
+        var self = this;
+        request.post("/backapi/Classify/jjommunity", data, function (res) {
+          if (res.code == 0) {
+            self.$message({
+              type: "success",
+              message: res.message
+            });
+            self.getTeamApplicationList();
           }
         });
       },
