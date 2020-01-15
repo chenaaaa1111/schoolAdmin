@@ -17,7 +17,7 @@
         <el-menu :default-active="active" router class="el-menu-vertical-demo" @select="selectKey" @open="handleOpen"
           @close="handleClose" background-color="#034692FF" text-color="#6FA5E3FF" active-text-color="#fff"
           :collapse="isCollapse">
-          <el-menu-item index="index" v-show="userInfo.level!=3">
+          <el-menu-item index="index" v-show="userInfo.level!=4">
             <div style="text-align: center;line-height: 30px;height: 30px;">
               <i class="iconfont home_icon">&#xe607;</i>
             </div>
@@ -26,7 +26,7 @@
             </div>
 
           </el-menu-item>
-          <el-menu-item index="usersManager" v-show="userInfo.level!=3">
+          <el-menu-item index="usersManager" v-show="userInfo.level!=4">
             <div style="text-align: center;line-height: 30px;height: 30px;">
               <i class="iconfont home_icon">&#xe60f;</i>
             </div>
@@ -36,7 +36,7 @@
 
 
           </el-menu-item>
-          <el-menu-item index="articleManager" v-show="userInfo.level!=3">
+          <el-menu-item index="articleManager" v-show="userInfo.level!=4">
             <div style="text-align: center;line-height: 30px;height: 30px;">
               <i class="iconfont home_icon">&#xe624;</i>
             </div>
@@ -57,7 +57,7 @@
 
 
           </el-menu-item>
-          <el-menu-item index="classifyManager" v-show="userInfo.level!=3">
+          <el-menu-item index="classifyManager" v-show="userInfo.level!=4">
             <div style="text-align: center;line-height: 30px;height: 30px;">
               <i class="iconfont home_icon">&#xe612;</i>
             </div>
@@ -128,8 +128,13 @@
       request.post('/backapi/Users/Details', data, (res) => {
         sessionStorage.setItem('userInfo', JSON.stringify(res.data));
         this.$userInfo = res.data;
-        if (res.data.level != 3) {
-          self.$router.push('/')
+        if (res.data.level != 4) {
+          if(res.data.level == 3){
+            self.$router.push('/login');
+          }else{
+            self.$router.push('/')
+          }
+        
         } else {
           self.$router.push('/home/revieweManager')
         }

@@ -166,7 +166,7 @@
                               <el-col :span="12" class="rightSection">
                                 <span class="smallInline"></span>
                                 <span v-if="it.sh == 0" class="smallInline"
-                                  @click="teamSetReviewerClick(item)">设为审核人</span>
+                                  @click="teamSetReviewerClick(item.id,it.u_id)" v-show="it.sh==0" >设为审核人</span>
                                 <span class="smallInline" @click="showUserDialog(it)">详情</span>
                                 <span class="smallInline" @click="deleteTeamUser(it)">删除</span>
                               </el-col>
@@ -271,8 +271,8 @@
                               </el-col>
                               <el-col :span="12" class="rightSection">
                                 <!-- <span class="smallInline"></span> -->
-                                <span class="smallInline" style="width:105px;"
-                                  @click="teachingSetReviewerClick(item)">设为教研组组长</span>
+                                <span class="smallInline" v-show="it.u_id!=item.u_id" style="width:105px;"
+                                  @click="teachingSetReviewerClick(item.id,it.u_id)">设为教研组组长</span>
                                 <span class="smallInline"  @click="showUserDialog(it)">详情</span>
                                 <span class="smallInline" @click="deleteTeachingUser(it)">删除</span>
                               </el-col>
@@ -2613,12 +2613,23 @@
       },
 
       //社团设置审核人  --start
-      teamSetReviewerClick(item) { //点击社团 设置审核人 出现弹窗
-        console.log(item, "社团设置审核人--得到该社团信息");
-        this.teamSetReviewerRuleForm.teamNameTitle = item.title; //社团名称
-        this.teamSetReviewerRuleForm.teamReviewerId = item.id;// 社团id
-        this.teamSetReviewerRuleForm.teamReviewerName = ''; //社团审核人名称 用户名称
-        this.teamSetReviewerDialog = true;
+      teamSetReviewerClick(itemId,itId) { //点击社团 设置审核人 出现弹窗
+        debugger
+        console.log(itemId, "社团设置审核人--得到该社团信息");
+        // this.teamSetReviewerRuleForm.teamNameTitle = item.title; //社团名称
+        // this.teamSetReviewerRuleForm.teamReviewerId = item.id;// 社团id
+        // this.teamSetReviewerRuleForm.teamReviewerName = it.id; //社团审核人名称 用户名称
+        var data={c_id:itemId,u_id:itId}
+        request.post('/backapi/Classify/editSh',data,(res)=>{
+          if(res.code==0){
+            this.$message.success('设置成功');
+            this.getSetTeamPageData(this.activeName);
+          }else{
+            this.$message.error(res.message);
+          }
+        })
+        // this.teamSetReviewerDialog = true;
+        request.post('',)
       },
       confirmTeamSetReviewer(ruleForm) {  // 社团 设置审核人-- 弹窗 确认按钮
         this.$refs[ruleForm].validate(valid => {
@@ -3060,12 +3071,24 @@
       //教研组设置 删除教研组  --end
 
       //教研组设置审核人 组长 --start
-      teachingSetReviewerClick(item) { //点击教研组成员 设置为教研组组长 出现弹窗
-        console.log(item, "设置教研组组长--得到该教研组信息");
-        this.teachingSetReviewerRuleForm.teachingNameTitle = item.title; //教研组名称
-        this.teachingSetReviewerRuleForm.teachingReviewerId = item.id;// 教研组id
-        this.teachingSetReviewerRuleForm.teachingReviewerName = ''; //教研组名称 用户名称
-        this.teachingSetReviewerDialog = true;
+      teachingSetReviewerClick(itemId,itId) { //点击教研组成员 设置为教研组组长 出现弹窗
+        console.log(itemId, "设置教研组组长--得到该教研组信息");
+        // this.teachingSetReviewerRuleForm.teachingNameTitle = item.title; //教研组名称
+        // this.teachingSetReviewerRuleForm.teachingReviewerId = item.id;// 教研组id
+        // this.teachingSetReviewerRuleForm.teachingReviewerName = ''; //教研组名称 用户名称
+        // this.teachingSetReviewerDialog = true;
+        var data={
+          c_id:itemId,
+          u_id:itId
+        }
+        request.post('/backapi/Classify/editTeachingsh',data,(res)=>{
+          if(res.code==0){
+            this.$message.success('操作成功')
+            this.getSetTeachingPageData(this.activeName)
+          }else{
+            this.$message.error(res.message);
+          }
+        })
       },
       confirmTeachingSetReviewer(ruleForm) {  // 教研组成员 设置为教研组组长 -- 弹窗 确认按钮
         this.$refs[ruleForm].validate(valid => {

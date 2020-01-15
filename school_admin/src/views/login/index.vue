@@ -122,8 +122,8 @@
                             var userInfo=request.post('/backapi/Users/Details',userData,(res)=>{
                                 sessionStorage.setItem('userInfo',JSON.stringify(res.data));
                                 this.$userInfo=res.data;
-                                if(res.data.level!=3){
-                                    if(res.data.level==4){
+                                if(res.data.level!=4){
+                                    if(res.data.level==3){
                                         this.$message.success('您后台没有权限');
                                     }else{
                                         self.$router.push('/')

@@ -153,14 +153,14 @@
             <el-dialog title="批量导入" :visible.sync="showExplor">
 
                 <div>
-                    <el-upload class="upload-demo" ref="upload" accept=".xls,xlsx" action="/backapi/Excel/inserExcel"
+                    <el-upload class="upload-demo" ref="upload" accept=".xls,.xlsx" action="/backapi/Excel/inserExcel"
                         :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :limit="1"
                         :on-success="uploadSuccess" name="excel" :on-error="upLoadErro" :data="uploadeData"
                         :auto-upload="false">
                         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                         <el-button style="margin-left: 10px;" size="small" type="success" @click="downLoad"> 下载模板
                         </el-button>
-                        <div slot="tip" class="el-upload__tip">上传exe文件</div>
+                        <div slot="tip" class="el-upload__tip">上传导入文件</div>
                     </el-upload>
                 </div>
                 <div slot="footer" class="dialog-footer">
@@ -486,7 +486,13 @@
             },
             deleteUsers() {
                 var data = this.selectUsers;
-                request.post('/backapi/Admin/delete', data, (res) => {
+                var dataIds=[];
+                data.forEach((item,index)=>{
+                    dataIds.push(item.id)
+                   
+                });
+                data={id:dataIds}              
+                request.post('/backapi/Users/deleteUsers', data, (res) => {
                     this.handleClick();
                 })
             },
