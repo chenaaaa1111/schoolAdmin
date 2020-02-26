@@ -48,8 +48,8 @@ var request={
                   if(response.status!=200){
                     alert('系统错误,请稍后再试');
                     return;
-                  }else if(typeof response.data=='string'&& response.data.indexOf('1001'>-1)){
-                     
+                  }else if(typeof response.data=='string'&& response.data.indexOf('1001')>-1){
+                   
                     vm.$router.push({path:'/login',query:{
                         backUrl:vm.$router.history.current.fullPath
                     }});
@@ -60,9 +60,20 @@ var request={
                     }});
                     return;
                   }
-                  
+                  console.log('response',response);
+                  var callBackData=response.data; 
+                  try {
+                    if(typeof callBackData=='string'){
+                        callBackData=eval('('+response.data+')') ; 
+                    }else{
+                        callBackData=response.data;
+                    } 
+                  } catch (error) {
+                      console.log(error)
+                  }
+                  console.log('callBackData',callBackData)
                   if(callBack){
-                      callBack(response.data);
+                      callBack(callBackData);
                   }
               })
               .catch((error)=>{

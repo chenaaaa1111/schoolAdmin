@@ -8,7 +8,7 @@
                 <el-input v-model="password" type="password" label="密码" placeholder="请输入密码" required />
          
             
-            <el-button type="primary" class="submitLogin" @click="login"  >登录</el-button>
+            <el-button type="primary" class="submitLogin" @click="login" >登录</el-button>
            
 
         </div>
@@ -99,6 +99,7 @@
                 this.$router.push('/login/forgotPWD')
             },
             login(){
+                debugger
                 var self=this;
                 if(this.mobile==''||this.mobile==undefined){
                     alert('请输入手机号');
@@ -116,12 +117,15 @@
                     LoginPWD:this.password
                 }
                 request.post('/roomapi/Login/Loginpwd',data,(res)=>{
+                      console.log('返回类型', typeof res ,console.log(res));
+                   
                         if(res.code==0){
                             sessionStorage.setItem('Authorization',res.data.token);
                             var userData={id:res.data.user.id};
                             var userInfo=request.post('/backapi/Users/Details',userData,(res)=>{
                                 sessionStorage.setItem('userInfo',JSON.stringify(res.data));
                                 this.$userInfo=res.data;
+                               
                                 if(res.data.level!=4){
                                     if(res.data.level==3){
                                         this.$message.success('您后台没有权限');
@@ -142,6 +146,8 @@
             }
         },
         mounted(){
+            debugger  
+            console.log('login')
             // if(sessionStorage.getItem('Authorization')&&sessionStorage.getItem('Authorization')!='underfind'){
             //     this.$router.push('/')
             // }

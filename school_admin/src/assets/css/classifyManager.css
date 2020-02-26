@@ -80,9 +80,15 @@
 }
 
 .addColumn{
-    padding: 15px;
+    padding: 8px 12px;
+    color: #126EFF;
+    border-color: #126EFF;
 }
 
+.columnButton{
+    width: 96%;
+    margin-bottom: 20px;
+}
 .columnList {
     padding: 5px 30px 30px 15px;
 }
@@ -92,11 +98,15 @@
     border-radius:8px;
 }
 .bgculumns{
-    padding: 24px;
-    background:#fff;
+    padding: 10px 10px 20px 10px;
 }
 .bgculumns .columnItem{
-    margin: 0 20px 20px 0;
+    margin-bottom:10px ;
+    background: #fff;
+    height: 62px;
+    padding-left: 30px;
+    line-height: 62px;
+    position: relative;
 }
 .bgculumns .columnButton {
     display: inline-block;

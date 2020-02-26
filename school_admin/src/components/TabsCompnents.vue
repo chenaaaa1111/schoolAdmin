@@ -616,7 +616,8 @@
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
                             </el-table-column>
-                           
+                            <el-table-column prop="c_name" label="专题">
+                            </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
                                     <span>
@@ -708,6 +709,8 @@
                                 </template>
                             </el-table-column>
                             <el-table-column prop="name" label="发布人">
+                            </el-table-column>
+                            <el-table-column prop="c_name" label="专题">
                             </el-table-column>
                             <el-table-column prop="address" label="操作">
                                 <template slot-scope="scope">
@@ -1461,7 +1464,7 @@
 
                         break;
                     case 'specialSpace':   //专题空间
-                        data.s_id = this.spicialSchoolName;
+                        // data.s_id = this.spicialSchoolName;
                         if (this.showArticle) {
                             url = "/backapi/Management/newProject";
                         } else {

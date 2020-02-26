@@ -106,8 +106,7 @@
                                 <span v-if="it.name" class="smallInline" @click="changeHeadmasterClick(it)">更改班主任</span>
                                 <span v-else class="smallInline" @click="setHeadmasterClick(it)">设置班主任</span>
                                 <span class="smallInline" @click="editClassClick(it)">编辑</span>
-                                <span class="smallInline" @click="
-                                (item)">删除</span>
+                                <span class="smallInline" @click="deleteClass(item)">删除</span>
                               </el-col>
                             </el-row>
                           </div>
@@ -152,6 +151,8 @@
                             </el-col>
                             <el-col :span="12" class="rightSection">
                               <span class="smallInline" @click="teamSetAddUserClick(item)">添加用户</span>
+                              <span class="smallInline" @click="showUpImgDialog(item)">编辑宣传图</span>
+                              <span class="smallInline" @click="showEditColumnDialog(item.id,item.title)">栏目编辑</span>
                               <span class="smallInline" @click="editTeamNameClick(item)">编辑</span>
                               <span class="smallInline" @click="deleteTeamClick(item)">删除</span>
                             </el-col>
@@ -166,7 +167,7 @@
                               <el-col :span="12" class="rightSection">
                                 <span class="smallInline"></span>
                                 <span v-if="it.sh == 0" class="smallInline"
-                                  @click="teamSetReviewerClick(item.id,it.u_id)" v-show="it.sh==0" >设为审核人</span>
+                                  @click="teamSetReviewerClick(item.id,it.u_id)" v-show="it.sh==0">设为审核人</span>
                                 <span class="smallInline" @click="showUserDialog(it)">详情</span>
                                 <span class="smallInline" @click="deleteTeamUser(it)">删除</span>
                               </el-col>
@@ -219,7 +220,7 @@
                               <el-col :span="12" class="rightSection">
                                 <span class="smallInline"></span>
                                 <span class="smallInline"></span>
-                                <span class="smallInline"  @click="showUserDialog(it)">详情</span>
+                                <span class="smallInline" @click="showUserDialog(it)">详情</span>
                                 <span class="smallInline" @click="deleteTopicUser(it)">删除</span>
                               </el-col>
                             </el-row>
@@ -273,7 +274,7 @@
                                 <!-- <span class="smallInline"></span> -->
                                 <span class="smallInline" v-show="it.u_id!=item.u_id" style="width:105px;"
                                   @click="teachingSetReviewerClick(item.id,it.u_id)">设为教研组组长</span>
-                                <span class="smallInline"  @click="showUserDialog(it)">详情</span>
+                                <span class="smallInline" @click="showUserDialog(it)">详情</span>
                                 <span class="smallInline" @click="deleteTeachingUser(it)">删除</span>
                               </el-col>
                             </el-row>
@@ -288,10 +289,10 @@
           </el-tab-pane>
         </el-tabs>
       </el-tab-pane>
-      <el-tab-pane label="栏目设置" name="columnSet" class="columnSection">
+      <el-tab-pane label="专题设置" name="columnSet" class="columnSection">
         <el-row class="addColumn">
           <el-col :span="24">
-            <el-button icon="el-icon-plus" @click="addColumnClick">添加栏目</el-button>
+            <el-button icon="el-icon-plus" @click="addColumnClick">添加专题</el-button>
           </el-col>
         </el-row>
         <el-row class="columnList">
@@ -299,10 +300,18 @@
             <el-row class="bgcchildren">
               <el-col :span="24">
                 <el-row class="bgculumns">
-                  <el-col :span="3" v-for="(item,index) in setColumnList" :key="index" class="columnItem">
-                    <el-button class="columnButton">{{item.title}}<i class="el-icon-delete"
-                        @click="deleteColumnClick(item)"></i><i class="el-icon-edit-outline el-icon--right"
-                        @click="editColumnNameClick(item)"></i></el-button>
+                  <el-col :span="24" v-for="(item,index) in setColumnList" :key="index" class="columnItem">
+                    <el-row>
+                      <el-col :span="12">
+                        {{item.title}}
+                      </el-col>
+                      <el-col :span="12" class="classifyRightColumn">
+                        <span @click="showUpImgDialog(item)">编辑宣传图</span>
+                        <span @click="showEditColumnDialog(item.id,item.title)">栏目编辑</span>
+                        <span @click="showEditColumnPart(item)">编辑</span>
+                        <span @click="deletePartClick(item)">删除</span>
+                      </el-col>
+                    </el-row>
                   </el-col>
                 </el-row>
               </el-col>
@@ -311,7 +320,49 @@
         </el-row>
       </el-tab-pane>
     </el-tabs>
+    <!--编辑栏目弹窗  -->
+    <el-dialog title="编辑栏目" :visible.sync="editColumnDialog">
+      <div class="editColumn">
+        <el-row>
+          <el-col :span="8" v-for="(item,index) in setColumnListpart" :key="index" class="columnItem">
+            <el-button class="columnButton">{{item.title}}<i class="el-icon-delete"
+                @click="deleteColumnClick(item)"></i><i class="el-icon-edit-outline el-icon--right"
+                @click="editColumnNameClick(item)"></i></el-button>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-button class="addColumn" @click="addPartDialog=true">添加栏目</el-button>
+          </el-col>
+        </el-row>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editColumnDialog = false">取 消</el-button>
+        <el-button type="primary" @click="editColumnDialog=false">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!--编辑宣传图弹窗  -->
+    <el-dialog title="编辑宣传图" :visible.sync="upImgDialog">
+      <div class="upImgBody">
+        <div style="text-align: center;">
+          <img :src="upUrl" alt="" srcset="" class="smallImg">
+        </div>
 
+        <input type="file" name="file" ref="avatarInput" @change="changeUpImg" style="display: none;" />
+        <p class="message" style="text-align: center;color: #999;">
+          上传尺寸为1160*72的图片，支持格式PNG、JPG，大小不超过5M
+
+        </p>
+        <div style="text-align: center;">
+          <el-button @click="uploadImg">选择图片<i class="el-icon-upload "></i></el-button>
+        </div>
+
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="upImgDialog = false">取 消</el-button>
+        <el-button type="primary" @click="confirmUpImgDialog">确 定</el-button>
+      </div>
+    </el-dialog>
     <!-- 新增年级 -->
     <el-dialog title="添加年级" :visible.sync="addGradeDialog" width="30%" @close="closeGradeDialog('addGradeRuleForm')">
       <el-dialog width="30%" :visible.sync="searchClickDialog" append-to-body class="searchUserDialog">
@@ -1060,13 +1111,13 @@
     <!-- 教研组设置  ---end-->
 
     <!-- 栏目设置  start -->
-    <!-- 添加栏目  start-->
-    <el-dialog title="添加栏目" width="30%" :visible.sync="addColumnDialog"
+    <!-- 添加专题  start-->
+    <el-dialog title="添加专题" width="30%" :visible.sync="addColumnDialog"
       @close="closeAddColumnDialog('addColumnRuleForm')">
       <el-form :model="addColumnRuleForm" :rules="addColumnRules" ref="addColumnRuleForm" label-width="100px"
         class="demo-ruleForm">
-        <el-form-item label="栏目名称" prop="columnName">
-          <el-input v-model="addColumnRuleForm.columnName" placeholder="请输入栏目名称"></el-input>
+        <el-form-item label="专题名称" prop="columnName">
+          <el-input v-model="addColumnRuleForm.columnName" placeholder="请输入专题名称"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="confirmAddColumn('addColumnRuleForm')">确 认</el-button>
@@ -1074,7 +1125,33 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <!-- 添加栏目  end-->
+    <!-- 添加栏目  start-->
+    <el-dialog title="添加栏目" width="30%" :visible.sync="addPartDialog" @close="closeAddPartDialog">
+      <el-form :model="addPartForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="栏目名称" prop="columnName">
+          <el-input v-model="addPartForm.title" placeholder="请输入栏目名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmAddPart">确 认</el-button>
+          <el-button @click="addPartDialog=false">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!-- 添加专题  end-->
+    <!-- 编辑专题  start-->
+    <el-dialog title="编辑专题" width="30%" :visible.sync="editColumnPartDialog" @close="editColumnPartDialog=false">
+      <el-form :model="editColumnpartRuleForm" :rules="editColumnpartRuleForm" ref="editColumnpartRuleForm"
+        label-width="100px" class="demo-ruleForm">
+        <el-form-item label="专题名称" prop="columnName">
+          <el-input v-model="editColumnpartRuleForm.columnName" placeholder="请输入专题名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="confirmEditColumn('editColumnpartRuleForm')">确 认</el-button>
+          <el-button @click="closeAddColumnDialog('editColumnpartRuleForm')">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!-- 添加专题  end-->
 
     <!-- 编辑栏目  --start -->
     <el-dialog title="编辑栏目" width="30%" :visible.sync="editColumnNameDialog"
@@ -1092,50 +1169,50 @@
     </el-dialog>
     <!-- 编辑栏目  --end -->
     <!-- 栏目设置  --end -->
-     <!-- 查看弹框 -->
-     <el-dialog title="查看" :visible.sync="viewDialog">
+    <!-- 查看弹框 -->
+    <el-dialog title="查看" :visible.sync="viewDialog">
       <div class="viewdialogContainer">
-          <div>基本信息</div>
-          <div class="avoiterCotainer" style="vertical-align: middle;">
-              <el-image class="avoiter" style="width: 50px; height: 50px" :src="viewuserInfo.avatar">
-              </el-image>
-              <span style="vertical-align: middle;margin-left: 10px;">{{viewuserInfo.name}}</span>
-          </div>
-          <div class="fc_gray">
-              登录账号 ： {{viewuserInfo.mobile}}
-          </div>
-          <div class="meTitle">
-              权限信息 ： {{viewuserInfo.auth}}
-          </div>
-          <div class="fc_gray mb_10">
-              班级 ： {{viewuserInfo.class}}
-          </div>
-          <div class="fc_gray mb_10">
-              社团 ：
-              <span v-for="(item,key) in viewuserInfo.community" :key="key">{{item.title}}</span>
-          </div>
-          <div class="fc_gray mb_10">
-              课题组 ：
-              <span v-for="(item,key) in viewuserInfo.subject" :key="key">{{item.title}}</span>
-          </div>
-          <div class="fc_gray">
-              教研组 ：
-              <span v-for="(item,key) in viewuserInfo.teaching" :key="key">{{item.title}}</span>
-          </div>
+        <div>基本信息</div>
+        <div class="avoiterCotainer" style="vertical-align: middle;">
+          <el-image class="avoiter" style="width: 50px; height: 50px" :src="viewuserInfo.avatar">
+          </el-image>
+          <span style="vertical-align: middle;margin-left: 10px;">{{viewuserInfo.name}}</span>
+        </div>
+        <div class="fc_gray">
+          登录账号 ： {{viewuserInfo.mobile}}
+        </div>
+        <div class="meTitle">
+          权限信息 ： {{viewuserInfo.auth}}
+        </div>
+        <div class="fc_gray mb_10">
+          班级 ： {{viewuserInfo.class}}
+        </div>
+        <div class="fc_gray mb_10">
+          社团 ：
+          <span v-for="(item,key) in viewuserInfo.community" :key="key">{{item.title}}</span>
+        </div>
+        <div class="fc_gray mb_10">
+          课题组 ：
+          <span v-for="(item,key) in viewuserInfo.subject" :key="key">{{item.title}}</span>
+        </div>
+        <div class="fc_gray">
+          教研组 ：
+          <span v-for="(item,key) in viewuserInfo.teaching" :key="key">{{item.title}}</span>
+        </div>
       </div>
 
       <div slot="footer" class="dialog-footer" style="text-align: center;">
 
-          <el-button type="primary" @click="viewDialog=false">关闭</el-button>
+        <el-button type="primary" @click="viewDialog=false">关闭</el-button>
       </div>
-  </el-dialog>
- <!-- 查看弹框 end -->
+    </el-dialog>
+    <!-- 查看弹框 end -->
   </div>
 </template>
 <style scoped>
   @import "./../../assets/css/classifyManager.css";
 </style>
-<style>
+<style scoped>
   .halfBg {
     background: rgba(223, 231, 238, 1);
   }
@@ -1155,6 +1232,18 @@
     background: rgba(246, 246, 246, 1);
   }
 
+  .classifyRightColumn {
+    text-align: right;
+    padding-right: 30px;
+
+  }
+
+  .classifyRightColumn span {
+    margin-left: 40px;
+    font-size: 16px;
+    color: #034692;
+  }
+
   .bg_white {
     background: #fff;
   }
@@ -1162,6 +1251,11 @@
   .schoolList .el-tabs__nav-scroll {
     width: 200px;
     margin: 0 auto;
+  }
+
+  .smallImg {
+    width: 120px;
+    height: 120px;
   }
 
   .searchUserDialog .el-dialog .el-dialog__body {
@@ -1269,8 +1363,22 @@
   export default {
     data() {
       return {
-        viewuserInfo:{},
-        viewDialog:false,
+        title: '',
+        addPartDialog: false,
+        addPartForm: {},
+        upData: {},
+        dialogImageUrl: '',
+        dialogVisible: false,
+        disabled: false,
+        // 上传图片
+        c_id: 0,
+        upImgDialog: false,//上传图片弹窗
+        editColumnDialog: false,
+        editColumnPartDialog: false,//编辑专题弹窗
+        editDialog: false,
+        deleteSpicialDialog: false,
+        viewuserInfo: {},
+        viewDialog: false,
         activeName: "class", //默认 是班级设置 tab项
         activeSchool: "east", //默认是 东区 设置项
         tabsList: [
@@ -1574,6 +1682,7 @@
           teachingId: '', //教研组id
           teachingName: '', //教研组名称
         },
+        editColumnpartRuleForm: {},
         editTeachingNameRules: { //编辑教研组名字 验证规则
           teachingName: [
             { required: true, message: "请输入的教研组名称", trigger: "blur" }
@@ -1598,6 +1707,7 @@
 
         //栏目设置--start
         setColumnList: [], //栏目列表
+        setColumnListpart: [], //栏目列表
         //添加栏目 --start
         addColumnDialog: false, //添加栏目 弹窗
         addColumnRuleForm: {
@@ -1624,18 +1734,203 @@
         //编辑栏目名称  --end
 
         //栏目设置  --end
-
+        upFileData: {},//上传参数
+        upUrl: '',//上传图片
 
 
       };
     },
     methods: {
-      showUserDialog(item){
+      closeAddPartDialog() {
+
+      },
+      confirmAddPart() {
+        if (this.addPartForm.title) {
+          var addPartForm = this.addPartForm;
+          addPartForm.c_id = this.c_id;
+          if (this.activeName == 'columnSet') {
+            request.post('/backapi/Classify/addProjectlm', addPartForm, (res) => {
+              this.$message.success('添加成功');
+              this.getSetColumnListPart();
+              this.addPartDialog = false;
+            })
+          } else if (this.activeName == 'team') {
+            var s_id;
+            if (this.activeSchool == 'east') {
+              s_id = 1;
+            } else if (this.activeSchool == 'west') {
+              s_id = 2;
+            } else if (this.activeSchool == 'south') {
+              s_id = 3;
+            }
+            console.log('s_id', this.s_id)
+            addPartForm.s_id = s_id;
+            request.post('/backapi/Classify/addCommunitylm', addPartForm, (res) => {
+              this.$message.success('添加成功');
+              this.getSetColumnListPart();
+              this.addPartDialog = false;
+            })
+          }
+
+
+        } else {
+          this.$message.error('请输入栏目名称');
+        }
+      },
+      handleRemove(file) {
+        console.log(file);
+      },
+      changeUpload(file, fileList) {
+        console.log('changeUpload');
+        console.log(file, fileList);
+        var upFileData = new FormData();
+        upFileData.append('file', file.raw);
+        upFileData.append('type', 2);
+        this.upFileData = upFileData;
+
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleDownload(file) {
+        console.log(file);
+      },
+      // 上传图片
+
+      showUpImgDialog(item) {
+        this.c_id = item.id;//编辑的id统一叫做c_id
+        this.upUrl = this.$store.state.baseUrl + item.avatar;
+        this.upData = { id: item.id };
+        this.upImgDialog = true;
+      },
+      //专题设置 删除专题 --start
+      deletePartClick(item) {
+        var _that = this;
+        _that.$confirm("删除该专题，是否确认删除？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            let data = {
+              id: item.id, //专题id
+            };
+            request.post("/backapi/Classify/delProject", data, (res) => {
+              if (res.code == 0) {
+                this.$message({
+                  type: "success",
+                  message: res.message
+                });
+                this.getSetColumnList()
+                // this.getSetTeamPageData(this.activeName);
+              } else {
+                this.$message.error(res.message);
+
+              }
+            });
+          })
+          .catch(() => {
+            _that.$message({
+              type: "info",
+              message: "已取消删除"
+            });
+          });
+      },
+      showEditColumnPart(item) {//展示编辑栏目
+        this.editColumnPartDialog = true;
+        console.log(item);
+        this.editColumnpartRuleForm = item;
+        request.post()
+      },
+      confirmEditColumn() {
+        console.log('this.editColumnpartRuleForm', this.editColumnpartRuleForm);
+        this.editColumnpartRuleForm.title = this.editColumnpartRuleForm.columnName;
+        request.post('/backapi/Classify/editProject', this.editColumnpartRuleForm, (res) => {
+          this.editColumnPartDialog = false;
+          this.$message.success('操作成功');
+        })
+      },
+      showEditColumnDialog(id, title) {
+        //显示弹窗
+        this.c_id = id;
+        this.title = title;
+        if (this.activeName == 'columnSet') {
+          request.post('/backapi/Classify/Projectlm', { c_id: id }, (res) => {
+            this.setColumnListpart = res.data;
+            this.editColumnDialog = true;
+          })
+        } else if (this.activeName == 'team') {
+          request.post('/backapi/Classify/Communitylm', { c_id: id }, (res) => {
+            this.setColumnListpart = res.data;
+            this.editColumnDialog = true;
+          })
+        }
+
+      },
+      uploadImg() {//上传按钮
+        //js 触发事件
+        this.$refs.avatarInput.dispatchEvent(new MouseEvent('click'));
+      },
+      changeUpImg(e) {
+        var file = this.$refs.avatarInput.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        var that = this;
+        reader.onload = function (e) {
+          that.upUrl = this.result;
+        }
+      },
+      confirmUpImgDialog() {
+        console.log('confirmUpImgDialog');
+        console.log('spicial', this.activeName);
+        var that = this;
+        var upData = new FormData();
+        if (this.activeName == 'columnSet') {//专题社团
+
+          upData.append('file', this.$refs.avatarInput.files[0]);
+          console.log(this.$refs.avatarInput.files)
+          upData.append('type', 2);
+          request.post('/roomapi/Upsystem/upload', upData, (res) => {
+            console.log(res);
+            var avatarData = {};
+            avatarData.id = this.c_id;
+            avatarData.avatar = res.data.url;
+            request.post('/backapi/Classify/editProjecta', avatarData, (res) => {
+              if (res.code == 0) {
+                this.$message.success('上传成功');
+                this.getSetColumnList();
+              }
+            })
+          })
+        } else if (this.activeName == 'team') {//社团空间
+
+          upData.append('file', this.$refs.avatarInput.files[0]);
+          console.log(this.$refs.avatarInput.files)
+          upData.append('type', 2);
+
+          request.post('/roomapi/Upsystem/upload', upData, (res) => {
+            console.log(res);
+            var avatarData = {};
+            avatarData.id = this.c_id;
+            avatarData.avatar = res.data.url;
+            request.post('/backapi/Classify/editCommunitya', avatarData, (res) => {
+              if (res.code == 0) {
+                this.$message.success('上传成功');
+                this.getSetColumnList();
+              }
+            })
+          })
+        }
+
+
+      },
+      showUserDialog(item) {
         var data = { id: item.id }
-                request.post('/backapi/Users/Details', data, (res) => {
-                    this.viewuserInfo = res.data;
-                    this.viewDialog=true;
-                })
+        request.post('/backapi/Users/Details', data, (res) => {
+          this.viewuserInfo = res.data;
+          this.viewDialog = true;
+        })
       },
       //页面数据部分
       toggleSettingType(tab) { //主页面---点击切换设置类型  班级 社团设置
@@ -1762,32 +2057,53 @@
         this.$refs[ruleForm].validate(valid => {
           if (valid) {
             var self = this;
-            var params = {};
-            if (self.addGradeFlag == 1) { //如果是小学
-              params = {
-                s_id: self.primaryGradeClassData[0].s_id, //校区id 小学
-                l_id: self.primaryGradeClassData[0].l_id, //校部id  小学
-                title: self.addGradeRuleForm.gradeName, //	年级名称
-                u_id: self.checkedVal, //审核员id
-                name: self.addGradeRuleForm.gradeReviewer //审核员名字
-              };
-            } else if (self.addGradeFlag == 2) { //如果是初中
-              params = {
-                s_id: self.middleGradeClassData[0].s_id, //校区id 初中
-                l_id: self.middleGradeClassData[0].l_id, //校部id  初中
-                title: self.addGradeRuleForm.gradeName, //	年级名称
-                u_id: self.checkedVal, //审核员id
-                name: self.addGradeRuleForm.gradeReviewer //审核员名字
-              };
+            var s_id = 0;
+            var l_id = 0;
+            switch (this.activeSchool) {
+              case "east":
+                s_id = 1;
+                if (self.addGradeFlag == 1) {
+                  l_id = 1;
+                } else {
+                  l_id = 2;
+                }
+                break;
+              case "west":
+
+                s_id = 2;
+                if (self.addGradeFlag == 1) {
+                  l_id = 4;
+                } else {
+                  l_id = 5;
+                }
+                break;
+              case "south":
+                s_id = 3;
+                if (self.addGradeFlag == 1) {
+                  l_id = 6;
+                } else {
+                  l_id = 7;
+                }
+                break;
             }
-            request.post("/backapi/Classify/addGrade", params, function (res) {
+            var params = {};
+            //如果是小学
+            params = {
+              s_id: s_id, //校区id 小学
+              l_id: l_id, //校部id  小学
+              title: self.addGradeRuleForm.gradeName, //	年级名称
+              u_id: self.checkedVal, //审核员id
+              name: self.addGradeRuleForm.gradeReviewer //审核员名字
+            };
+
+            request.post("/backapi/Classify/addGrade", params, (res) => {
               if (res.code == 0) {
                 self.$message({
                   type: "success",
                   message: res.message
                 });
                 self.addGradeDialog = false;
-                self.getGradeClassData(self.activeName);
+                self.getGradeClassData(this.activeSchool);
               } else {
                 this.$message.error(res.message);
                 self.addGradeDialog = false;
@@ -1829,6 +2145,7 @@
         });
       },
       confirmUserName(val) { //查询用户的弹窗 确认按钮 通用
+        debugger
         console.log(val, "点击查询用户确认弹窗是什么类型");
         this.searchClickDialog = false;
         console.log(this.checkedVal, "选中的审核人id值是什么");
@@ -2256,7 +2573,7 @@
                   message: res.message
                 });
                 _that.getGradeClassData(_that.activeName);
-              }else{
+              } else {
                 _that.$message.error(res.message);
               }
             });
@@ -2337,7 +2654,7 @@
                 });
                 self.addTeamDialog = false;
                 self.getSetTeamPageData(self.activeName);
-              }else{
+              } else {
                 self.$message.error(res.message);
                 self.addTeamDialog = false;
               }
@@ -2354,7 +2671,9 @@
         });
       },
       //社团设置 新增社团 --end
+      teamSetAddImageClick() {
 
+      },
       //社团设置 添加用户  --start
       teamSetAddUserClick(item) { //点击社团 -添加用户 出现弹窗
         console.log(item, "点击社团 -添加用户--得到该社团信息");
@@ -2379,7 +2698,7 @@
                 });
                 self.teamSetAddUserDialog = false;
                 self.getSetTeamPageData(self.activeName);
-              }else{
+              } else {
                 self.$message.error(res.message);
                 self.teamSetAddUserDialog = false;
               }
@@ -2420,7 +2739,7 @@
                 });
                 self.editTeamNameDialog = false;
                 self.getSetTeamPageData(self.activeName);
-              }else{
+              } else {
                 self.$message.error(res.message);
                 self.editTeamNameDialog = false;
               }
@@ -2457,7 +2776,7 @@
                   message: res.message
                 });
                 _that.getSetTeamPageData(_that.activeName);
-              }else{
+              } else {
                 _that.$message.error(res.message);
 
               }
@@ -2490,9 +2809,9 @@
                   message: res.message
                 });
                 _that.getSetTeamPageData(_that.activeName);
-              }else{
+              } else {
                 _that.$message.error(res.message);
-                
+
               }
             });
           })
@@ -2522,9 +2841,9 @@
                   message: res.message
                 });
                 _that.getSetTeamPageData(_that.activeName);
-              }else{
+              } else {
                 _that.$message.error(res.message);
-                
+
               }
             });
           })
@@ -2547,7 +2866,7 @@
             let data = {
               id: item.id, //社团id
             };
-            request.post("/backapi/Classify/delTeachinguser", data, function (res) {          
+            request.post("/backapi/Classify/delTeachinguser", data, function (res) {
               if (res.code == 0) {
                 _that.$message({
                   type: "success",
@@ -2555,9 +2874,9 @@
                 });
                 _that.getSetTeachingPageData(_that.activeName);
                 // self.getSetTeachingPageData(self.activeName);
-              }else{
+              } else {
                 _that.$message.error(res.message);
-                
+
               }
             });
           })
@@ -2575,13 +2894,14 @@
       },
       //获取社团申请列表
       getTeamApplicationList() {
-        request.post("/backapi/Classify/sqCommunity", {}, function (res) {
+        request.post("/backapi/Classify/sqCommunity", {}, (res) => {
+          debugger
           if (res.code == 0) {
             this.teamApplicationProcessList = res.data;
           }
         });
       },
-      agreeApplication(id){ //社团社情列表 同意申请 社团id
+      agreeApplication(id) { //社团社情列表 同意申请 社团id
         var data = {
           c_id: id
         }
@@ -2596,7 +2916,7 @@
           }
         });
       },
-      refuseApplication(id){ //社团社情列表 拒绝申请 社团id
+      refuseApplication(id) { //社团社情列表 拒绝申请 社团id
         var data = {
           c_id: id
         }
@@ -2613,23 +2933,23 @@
       },
 
       //社团设置审核人  --start
-      teamSetReviewerClick(itemId,itId) { //点击社团 设置审核人 出现弹窗
+      teamSetReviewerClick(itemId, itId) { //点击社团 设置审核人 出现弹窗
         debugger
         console.log(itemId, "社团设置审核人--得到该社团信息");
         // this.teamSetReviewerRuleForm.teamNameTitle = item.title; //社团名称
         // this.teamSetReviewerRuleForm.teamReviewerId = item.id;// 社团id
         // this.teamSetReviewerRuleForm.teamReviewerName = it.id; //社团审核人名称 用户名称
-        var data={c_id:itemId,u_id:itId}
-        request.post('/backapi/Classify/editSh',data,(res)=>{
-          if(res.code==0){
+        var data = { c_id: itemId, u_id: itId }
+        request.post('/backapi/Classify/editSh', data, (res) => {
+          if (res.code == 0) {
             this.$message.success('设置成功');
             this.getSetTeamPageData(this.activeName);
-          }else{
+          } else {
             this.$message.error(res.message);
           }
         })
         // this.teamSetReviewerDialog = true;
-        request.post('',)
+        request.post('')
       },
       confirmTeamSetReviewer(ruleForm) {  // 社团 设置审核人-- 弹窗 确认按钮
         this.$refs[ruleForm].validate(valid => {
@@ -2647,10 +2967,10 @@
                 });
                 self.teamSetReviewerDialog = false;
                 self.getSetTeamPageData(self.activeName);
-              }else{
+              } else {
                 self.$message.error(res.message);
                 self.teamSetReviewerDialog = false;
-                
+
               }
             });
           } else {
@@ -2722,7 +3042,7 @@
           if (valid) {
             var self = this;
             let data = {
-              id: self.setTopicPageData[0].s_id, //校区id 1 2 3
+              s_id: self.setTopicPageData[0].s_id, //校区id 1 2 3
               title: self.addTopicRuleForm.addTopicName, //课题组名称
             };
             request.post("/backapi/Classify/addSubject", data, function (res) {
@@ -2733,10 +3053,10 @@
                 });
                 self.addTopicDialog = false;
                 self.getSetTopicPageData(self.activeName);
-              }else{
+              } else {
                 self.$message.error(res.message);
                 self.addTopicDialog = false;
-                
+
               }
             });
           } else {
@@ -2776,7 +3096,7 @@
                 });
                 self.topicSetAddUserDialog = false;
                 self.getSetTopicPageData(self.activeName);
-              }else{
+              } else {
                 self.$message.error(res.message);
                 self.topicSetAddUserDialog = false;
               }
@@ -2817,7 +3137,7 @@
                 });
                 self.editTopicNameDialog = false;
                 self.getSetTopicPageData(self.activeName);
-              }else{
+              } else {
                 self.$message.error(res.message);
                 self.editTopicNameDialog = false;
               }
@@ -2854,7 +3174,7 @@
                   message: res.message
                 });
                 _that.getSetTopicPageData(_that.activeName);
-              }else{
+              } else {
                 _that.$message.error(res.message)
               }
             });
@@ -3071,21 +3391,21 @@
       //教研组设置 删除教研组  --end
 
       //教研组设置审核人 组长 --start
-      teachingSetReviewerClick(itemId,itId) { //点击教研组成员 设置为教研组组长 出现弹窗
+      teachingSetReviewerClick(itemId, itId) { //点击教研组成员 设置为教研组组长 出现弹窗
         console.log(itemId, "设置教研组组长--得到该教研组信息");
         // this.teachingSetReviewerRuleForm.teachingNameTitle = item.title; //教研组名称
         // this.teachingSetReviewerRuleForm.teachingReviewerId = item.id;// 教研组id
         // this.teachingSetReviewerRuleForm.teachingReviewerName = ''; //教研组名称 用户名称
         // this.teachingSetReviewerDialog = true;
-        var data={
-          c_id:itemId,
-          u_id:itId
+        var data = {
+          c_id: itemId,
+          u_id: itId
         }
-        request.post('/backapi/Classify/editTeachingsh',data,(res)=>{
-          if(res.code==0){
+        request.post('/backapi/Classify/editTeachingsh', data, (res) => {
+          if (res.code == 0) {
             this.$message.success('操作成功')
             this.getSetTeachingPageData(this.activeName)
-          }else{
+          } else {
             this.$message.error(res.message);
           }
         })
@@ -3129,32 +3449,53 @@
       //获取栏目列表
       getSetColumnList() {
         var self = this;
-        request.post("/backapi/Classify/column", {}, function (res) {
+        request.post("/backapi/Classify/Project", { s_id: 1 }, function (res) {
           if (res.code == 0) {
             self.setColumnList = res.data;
           }
         });
       },
+      getSetColumnListPart() {
+        if (this.activeName == 'columnSet') {
+          request.post("/backapi/Classify/Projectlm", { c_id: this.c_id }, (res) => {
+            if (res.code == 0) {
+              this.setColumnListpart = res.data;
+            }
+          });
+        } else if (this.activeName == 'team') {
+          var s_id;
+          if (this.activeSchool == 'east') {
+            s_id = 1;
+          } else if (this.activeSchool == 'west') {
+            s_id = 2;
+          } else if (this.activeSchool == 'south') {
+            s_id = 3;
+          }
+          request.post("/backapi/Classify/Communitylm", { c_id: this.c_id }, (res) => {
+            if (res.code == 0) {
+              this.setColumnListpart = res.data;
+            }
+          });
 
+        }
+
+
+
+      },
       //添加栏目 --start
       addColumnClick() { //添加栏目名称 出现弹窗
         this.addColumnDialog = true;
       },
-      confirmAddColumn(ruleForm) {  // 添加栏目 -- 弹窗 确认按钮
+      confirmAddColumn(ruleForm) {  // 添加专题 -- 弹窗 确认按钮
         this.$refs[ruleForm].validate(valid => {
           if (valid) {
             var self = this;
             var sid = '';
-            if (self.addGradeFlag == 1) { //如果是小学
-              sid = self.primaryGradeClassData[0].s_id;
-            } else if (self.addGradeFlag == 2) { //如果是初中
-              sid = self.middleGradeClassData[0].s_id;
-            }
             let data = {
-              s_id: sid, //校区id
+              s_id: 1, //校区id
               title: self.addColumnRuleForm.columnName, //栏目名称
             };
-            request.post("/backapi/Classify/addColumn", data, function (res) {
+            request.post("/backapi/Classify/addProject", data, function (res) {
               if (res.code == 0) {
                 self.$message({
                   type: "success",
@@ -3172,7 +3513,7 @@
           }
         });
       },
-      closeAddColumnDialog(ruleForm) {  //添加栏目 弹窗 关闭 取消 遮罩  空白处
+      closeAddColumnDialog(ruleForm) {  //编辑专题 弹窗 关闭 取消 遮罩  空白处
         this.addColumnDialog = false;
         this.$nextTick(() => {
           this.$refs[ruleForm].resetFields();
@@ -3185,7 +3526,7 @@
         console.log('点击得到当前栏目的信息', item);
         this.editColumnNameDialog = true;
         this.editColumnNameRuleForm.columnId = item.id; //栏目id
-        this.editColumnNameRuleForm.columnName = ''; //栏目名称
+        this.editColumnNameRuleForm.columnName = item.title; //栏目名称
       },
       confirmEditColumnName(ruleForm) {  // 编辑栏目 -- 弹窗 确认按钮
         this.$refs[ruleForm].validate(valid => {
@@ -3195,19 +3536,38 @@
               id: self.editColumnNameRuleForm.columnId, //栏目id
               title: self.editColumnNameRuleForm.columnName, //栏目名称
             };
-            request.post("/backapi/Classify/editColumn", data, function (res) {
-              if (res.code == 0) {
-                self.$message({
-                  type: "success",
-                  message: res.message
-                });
-                self.editColumnNameDialog = false;
-                self.getSetColumnList();
-              } else {
-                this.$message.error(res.message);
-                self.editColumnNameDialog = false;
-              }
-            });
+            debugger
+            console.log(self.activeName)
+            if (self.activeName == 'columnSet') {
+              request.post("/backapi/Classify/editProjectlm", data, function (res) {
+                if (res.code == 0) {
+                  self.$message({
+                    type: "success",
+                    message: res.message
+                  });
+                  self.editColumnNameDialog = false;
+                  self.getSetColumnListPart();
+                } else {
+                  this.$message.error(res.message);
+                  self.editColumnNameDialog = false;
+                }
+              });
+            } else if (self.activeName == 'team') {
+              request.post("/backapi/Classify/editCommunitylm", data, function (res) {
+                if (res.code == 0) {
+                  self.$message({
+                    type: "success",
+                    message: res.message
+                  });
+                  self.editColumnNameDialog = false;
+                  self.getSetColumnListPart();
+                } else {
+                  this.$message.error(res.message);
+                  self.editColumnNameDialog = false;
+                }
+              });
+            }
+
           } else {
             return false;
           }
@@ -3233,15 +3593,28 @@
             let data = {
               id: item.id, //栏目id
             };
-            request.post("/backapi/Classify/delColumn", data, function (res) {
-              if (res.code == 0) {
-                _that.$message({
-                  type: "success",
-                  message: res.message
-                });
-                _that.getSetColumnList();
-              }
-            });
+            if (this.activeName == 'columnSet') {
+              request.post("/backapi/Classify/delProjectlm", data, function (res) {
+                if (res.code == 0) {
+                  _that.$message({
+                    type: "success",
+                    message: res.message
+                  });
+                  _that.getSetColumnListPart();
+                }
+              });
+            } else if (this.activeName == 'team') {
+              request.post("/backapi/Classify/delCommunitylm", data, function (res) {
+                if (res.code == 0) {
+                  _that.$message({
+                    type: "success",
+                    message: res.message
+                  });
+                  _that.getSetColumnListPart();
+                }
+              });
+            }
+
           })
           .catch(() => {
             _that.$message({
