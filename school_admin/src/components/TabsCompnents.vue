@@ -1277,6 +1277,7 @@
             },
             checkArt(id) {//审核
                 var url = ""
+                debugger
                 switch (this.activeName) {
                     case 'classSpace':
                         url = "/backapi/Management/auditClass"
@@ -1289,6 +1290,9 @@
                         break;
                     case 'teachingSpace':
                         url = "/backapi/Management/auditProject"
+                        break;
+                    case 'teamSpace':
+                        url = "/backapi/Management/auditCommunity"
                         break;
                 }
                 request.post(url, { id: this.selectId, type: this.checkType }, (res) => {
@@ -1398,18 +1402,46 @@
                 this.page = 1;
                 this.getArticles();
             },
-            deleteArt(res) {
-                console.log('delete', res);
+            deleteArt(id) {
+                var url = '';
                 this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    var tab = this.activeName;
+                    debugger
+                    switch (tab) {
+                        case 'classSpace':
+                            url = "/backapi/Statistical/deleteClass";
+                            break;
+                        case 'gradeSpace':
+                            url = "/backapi/Statistical/deleteClass";
+                            break;
+                        case 'specialSpace':
+                            url = "/backapi/Statistical/deleteProject";
+                            break;
+                        case 'topicSpace':
+                            url = "/backapi/Statistical/deleteSubject";
+                            break;
+                        case 'teamSpace':
+                            url = "/backapi/Statistical/deleteCommunity";
+                            break;
+                        case 'teachingSpace':
+                            url = "/backapi/Statistical/deleteTeaching";
+                            break;
+                        default://默认班级
 
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+
+                    }
+                    console.log(id);
+                    request.post(url, { id: id }, (res) => {
+                        this.getArticles();
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    })
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -1444,6 +1476,7 @@
                     case 'classSpace'://班级
                         if (this.showArticle) {
                             url = "/backapi/Management/newClass";
+                            data.type = 2;
                             data.s_id = this.schoolName == "全部" ? '' : this.schoolName;
                             data.l_id = this.schoolPartName == "全部" ? '' : this.schoolPartName;
                             data.g_id = this.gradeName == "全部" ? '' : this.gradeName;
@@ -1456,6 +1489,7 @@
                         break;
                     case 'gradeSpace':
                         if (this.showArticle) {//年纪
+                            data.type = 2;
                             url = "/backapi/Management/newClass";
                         } else {
                             data.type = this.type;
@@ -1466,6 +1500,7 @@
                     case 'specialSpace':   //专题空间
                         // data.s_id = this.spicialSchoolName;
                         if (this.showArticle) {
+                            data.type = 2;
                             url = "/backapi/Management/newProject";
                         } else {
                             data.type = this.type;
@@ -1475,6 +1510,7 @@
                         break;
                     case 'teamSpace':   //社团空间
                         if (this.showArticle) {
+                            data.type = 2;
                             url = "/backapi/Management/newCommunity";
                         } else {
                             data.type = this.type;
